@@ -130,7 +130,9 @@ public class Position {
 
     public boolean shouldPieceBePromoted(int piecePosition, boolean isWhite) {
         checkArgument(getCurrentBitSet(isWhite).get(piecePosition), NO_SUCH_PIECE_MESSAGE);
-        //TODO this should be changed as now it only checks whether proper color piece reached promoting row, no matter if the piece is already promoted (works fine for the view, but may be changed)
+        if(isKing(piecePosition)) {
+            return false;
+        }
         if (isWhite) {
             return isInPromotionZoneForWhite(piecePosition);
         } else {
