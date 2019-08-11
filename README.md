@@ -6,6 +6,9 @@ Picks a random move from all possible moves
 
 # Naming convention 
 
+
+
+
 ###### (this needs to be unified around the code)
 Those three are really mixed around the code:
 position - connected with the class Position
