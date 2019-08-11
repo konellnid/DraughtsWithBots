@@ -10,8 +10,8 @@ import javafx.scene.text.Text;
 
 
 class TileWithPiece extends Group {
-    private final int INVISIBLE = 0;
-    private final int VISIBLE = 1;
+    private static final int INVISIBLE = 0;
+    private static final int VISIBLE = 1;
 
     private Circle checkerCircle;
     private Circle promotionCircle;

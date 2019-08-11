@@ -16,10 +16,10 @@ import java.util.*;
         |08  07  06  05  |
 */
 public class PossibleMovesFinder {
-    private final int UPPER_RIGHT = 4;
-    private final int UPPER_LEFT = 5;
-    private final int LOWER_RIGHT = -5;
-    private final int LOWER_LEFT = -4;
+    private static final int UPPER_RIGHT = 4;
+    private static final int UPPER_LEFT = 5;
+    private static final int LOWER_RIGHT = -5;
+    private static final int LOWER_LEFT = -4;
 
     private int currentBeatingLength;
     private BitSet freeTiles;

@@ -10,6 +10,8 @@ import view.MainView;
 
 public class Main extends Application {
 
+    private static final String APP_NAME = "Draughts";
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/mainView.fxml"));
@@ -19,7 +21,7 @@ public class Main extends Application {
         MainViewController mainViewController = new MainViewController(mainView);
         mainView.setMainViewController(mainViewController);
 
-        primaryStage.setTitle("Draughts");
+        primaryStage.setTitle(APP_NAME);
         primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(true);
         primaryStage.show();

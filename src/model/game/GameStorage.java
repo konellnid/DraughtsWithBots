@@ -6,7 +6,8 @@ import model.board.Position;
 import java.util.BitSet;
 
 public class GameStorage {
-    private final int MAX_MOVES_TILL_DRAW = 30;
+    private static final int MAX_MOVES_TILL_DRAW = 30;
+
     private int movesTillDraw;
     private Position position;
     private boolean isWhiteTurn;

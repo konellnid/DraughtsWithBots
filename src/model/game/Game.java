@@ -14,9 +14,9 @@ import model.move_finder.PossibleMovesFinder;
 import java.util.List;
 
 public class Game {
-    private final String WHITE_WON = "WINNER: WHITE";
-    private final String BLACK_WON = "WINNER: BLACK";
-    private final String DRAW = "DRAW";
+    private static final String WHITE_WON = "WINNER: WHITE";
+    private static final String BLACK_WON = "WINNER: BLACK";
+    private static final String DRAW = "DRAW";
 
 
     private PossibleMovesFinder possibleMovesFinder;

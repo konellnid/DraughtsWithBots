@@ -47,7 +47,7 @@ Board of sideLength = 12: total BitSet size = 91
 
 */
 public class BoardView {
-    private final int TILE_SIDE_LENGTH = 75;
+    private static final int TILE_SIDE_LENGTH = 75;
 
     private GridPane boardGridPane;
     private BoardController boardController;
