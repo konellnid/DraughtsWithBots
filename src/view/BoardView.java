@@ -81,7 +81,7 @@ public class BoardView {
         resetAllTiles();
         boardGridPane.getChildren().removeAll();
         boardGridPane.setAlignment(Pos.CENTER);
-        Stack<Integer> stackWithIndexes = getProperListOfTileNumbers(boardSideLength);
+        Stack<Integer> stackWithIndexes = getProperStackOfTileNumbers(boardSideLength);
 
         for (int row = 0; row < boardSideLength; row++) {
             for (int column = 0; column < boardSideLength; column++) {
@@ -100,7 +100,7 @@ public class BoardView {
         }
     }
 
-    private Stack<Integer> getProperListOfTileNumbers(int boardSideLength) {
+    private Stack<Integer> getProperStackOfTileNumbers(int boardSideLength) {
         Stack<Integer> tileNumbers = new Stack<>();
         int halfOfBoardSideLength = boardSideLength / 2;
 
