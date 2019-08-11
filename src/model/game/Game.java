@@ -5,6 +5,7 @@ import controller.MainViewController;
 import model.board.Move;
 import model.board.Position;
 import model.bot.RandomBot;
+import model.bot.RandomPieceBot;
 import model.input_handler.BotInputHandler;
 import model.input_handler.InputHandler;
 import model.input_handler.PlayerInputHandler;
@@ -89,6 +90,8 @@ public class Game {
             case RANDOM_BOT:
                 inputHandler = new BotInputHandler(boardController, this, new RandomBot());
                 break;
+            case RANDOM_PIECE_BOT:
+                inputHandler = new BotInputHandler(boardController, this, new RandomPieceBot());
         }
 
         return inputHandler;
