@@ -144,11 +144,11 @@ public class Position {
         kings.set(pieceToPromote);
     }
 
-    private boolean isInPromotionZoneForWhite(int piecePosition) {
+    public boolean isInPromotionZoneForWhite(int piecePosition) {
         return piecePosition > 35;
     }
 
-    private boolean isInPromotionZoneForBlack(int piecePosition) {
+    public boolean isInPromotionZoneForBlack(int piecePosition) {
         return piecePosition < 9;
     }
 

@@ -57,6 +57,11 @@ public class GameStorage {
     }
 
     boolean pieceGetsPromotedDuringMove(Move move) {
-        return position.shouldPieceBePromoted(move.getLastPositionOfThePiece(), isWhiteTurn);
-    }
+        int pieceEndTileNumber = move.getLastPositionOfThePiece();
+
+        if (isWhiteTurn) {
+            return position.isInPromotionZoneForWhite(pieceEndTileNumber);
+        } else {
+            return position.isInPromotionZoneForBlack(pieceEndTileNumber);
+        }    }
 }
