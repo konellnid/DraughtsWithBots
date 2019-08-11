@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class BotInputHandler implements InputHandler {
-    private final int DELAY_TIME = 400;
+    private final int DELAY_TIME = 700;
     private Game game;
     private GameBot gameBot;
     private BoardController boardController;
