@@ -10,8 +10,8 @@ import java.util.*;
 public class PlayerInputHandler implements InputHandler {
     private List<Move> possibleMoves;
     private Set<Integer> possibleStartingPositions;
-    private Integer currentlySelectedTile;
-    private Set<Integer> possibleDestinationFromSelectedTile;
+    private Integer currentlySelectedTileNumber;
+    private Set<Integer> possibleDestinationTileNumbersFromSelectedTile;
     private BoardController boardController;
     private Integer currentPlaceInMoveList;
     private boolean isBeatingMove;
@@ -31,7 +31,7 @@ public class PlayerInputHandler implements InputHandler {
         isBeatingMove = isBeatingMove();
         currentPlaceInMoveList = 0;
         moveSequenceTotalLength = possibleMoves.get(0).size();
-        possibleDestinationFromSelectedTile = new HashSet<>();
+        possibleDestinationTileNumbersFromSelectedTile = new HashSet<>();
     }
 
     private boolean isBeatingMove() {
@@ -50,7 +50,7 @@ public class PlayerInputHandler implements InputHandler {
     public void tileGotPressed(int tileNumber) {
         if (possibleStartingPositions.contains(tileNumber)) {
             newStartingPosition(tileNumber);
-        } else if (possibleDestinationFromSelectedTile.contains(tileNumber)) {
+        } else if (possibleDestinationTileNumbersFromSelectedTile.contains(tileNumber)) {
             possibleStartingPositions.clear();
             boardController.highlight(tileNumber);
 
@@ -62,7 +62,7 @@ public class PlayerInputHandler implements InputHandler {
                 if (currentPlaceInMoveList == moveSequenceTotalLength - 1) {
                     wholeMoveSequenceWasMade();
                 } else {
-                    currentlySelectedTile = tileNumber;
+                    currentlySelectedTileNumber = tileNumber;
                     findTilesReachableFromCurrentlySelectedTile();
                 }
             } else {
@@ -76,17 +76,17 @@ public class PlayerInputHandler implements InputHandler {
 
     private void newStartingPosition(int tileNumber) {
         boardController.highlight(tileNumber);
-        currentlySelectedTile = tileNumber;
+        currentlySelectedTileNumber = tileNumber;
         findTilesReachableFromCurrentlySelectedTile();
     }
 
     private void findTilesReachableFromCurrentlySelectedTile() {
-        possibleDestinationFromSelectedTile = new HashSet<>();
+        possibleDestinationTileNumbersFromSelectedTile = new HashSet<>();
 
         for (Move possibleMove : possibleMoves) {
-            if (possibleMove.get(currentPlaceInMoveList).equals(currentlySelectedTile)) {
-                if (isBeatingMove) possibleDestinationFromSelectedTile.add(possibleMove.get(currentPlaceInMoveList + 2));
-                else possibleDestinationFromSelectedTile.add(possibleMove.get(currentPlaceInMoveList + 1));
+            if (possibleMove.get(currentPlaceInMoveList).equals(currentlySelectedTileNumber)) {
+                if (isBeatingMove) possibleDestinationTileNumbersFromSelectedTile.add(possibleMove.get(currentPlaceInMoveList + 2));
+                else possibleDestinationTileNumbersFromSelectedTile.add(possibleMove.get(currentPlaceInMoveList + 1));
             }
         }
     }
@@ -100,22 +100,22 @@ public class PlayerInputHandler implements InputHandler {
     private void sendSmallMoveToBoardController() {
         Move smallMove = new Move();
         Move exampleMove = possibleMoves.get(0);
-        smallMove.addNewTileToMoveSequence(exampleMove.get(currentPlaceInMoveList - 2));
-        smallMove.addNewTileToMoveSequence(exampleMove.get(currentPlaceInMoveList - 1));
-        smallMove.addNewTileToMoveSequence(exampleMove.get(currentPlaceInMoveList));
+        smallMove.addNewTileNumberToMoveSequence(exampleMove.get(currentPlaceInMoveList - 2));
+        smallMove.addNewTileNumberToMoveSequence(exampleMove.get(currentPlaceInMoveList - 1));
+        smallMove.addNewTileNumberToMoveSequence(exampleMove.get(currentPlaceInMoveList));
         boardController.makeBeatingMove(smallMove);
     }
 
     private void replacePossibleMovesWithCurrentlySelectedMove(int tileNumber) {
         Move chosenMove = new Move();
-        chosenMove.addNewTileToMoveSequence(currentlySelectedTile);
-        chosenMove.addNewTileToMoveSequence(tileNumber);
+        chosenMove.addNewTileNumberToMoveSequence(currentlySelectedTileNumber);
+        chosenMove.addNewTileNumberToMoveSequence(tileNumber);
         possibleMoves.clear();
         possibleMoves.add(chosenMove);
     }
 
     private void removeUnreachableBeatingMoves(int tileNumber) {
-        possibleMoves.removeIf(checkedMove -> !(checkedMove.get(currentPlaceInMoveList).equals(currentlySelectedTile) &&
+        possibleMoves.removeIf(checkedMove -> !(checkedMove.get(currentPlaceInMoveList).equals(currentlySelectedTileNumber) &&
                 checkedMove.get(currentPlaceInMoveList + 2).equals(tileNumber)));
     }
 

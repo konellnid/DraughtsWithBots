@@ -17,7 +17,7 @@ public class Move {
         moveSequence = new ArrayList<>();
     }
 
-    public void addNewTileToMoveSequence(int number) {
+    public void addNewTileNumberToMoveSequence(int number) {
         moveSequence.add(number);
     }
 

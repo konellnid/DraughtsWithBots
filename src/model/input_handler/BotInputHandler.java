@@ -60,13 +60,13 @@ public class BotInputHandler implements InputHandler {
         for (int endOfJumpPlaceInMoveSequence = 2; endOfJumpPlaceInMoveSequence < beatingMove.size(); endOfJumpPlaceInMoveSequence += 2) {
             Move smallMove = new Move();
 
-            Integer startingTile = beatingMoveSequence.get(endOfJumpPlaceInMoveSequence - 2);
-            Integer enemyTile = beatingMoveSequence.get(endOfJumpPlaceInMoveSequence - 1);
-            Integer destinationTile = beatingMoveSequence.get(endOfJumpPlaceInMoveSequence);
+            Integer startingTileNumber = beatingMoveSequence.get(endOfJumpPlaceInMoveSequence - 2);
+            Integer enemyTileNumber = beatingMoveSequence.get(endOfJumpPlaceInMoveSequence - 1);
+            Integer destinationTileNumber = beatingMoveSequence.get(endOfJumpPlaceInMoveSequence);
 
-            smallMove.addNewTileToMoveSequence(startingTile);
-            smallMove.addNewTileToMoveSequence(enemyTile);
-            smallMove.addNewTileToMoveSequence(destinationTile);
+            smallMove.addNewTileNumberToMoveSequence(startingTileNumber);
+            smallMove.addNewTileNumberToMoveSequence(enemyTileNumber);
+            smallMove.addNewTileNumberToMoveSequence(destinationTileNumber);
 
             stepByStepMoves.add(smallMove);
         }

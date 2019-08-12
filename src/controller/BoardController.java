@@ -20,16 +20,16 @@ public class BoardController {
         currentHighlightedTileNumber = 0;
     }
 
-    public void tileClicked(Integer tileId) {
+    public void tileClicked(Integer tileNumber) {
         if (pressedTilesObserver != null) {
-            pressedTilesObserver.tileGotPressed(tileId);
+            pressedTilesObserver.tileGotPressed(tileNumber);
         }
     }
 
-    public void highlight(Integer clickedTile) {
+    public void highlight(Integer clickedTileNumber) {
         if (currentHighlightedTileNumber != 0) boardView.removeHighlight(currentHighlightedTileNumber);
-        currentHighlightedTileNumber = clickedTile;
-        boardView.highLight(clickedTile);
+        currentHighlightedTileNumber = clickedTileNumber;
+        boardView.highLight(clickedTileNumber);
     }
 
 

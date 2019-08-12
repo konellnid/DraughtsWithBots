@@ -71,19 +71,19 @@ public class Position {
     }
 
     public void performMoveOnPosition(Move move, boolean isWhiteMove) {
-        int startingTile = move.getStartingPositionOfThePiece();
-        int endTile = move.getLastPositionOfThePiece();
+        int startingTileNumber = move.getStartingPositionOfThePiece();
+        int endTileNumber = move.getLastPositionOfThePiece();
         BitSet currentBitSet = getCurrentBitSet(isWhiteMove);
 
-        checkArgument(currentBitSet.get(startingTile), NO_SUCH_PIECE_MESSAGE);
+        checkArgument(currentBitSet.get(startingTileNumber), NO_SUCH_PIECE_MESSAGE);
         checkArgument(new PossibleMovesFinder().isMovePossible(this, move, isWhiteMove), ILLEGAL_MOVE_MESSAGE);
 
-        if(isKing(startingTile)) {
-            performKingMove(startingTile, endTile, currentBitSet);
+        if(isKing(startingTileNumber)) {
+            performKingMove(startingTileNumber, endTileNumber, currentBitSet);
         } else {
-            performPieceMove(startingTile, endTile, currentBitSet);
-            if(shouldPieceBePromoted(endTile, isWhiteMove)) {
-                promote(endTile);
+            performPieceMove(startingTileNumber, endTileNumber, currentBitSet);
+            if(shouldPieceBePromoted(endTileNumber, isWhiteMove)) {
+                promote(endTileNumber);
             }
         }
         if(move.isBeatingSequence()) {
@@ -102,14 +102,14 @@ public class Position {
         return kings.get(piecePosition);
     }
 
-    private void performKingMove(int startingTile, int endTile, BitSet currentBitSet) {
-        kings.set(endTile);
-        performPieceMove(startingTile, endTile, currentBitSet);
+    private void performKingMove(int startingTileNumber, int endTileNumber, BitSet currentBitSet) {
+        kings.set(endTileNumber);
+        performPieceMove(startingTileNumber, endTileNumber, currentBitSet);
     }
 
-    private void performPieceMove(int startingTile, int endTile, BitSet currentBitSet) {
-        currentBitSet.set(endTile);
-        removePieceFromBoard(startingTile);
+    private void performPieceMove(int startingTileNumber, int endTileNumber, BitSet currentBitSet) {
+        currentBitSet.set(endTileNumber);
+        removePieceFromBoard(startingTileNumber);
     }
 
     private void removePieceFromBoard(int bitIndex) {

@@ -3,7 +3,7 @@ package model.move_finder;
 import java.util.BitSet;
 
 public class BitwiseOperator {
-    private BitSet tilePositions;
+    private BitSet existingTileNumbers;
 
     public BitwiseOperator() {
         generateTilePositions();
@@ -29,15 +29,15 @@ public class BitwiseOperator {
     }
 
     private void generateTilePositions() {
-        tilePositions = new BitSet(45);
-        tilePositions.set(5, 13);
-        tilePositions.set(14, 22);
-        tilePositions.set(23, 31);
-        tilePositions.set(32, 40);
+        existingTileNumbers = new BitSet(45);
+        existingTileNumbers.set(5, 13);
+        existingTileNumbers.set(14, 22);
+        existingTileNumbers.set(23, 31);
+        existingTileNumbers.set(32, 40);
     }
 
-    public BitSet getTilePositions() {
-        return tilePositions;
+    public BitSet getExistingTileNumbers() {
+        return existingTileNumbers;
     }
 
     public BitSet getShiftedCopy(BitSet bitSetToShift, int shift) {
@@ -50,7 +50,7 @@ public class BitwiseOperator {
             }
         }
 
-        shiftedCopy.and(tilePositions);
+        shiftedCopy.and(existingTileNumbers);
 
         return shiftedCopy;
     }

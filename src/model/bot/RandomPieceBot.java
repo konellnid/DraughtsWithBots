@@ -15,9 +15,9 @@ public class RandomPieceBot extends GameBot {
     @Override
     public Move choseAMoveFrom(List<Move> possibleMoves, Position currentPosition) {
         List<Integer> possibleStartingTileNumbers = getStartingTileNumbersFromPossibleMoves(possibleMoves);
-        int chosenStartingTile = getRandomElementFromList(possibleStartingTileNumbers);
+        int chosenStartingTileNumber = getRandomElementFromList(possibleStartingTileNumbers);
 
-        possibleMoves.removeIf(move -> move.getStartingPositionOfThePiece() != chosenStartingTile);
+        possibleMoves.removeIf(move -> move.getStartingPositionOfThePiece() != chosenStartingTileNumber);
 
         Move chosenMove = getRandomElementFromList(possibleMoves);
 

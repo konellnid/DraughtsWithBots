@@ -22,7 +22,7 @@ public class PossibleMovesFinder {
     private static final int LOWER_LEFT = -4;
 
     private int currentBeatingLength;
-    private BitSet freeTiles;
+    private BitSet freeTileNumbers;
     private BitSet ownCheckers;
     private BitSet ownKings;
     private BitSet enemyPieces;
@@ -55,11 +55,11 @@ public class PossibleMovesFinder {
 
     private void checkForStandardBeating() {
         for (int checkerPositionIndex = ownCheckers.nextSetBit(0); checkerPositionIndex >= 0; checkerPositionIndex = ownCheckers.nextSetBit(checkerPositionIndex + 1)) {
-            freeTiles.set(checkerPositionIndex);
+            freeTileNumbers.set(checkerPositionIndex);
             Move move = new Move();
-            move.addNewTileToMoveSequence(checkerPositionIndex);
+            move.addNewTileNumberToMoveSequence(checkerPositionIndex);
             findAStandardBeatingFromCurrentMoveSequence(move);
-            freeTiles.clear(checkerPositionIndex);
+            freeTileNumbers.clear(checkerPositionIndex);
         }
     }
 
@@ -71,31 +71,31 @@ public class PossibleMovesFinder {
     }
 
     private void findAStandardBeatingInDirection(Move move, int direction) {
-        int expectedEnemyTile = move.getLastPositionOfThePiece() + direction;
-        int expectedFreeTile = expectedEnemyTile + direction;
+        int expectedEnemyTileNumber = move.getLastPositionOfThePiece() + direction;
+        int expectedFreeTileNumber = expectedEnemyTileNumber + direction;
 
-        if (enemyPieces.get(expectedEnemyTile)) if (freeTiles.get(expectedFreeTile)) {
-            enemyPieces.clear(expectedEnemyTile);
+        if (enemyPieces.get(expectedEnemyTileNumber)) if (freeTileNumbers.get(expectedFreeTileNumber)) {
+            enemyPieces.clear(expectedEnemyTileNumber);
 
             Move foundMove = move.getCopy();
-            foundMove.addNewTileToMoveSequence(expectedEnemyTile);
-            foundMove.addNewTileToMoveSequence(expectedFreeTile);
+            foundMove.addNewTileNumberToMoveSequence(expectedEnemyTileNumber);
+            foundMove.addNewTileNumberToMoveSequence(expectedFreeTileNumber);
 
             updateAvailableMoves(foundMove);
 
             findAStandardBeatingFromCurrentMoveSequence(foundMove);
 
-            enemyPieces.set(expectedEnemyTile);
+            enemyPieces.set(expectedEnemyTileNumber);
         }
     }
 
     private void checkForPromotedBeating() {
         for (int kingPosition = ownKings.nextSetBit(0); kingPosition >= 0; kingPosition = ownKings.nextSetBit(kingPosition + 1)) {
             Move move = new Move();
-            move.addNewTileToMoveSequence(kingPosition);
-            freeTiles.set(kingPosition);
+            move.addNewTileNumberToMoveSequence(kingPosition);
+            freeTileNumbers.set(kingPosition);
             findAPromotedBeatingFromCurrentMoveSequence(move, 0);
-            freeTiles.clear(kingPosition);
+            freeTileNumbers.clear(kingPosition);
         }
     }
 
@@ -107,26 +107,26 @@ public class PossibleMovesFinder {
     }
 
     private void checkForPromotedBeatingInDirection(Move move, int direction) {
-        int currentKingPosition = move.getLastPositionOfThePiece();
-        int enemyPositionIndex = findClosestEnemyInDirectionFromTile(direction, currentKingPosition);
-        if (properEnemyWasFound(enemyPositionIndex)) {
-            int expectedFreeTile = enemyPositionIndex + direction;
-            enemyPieces.clear(enemyPositionIndex); //this will be fixed after finding all (if any) further beatings
+        int endTileNumber = move.getLastPositionOfThePiece();
+        int enemyTileNumber = findClosestEnemyInDirectionFromTile(direction, endTileNumber);
+        if (properEnemyWasFound(enemyTileNumber)) {
+            int expectedFreeTileNumber = enemyTileNumber + direction;
+            enemyPieces.clear(enemyTileNumber); //this will be fixed after finding all (if any) further beatings
 
-            while (freeTiles.get(expectedFreeTile)) {
+            while (freeTileNumbers.get(expectedFreeTileNumber)) {
                 Move updatedMove = move.getCopy();
-                updatedMove.addNewTileToMoveSequence(enemyPositionIndex);
+                updatedMove.addNewTileNumberToMoveSequence(enemyTileNumber);
 
 
-                updatedMove.addNewTileToMoveSequence(expectedFreeTile);
+                updatedMove.addNewTileNumberToMoveSequence(expectedFreeTileNumber);
                 updateAvailableMoves(updatedMove);
 
                 findAPromotedBeatingFromCurrentMoveSequence(updatedMove, direction);
 
-                expectedFreeTile += direction;
+                expectedFreeTileNumber += direction;
             }
 
-            enemyPieces.set(enemyPositionIndex);
+            enemyPieces.set(enemyTileNumber);
         }
     }
 
@@ -147,7 +147,7 @@ public class PossibleMovesFinder {
     private int findClosestEnemyInDirectionFromTile(int direction, int currentKingPosition) {
         int checkedPosition = currentKingPosition + direction;
 
-        while (freeTiles.get(checkedPosition)) {
+        while (freeTileNumbers.get(checkedPosition)) {
             checkedPosition += direction;
         }
 
@@ -166,7 +166,7 @@ public class PossibleMovesFinder {
     private void checkForFlyingMoveInDirection(int direction) {
         int totalDirection = direction;
         BitSet shiftedCopy = bitwiseOperator.getShiftedCopy(ownKings, direction);
-        shiftedCopy.and(freeTiles);
+        shiftedCopy.and(freeTileNumbers);
 
         while (!shiftedCopy.isEmpty()) {
             for (int i = shiftedCopy.nextSetBit(0); i >= 0; i = shiftedCopy.nextSetBit(i + 1)) {
@@ -175,7 +175,7 @@ public class PossibleMovesFinder {
 
             totalDirection += direction;
             shiftedCopy = bitwiseOperator.getShiftedCopy(shiftedCopy, direction);
-            shiftedCopy.and(freeTiles);
+            shiftedCopy.and(freeTileNumbers);
         }
 
     }
@@ -193,7 +193,7 @@ public class PossibleMovesFinder {
 
     private void checkFrStandardMoveInDirection(int direction) {
         BitSet shiftedCopy = bitwiseOperator.getShiftedCopy(ownCheckers, direction);
-        shiftedCopy.and(freeTiles);
+        shiftedCopy.and(freeTileNumbers);
 
         for (int i = shiftedCopy.nextSetBit(0); i >= 0; i = shiftedCopy.nextSetBit(i + 1)) {
             availableMoves.add(new Move(i - direction, i));
@@ -216,9 +216,9 @@ public class PossibleMovesFinder {
             enemyPieces = (BitSet) position.getWhitePieces().clone();
         }
 
-        freeTiles = bitwiseOperator.merge(position.getWhitePieces(), position.getBlackPieces());
-        freeTiles.flip(0, freeTiles.size());
-        freeTiles.and(bitwiseOperator.getTilePositions());
+        freeTileNumbers = bitwiseOperator.merge(position.getWhitePieces(), position.getBlackPieces());
+        freeTileNumbers.flip(0, freeTileNumbers.size());
+        freeTileNumbers.and(bitwiseOperator.getExistingTileNumbers());
         ownCheckers = bitwiseOperator.getOwnCheckers(ownPieces, position.getKings());
         ownKings = bitwiseOperator.getOwnKings(ownPieces, position.getKings());
     }
