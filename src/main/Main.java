@@ -9,7 +9,6 @@ import javafx.stage.Stage;
 import view.MainView;
 
 public class Main extends Application {
-
     private static final String APP_NAME = "Draughts";
 
     @Override

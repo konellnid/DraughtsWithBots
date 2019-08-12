@@ -8,7 +8,6 @@ import java.util.BitSet;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PositionTest {
-
     private Position testPosition;
     private BitSet whitePieces;
     private BitSet blackPieces;

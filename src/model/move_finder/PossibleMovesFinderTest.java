@@ -11,7 +11,6 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PossibleMovesFinderTest {
-
     private static final boolean IS_WHITE_TURN = true;
     private static final boolean IS_BLACK_TURN = false;
 
