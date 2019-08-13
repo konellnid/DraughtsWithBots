@@ -62,7 +62,7 @@ public class Position {
         BitSet currentBitSet = getCurrentBitSet(isWhiteMove);
 
         checkArgument(currentBitSet.get(startingTileNumber), NO_SUCH_PIECE_MESSAGE);
-        checkArgument(new PossibleMovesFinder(8).isMovePossible(this, move, isWhiteMove), ILLEGAL_MOVE_MESSAGE);
+        // checkArgument(new PossibleMovesFinder(8).isMovePossible(this, move, isWhiteMove), ILLEGAL_MOVE_MESSAGE); TODO would need to somehow retrieve the actual board size
 
         if (isKing(startingTileNumber)) {
             performKingMove(startingTileNumber, endTileNumber, currentBitSet);
