@@ -350,21 +350,34 @@ class PossibleMovesFinderTest {
         assertEquals(expectedMoveList, actualMoveList);
     }
 
+    /*
+    |  59  58  57  56  55|
+      |54  53  52  51  50  |
+      |  48  47  46  45  44|
+      |43  42  41  40  39  |
+      |  37  36  35  34  33|
+      |32  31  30  29  28  |
+      |  26  25  24  23  22|
+      |21  20  19  18  17  |
+      |  15  14  13  12  11|
+      |10  09  08  07  06  |
+     */
+
     @Test
     void shouldFindAllPossibleMovesForStartingPosition() {
         prepareBitSetsAndPositionFinderForBoardSideLength(BOARD_SIDE_LENGTH_TEN);
 
         position = positionGenerator.generateStartingPositionForBoardOfSideLength(BOARD_SIDE_LENGTH_TEN);
 
-        expectedMoveList.add(new Move(22, 28));
-        expectedMoveList.add(new Move(23, 28));
-        expectedMoveList.add(new Move(23, 29));
-        expectedMoveList.add(new Move(24, 29));
-        expectedMoveList.add(new Move(24, 30));
-        expectedMoveList.add(new Move(25, 30));
-        expectedMoveList.add(new Move(25, 31));
-        expectedMoveList.add(new Move(26, 31));
-        expectedMoveList.add(new Move(26, 32));
+        expectedMoveList.add(new Move(17, 22));
+        expectedMoveList.add(new Move(17, 23));
+        expectedMoveList.add(new Move(18, 23));
+        expectedMoveList.add(new Move(18, 24));
+        expectedMoveList.add(new Move(19, 24));
+        expectedMoveList.add(new Move(19, 25));
+        expectedMoveList.add(new Move(20, 25));
+        expectedMoveList.add(new Move(20, 26));
+        expectedMoveList.add(new Move(21, 26));
 
         actualMoveList = possibleMovesFinder.getAvailableMovesFrom(position, IS_WHITE_TURN);
 
