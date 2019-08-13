@@ -343,7 +343,7 @@ class PossibleMovesFinderTest {
         expectedMoveList.add(new Move(25, 30, 35, 41, 47, 42, 37, 31, 25));
         expectedMoveList.add(new Move(25, 31, 37, 42, 47, 41, 35, 30, 25));
 
-        actualMoveList = possibleMovesFinder.getAvailableMovesFrom(position, IS_WHITE_TURN);
+        actualMoveList = possibleMovesFinder.getAvailableMovesFrom(position, IS_BLACK_TURN);
 
         sortBothLists();
 
