@@ -5,8 +5,8 @@ import java.util.BitSet;
 public class BitwiseOperator {
     private BitSet existingTileNumbers;
 
-    public BitwiseOperator() {
-        generateTilePositions();
+    public BitwiseOperator(int boardSideLength) {
+        generateTilePositions(boardSideLength);
     }
 
     public BitSet merge(BitSet whitePieces, BitSet blackPieces) {
@@ -28,12 +28,34 @@ public class BitwiseOperator {
         return ownKings;
     }
 
-    private void generateTilePositions() {
-        existingTileNumbers = new BitSet(45);
-        existingTileNumbers.set(5, 13);
-        existingTileNumbers.set(14, 22);
-        existingTileNumbers.set(23, 31);
-        existingTileNumbers.set(32, 40);
+    private void generateTilePositions(int boardSideLength) {
+        initializeProperSizeBitSet(boardSideLength);
+        findExistingTileNumbersForBoardSize(boardSideLength);
+    }
+
+    private void findExistingTileNumbersForBoardSize(int boardSideLength) {
+        int smallestNumberInTwoRows = (boardSideLength / 2) + 1;
+
+        for (int numberOfRowsCounter = 0; numberOfRowsCounter < boardSideLength; numberOfRowsCounter += 2) {
+            existingTileNumbers.set(smallestNumberInTwoRows, smallestNumberInTwoRows + boardSideLength);
+            smallestNumberInTwoRows = smallestNumberInTwoRows + boardSideLength + 1;
+        }
+    }
+
+    private void initializeProperSizeBitSet(int boardSideLength) {
+        switch (boardSideLength) {
+            case 8:
+                existingTileNumbers = new BitSet(45);
+                break;
+            case 10:
+                existingTileNumbers = new BitSet(66);
+                break;
+            case 12:
+                existingTileNumbers = new BitSet(91);
+                break;
+        }
+
+
     }
 
     public BitSet getExistingTileNumbers() {

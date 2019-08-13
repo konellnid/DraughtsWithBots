@@ -32,7 +32,7 @@ public class PossibleMovesFinder {
 
 
     public PossibleMovesFinder(int boardSideLength) {
-        bitwiseOperator = new BitwiseOperator();
+        bitwiseOperator = new BitwiseOperator(boardSideLength);
 
         declareProperDirections(boardSideLength);
     }
