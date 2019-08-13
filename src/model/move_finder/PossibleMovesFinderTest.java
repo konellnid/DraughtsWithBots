@@ -416,12 +416,24 @@ class PossibleMovesFinderTest {
      */
 
     @Test
-    void should() {
+    void shouldFindAllBeatingsForKing() {
         prepareBitSetsAndPositionFinderForBoardSideLength(BOARD_SIDE_LENGTH_TWELVE);
 
+        whitePieces.set(41);
+        whitePieces.set(72);
+        whitePieces.set(66);
+        whitePieces.set(37);
 
+        blackPieces.set(29);
 
-        actualMoveList = possibleMovesFinder.getAvailableMovesFrom(position, );
+        kings.set(29);
+
+        expectedMoveList.add(new Move(29, 41, 59, 66, 73, 37, 31));
+        expectedMoveList.add(new Move(29, 41, 59, 66, 73, 37, 25));
+        expectedMoveList.add(new Move(29, 41, 65, 72, 79, 37, 31));
+        expectedMoveList.add(new Move(29, 41, 65, 72, 79, 37, 25));
+
+        actualMoveList = possibleMovesFinder.getAvailableMovesFrom(position, IS_BLACK_TURN);
 
         sortBothLists();
 
@@ -434,17 +446,17 @@ class PossibleMovesFinderTest {
 
         position = positionGenerator.generateStartingPositionForBoardOfSideLength(BOARD_SIDE_LENGTH_TWELVE);
 
-        expectedMoveList.add(new Move(20,26));
-        expectedMoveList.add(new Move(20,27));
-        expectedMoveList.add(new Move(21,27));
-        expectedMoveList.add(new Move(21,28));
-        expectedMoveList.add(new Move(22,28));
-        expectedMoveList.add(new Move(22,29));
-        expectedMoveList.add(new Move(23,29));
-        expectedMoveList.add(new Move(23,30));
-        expectedMoveList.add(new Move(24,30));
-        expectedMoveList.add(new Move(24,31));
-        expectedMoveList.add(new Move(25,31));
+        expectedMoveList.add(new Move(20, 26));
+        expectedMoveList.add(new Move(20, 27));
+        expectedMoveList.add(new Move(21, 27));
+        expectedMoveList.add(new Move(21, 28));
+        expectedMoveList.add(new Move(22, 28));
+        expectedMoveList.add(new Move(22, 29));
+        expectedMoveList.add(new Move(23, 29));
+        expectedMoveList.add(new Move(23, 30));
+        expectedMoveList.add(new Move(24, 30));
+        expectedMoveList.add(new Move(24, 31));
+        expectedMoveList.add(new Move(25, 31));
 
         actualMoveList = possibleMovesFinder.getAvailableMovesFrom(position, IS_WHITE_TURN);
 
