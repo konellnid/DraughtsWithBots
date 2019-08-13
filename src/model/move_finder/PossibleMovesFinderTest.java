@@ -416,6 +416,28 @@ class PossibleMovesFinderTest {
      */
 
     @Test
+    void shouldFindAllBeatingsForCheckers() {
+        prepareBitSetsAndPositionFinderForBoardSideLength(BOARD_SIDE_LENGTH_TWELVE);
+
+        blackPieces.set(29);
+        blackPieces.set(41);
+        blackPieces.set(43);
+        blackPieces.set(44);
+
+        whitePieces.set(36);
+        whitePieces.set(23);
+
+        expectedMoveList.add(new Move(36, 43, 50, 44, 38));
+        expectedMoveList.add(new Move(23, 29, 35, 41, 47));
+
+        actualMoveList = possibleMovesFinder.getAvailableMovesFrom(position, IS_WHITE_TURN);
+
+        sortBothLists();
+
+        assertEquals(expectedMoveList, actualMoveList);
+    }
+
+    @Test
     void shouldFindAllBeatingsForKing() {
         prepareBitSetsAndPositionFinderForBoardSideLength(BOARD_SIDE_LENGTH_TWELVE);
 
