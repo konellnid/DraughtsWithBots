@@ -313,6 +313,8 @@ class PossibleMovesFinderTest {
 
         blackPieces.set(20);
 
+        kings.set(20);
+
         expectedMoveList.add(new Move(20, 25));
         expectedMoveList.add(new Move(20, 14));
         expectedMoveList.add(new Move(20, 15));
@@ -338,8 +340,8 @@ class PossibleMovesFinderTest {
 
         blackPieces.set(25);
 
-        expectedMoveList.add(new Move(25,30,35,41,47,42,37,31,25));
-        expectedMoveList.add(new Move(25,31,37,42,47,41,35,30,25));
+        expectedMoveList.add(new Move(25, 30, 35, 41, 47, 42, 37, 31, 25));
+        expectedMoveList.add(new Move(25, 31, 37, 42, 47, 41, 35, 30, 25));
 
         actualMoveList = possibleMovesFinder.getAvailableMovesFrom(position, IS_WHITE_TURN);
 
@@ -372,7 +374,7 @@ class PossibleMovesFinderTest {
     }
 
     @Test
-    void shouldProperlyFindBothBeatingSequences() {
+    void shouldProperlyFindBothBeatingSequencesForKings() {
         prepareBitSetsAndPositionFinderForBoardSideLength(BOARD_SIDE_LENGTH_TEN);
 
         blackPieces.set(25);
@@ -381,6 +383,9 @@ class PossibleMovesFinderTest {
 
         whitePieces.set(34);
         whitePieces.set(13);
+
+        kings.set(34);
+        kings.set(13);
 
         expectedMoveList.add(new Move(34, 46, 52, 42, 37, 25, 19));
         expectedMoveList.add(new Move(13, 25, 37, 42, 52, 46, 40));
@@ -391,8 +396,6 @@ class PossibleMovesFinderTest {
 
         assertEquals(expectedMoveList, actualMoveList);
     }
-
-
 
 
 }
