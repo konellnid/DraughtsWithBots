@@ -9,23 +9,32 @@ public class PositionGenerator {
 
     private BitSet whitePieces;
     private BitSet blackPieces;
-    private BitSet kings;
 
     public Position generateBoardOfSideLength(int boardSideLength) {
         switch (boardSideLength) {
             case 8:
+                initializeBitSetsWithSize(BIT_SET_SIZE_OF_SIDE_LENGTH_EIGHT);
+                break;
             case 10:
+                initializeBitSetsWithSize(BIT_SET_SIZE_OF_SIDE_LENGTH_TEN);
+                break;
             case 12:
-
+                initializeBitSetsWithSize(BIT_SET_SIZE_OF_SIDE_LENGTH_TWELVE);
+                break;
             default:
                 return null;
         }
+
+        addWhiteCheckers(boardSideLength);
+        addBlackCheckers(boardSideLength);
+
+        return new Position(whitePieces, blackPieces);
     }
 
     private void initializeBitSetsWithSize(int bitSetSize) {
         whitePieces = new BitSet(bitSetSize);
         blackPieces = new BitSet(bitSetSize);
-        kings = new BitSet(bitSetSize);
+        // clarification: kings BitSet is created in the Position class constructor
     }
 
     private void addWhiteCheckers(int boardSideLength) {
@@ -33,12 +42,31 @@ public class PositionGenerator {
 
         for (int firstTwoRowsCounter = 0; firstTwoRowsCounter < boardSideLength; firstTwoRowsCounter++) {
             whitePieces.set(currentTileNumber);
+            currentTileNumber++;
         }
 
         currentTileNumber++; // skips the tile number between the second and third row
 
         for (int thirdRowCounter = 0; thirdRowCounter < boardSideLength / 2; thirdRowCounter++) {
+            whitePieces.set(currentTileNumber);
+            currentTileNumber++;
+        }
+    }
 
+    private void addBlackCheckers(int boardSideLength) {
+        int weirdNumber = (boardSideLength / 2) - 1;
+        int currentTileNumber = boardSideLength * weirdNumber + weirdNumber;
+
+        for (int firstRowCounter = 0; firstRowCounter < boardSideLength / 2; firstRowCounter++) {
+            blackPieces.set(currentTileNumber);
+            currentTileNumber++;
+        }
+
+        currentTileNumber++; // skips the tile number between the first and second row (looking from bottom of the board)
+
+        for (int lastTwoRowsCounter = 0; lastTwoRowsCounter < boardSideLength; lastTwoRowsCounter++) {
+            blackPieces.set(currentTileNumber);
+            currentTileNumber++;
         }
     }
 
