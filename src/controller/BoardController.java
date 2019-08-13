@@ -33,8 +33,8 @@ public class BoardController {
     }
 
 
-    public void showPositionOnBoard(Position position) {
-        boardView.generateBoardWithProperTilesWithPieces(position.getBoardSideLength());
+    public void showPositionOnBoard(Position position, int boardSideLength) {
+        boardView.generateBoardWithProperTilesWithPieces(boardSideLength);
 
         showOnBoardInColour(position.getWhitePieces(), Color.WHITE);
         showOnBoardInColour(position.getBlackPieces(), Color.RED);

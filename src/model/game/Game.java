@@ -37,13 +37,12 @@ public class Game {
     public void newGame(PlayerType whitePlayer, PlayerType blackPlayer, int boardSideLength) {
         gameStorage = new GameStorage(boardSideLength);
 
-        //TODO read value from MainView
         possibleMovesFinder = new PossibleMovesFinder(boardSideLength);
 
         whiteInputHandler = generateInputHandler(whitePlayer);
         blackInputHandler = generateInputHandler(blackPlayer);
 
-        boardController.showPositionOnBoard(new Position(gameStorage.getPosition()));
+        boardController.showPositionOnBoard(new Position(gameStorage.getPosition()), boardSideLength);
 
         nextTurn();
     }

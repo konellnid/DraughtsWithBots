@@ -2,7 +2,10 @@ package view;
 
 import controller.BoardController;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -57,10 +60,10 @@ public class BoardView {
         this.boardController = boardController;
 
         boardGridPane = new GridPane();
-        boardStackPane.getChildren().addAll(boardGridPane);
+        boardGridPane.setAlignment(Pos.CENTER);
+        boardStackPane.getChildren().add(boardGridPane);
 
         generateHashMapWithAllPossibleTiles();
-        generateBoardWithProperTilesWithPieces(8); // default board to show at start
     }
 
     private void generateHashMapWithAllPossibleTiles() {
@@ -78,9 +81,8 @@ public class BoardView {
     }
 
     public void generateBoardWithProperTilesWithPieces(int boardSideLength) {
-        resetAllTiles();
-        boardGridPane.getChildren().removeAll();
-        boardGridPane.setAlignment(Pos.CENTER);
+        clearActualSituationOnBoard();
+
         Stack<Integer> stackWithIndexes = getProperStackOfTileNumbers(boardSideLength);
 
         for (int row = 0; row < boardSideLength; row++) {
@@ -98,6 +100,14 @@ public class BoardView {
                 }
             }
         }
+    }
+
+    private void clearActualSituationOnBoard() {
+        resetAllTiles();
+
+        List<Node> nodeList = boardGridPane.getChildren();
+
+        boardGridPane.getChildren().removeAll(nodeList);
     }
 
     private Stack<Integer> getProperStackOfTileNumbers(int boardSideLength) {
@@ -152,7 +162,7 @@ public class BoardView {
         tileToRemoveHighlight.removeHighlight();
     }
 
-    public void resetAllTiles() {
+    private void resetAllTiles() {
         for (TileWithPiece tileWithPiece : tilesByNumberMap.values()) {
             tileWithPiece.removeHighlight();
             tileWithPiece.removePiece();
