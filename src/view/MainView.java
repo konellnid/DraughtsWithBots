@@ -3,10 +3,7 @@ package view;
 import controller.MainViewController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
 import model.game.PlayerType;
 
@@ -32,6 +29,9 @@ public class MainView {
     @FXML
     private CheckBox showTileNumbersCheckBox;
 
+    @FXML
+    private Slider boardSizeSlider;
+
     private MainViewController mainViewController;
 
     @FXML
@@ -46,11 +46,13 @@ public class MainView {
 
         newGameButton.setOnAction(event -> {
             newGameButton.setDisable(true);
+
             int whiteChoice = whiteSettingsComboBox.getSelectionModel().getSelectedIndex();
-            System.out.println(whiteChoice);
             int blackChoice = blackSettingsComboBox.getSelectionModel().getSelectedIndex();
-            System.out.println(blackChoice);
-            mainViewController.newGame(PlayerType.values()[whiteChoice], PlayerType.values()[blackChoice]);
+
+            int boardSize = (int) boardSizeSlider.getValue();
+
+            mainViewController.newGame(PlayerType.values()[whiteChoice], PlayerType.values()[blackChoice], boardSize);
         });
 
         showTileNumbersCheckBox.setOnAction(event -> {

@@ -38,12 +38,6 @@ public class Position {
         return kings;
     }
 
-    public Position() {
-        whitePieces = new BitSet(45);
-        blackPieces = new BitSet(45);
-        kings = new BitSet(45);
-    }
-
     public Position(BitSet whitePieces, BitSet blackPieces) {
         this.whitePieces = whitePieces;
         this.blackPieces = blackPieces;

@@ -30,7 +30,8 @@ class PossibleMovesFinderForBoardOfLengthEightTest {
         expectedMoveList = new LinkedList<>();
         actualMoveList = new LinkedList<>();
         // before each test, the position is empty (all bits in BitSets are set to 0)
-        position = new Position();
+        PositionGenerator positionGenerator = new PositionGenerator();
+        position = positionGenerator.generateEmptyPositionForBoardSide(BOARD_SIDE_LENGTH);
         whitePieces = position.getWhitePieces();
         blackPieces = position.getBlackPieces();
         kings = position.getKings();
@@ -49,7 +50,7 @@ class PossibleMovesFinderForBoardOfLengthEightTest {
 
 
         PositionGenerator positionGenerator = new PositionGenerator();
-        position = positionGenerator.generateBoardOfSideLength(BOARD_SIDE_LENGTH);
+        position = positionGenerator.generateStartingPositionForBoardOfSideLength(BOARD_SIDE_LENGTH);
         actualMoveList = possibleMovesFinder.getAvailableMovesFrom(position, IS_WHITE_TURN);
 
         sortBothLists();

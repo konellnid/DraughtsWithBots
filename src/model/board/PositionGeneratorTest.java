@@ -1,6 +1,5 @@
 package model.board;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -42,7 +41,7 @@ public class PositionGeneratorTest {
         expectedBlackPieces.set(32, 40);
 
         expectedPosition = new Position(expectedWhitePieces, expectedBlackPieces);
-        generatedPosition = positionGenerator.generateBoardOfSideLength(8);
+        generatedPosition = positionGenerator.generateStartingPositionForBoardOfSideLength(8);
 
         assertEquals(expectedPosition.getWhitePieces(), generatedPosition.getWhitePieces());
         assertEquals(expectedPosition.getBlackPieces(), generatedPosition.getBlackPieces());
@@ -72,7 +71,7 @@ public class PositionGeneratorTest {
         expectedBlackPieces.set(50, 60);
 
         expectedPosition = new Position(expectedWhitePieces, expectedBlackPieces);
-        generatedPosition = positionGenerator.generateBoardOfSideLength(10);
+        generatedPosition = positionGenerator.generateStartingPositionForBoardOfSideLength(10);
 
         assertEquals(expectedPosition.getWhitePieces(), generatedPosition.getWhitePieces());
         assertEquals(expectedPosition.getBlackPieces(), generatedPosition.getBlackPieces());
@@ -104,7 +103,7 @@ public class PositionGeneratorTest {
         expectedBlackPieces.set(72, 84);
 
         expectedPosition = new Position(expectedWhitePieces, expectedBlackPieces);
-        generatedPosition = positionGenerator.generateBoardOfSideLength(12);
+        generatedPosition = positionGenerator.generateStartingPositionForBoardOfSideLength(12);
 
         assertEquals(expectedPosition.getWhitePieces(), generatedPosition.getWhitePieces());
         assertEquals(expectedPosition.getBlackPieces(), generatedPosition.getBlackPieces());
@@ -113,7 +112,7 @@ public class PositionGeneratorTest {
 
     @Test
     void shouldReturnNullForUnavailableBoardSideLength() {
-        generatedPosition = positionGenerator.generateBoardOfSideLength(5);
+        generatedPosition = positionGenerator.generateStartingPositionForBoardOfSideLength(5);
 
         assertNull(generatedPosition);
     }

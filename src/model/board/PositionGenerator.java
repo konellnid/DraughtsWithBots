@@ -10,7 +10,26 @@ public class PositionGenerator {
     private BitSet whitePieces;
     private BitSet blackPieces;
 
-    public Position generateBoardOfSideLength(int boardSideLength) {
+    public Position generateStartingPositionForBoardOfSideLength(int boardSideLength) {
+        if (!isProperBoardSideLength(boardSideLength)) return null;
+
+        initializeProperBitSetsForBoardSide(boardSideLength);
+
+        addWhiteCheckers(boardSideLength);
+        addBlackCheckers(boardSideLength);
+
+        return new Position(whitePieces, blackPieces);
+    }
+
+    private boolean isProperBoardSideLength(int boardSideLength) {
+        if (boardSideLength == 8) return true;
+        if (boardSideLength == 10) return true;
+        if (boardSideLength == 12) return true;
+
+        return false;
+    }
+
+    private void initializeProperBitSetsForBoardSide(int boardSideLength) {
         switch (boardSideLength) {
             case 8:
                 initializeBitSetsWithSize(BIT_SET_SIZE_OF_SIDE_LENGTH_EIGHT);
@@ -22,12 +41,13 @@ public class PositionGenerator {
                 initializeBitSetsWithSize(BIT_SET_SIZE_OF_SIDE_LENGTH_TWELVE);
                 break;
             default:
-                return null;
+                whitePieces = new BitSet();
+                blackPieces = new BitSet();
         }
+    }
 
-        addWhiteCheckers(boardSideLength);
-        addBlackCheckers(boardSideLength);
-
+    public Position generateEmptyPositionForBoardSide(int boardSideLength) {
+        initializeProperBitSetsForBoardSide(boardSideLength);
         return new Position(whitePieces, blackPieces);
     }
 

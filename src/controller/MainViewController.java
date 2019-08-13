@@ -14,9 +14,9 @@ public class MainViewController {
 
     }
 
-    public void newGame(PlayerType whitePlayerType, PlayerType blackPlayerType) {
+    public void newGame(PlayerType whitePlayerType, PlayerType blackPlayerType, int boardSize) {
         Game game = new Game(boardController, this);
-        game.newGame(whitePlayerType, blackPlayerType);
+        game.newGame(whitePlayerType, blackPlayerType, boardSize);
     }
 
     public void setResult(String resultText) {

@@ -15,7 +15,8 @@ public class PositionTest {
 
     @BeforeEach
     void setUp() {
-        testPosition = new Position();
+        PositionGenerator positionGenerator = new PositionGenerator();
+        testPosition = positionGenerator.generateEmptyPositionForBoardSide(8);
         whitePieces = new BitSet(45);
         blackPieces = new BitSet(45);
         kings = new BitSet(45);

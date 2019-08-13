@@ -13,10 +13,10 @@ public class GameStorage {
     private Position position;
     private boolean isWhiteTurn;
 
-    GameStorage() {
+    GameStorage(int boardSideLength) {
         movesTillDraw = MAX_MOVES_TILL_DRAW;
         PositionGenerator positionGenerator = new PositionGenerator();
-        position = positionGenerator.generateBoardOfSideLength(8);
+        position = positionGenerator.generateStartingPositionForBoardOfSideLength(boardSideLength);
         isWhiteTurn = true;
     }
 

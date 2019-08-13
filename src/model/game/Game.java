@@ -34,11 +34,11 @@ public class Game {
 
     }
 
-    public void newGame(PlayerType whitePlayer, PlayerType blackPlayer) {
-        gameStorage = new GameStorage();
+    public void newGame(PlayerType whitePlayer, PlayerType blackPlayer, int boardSideLength) {
+        gameStorage = new GameStorage(boardSideLength);
 
         //TODO read value from MainView
-        possibleMovesFinder = new PossibleMovesFinder(8);
+        possibleMovesFinder = new PossibleMovesFinder(boardSideLength);
 
         whiteInputHandler = generateInputHandler(whitePlayer);
         blackInputHandler = generateInputHandler(blackPlayer);
