@@ -428,5 +428,30 @@ class PossibleMovesFinderTest {
         assertEquals(expectedMoveList, actualMoveList);
     }
 
+    @Test
+    void shouldFindAllPossibleMovesFromStartingPosition() {
+        prepareBitSetsAndPositionFinderForBoardSideLength(BOARD_SIDE_LENGTH_TWELVE);
+
+        position = positionGenerator.generateStartingPositionForBoardOfSideLength(BOARD_SIDE_LENGTH_TWELVE);
+
+        expectedMoveList.add(new Move(20,26));
+        expectedMoveList.add(new Move(20,27));
+        expectedMoveList.add(new Move(21,27));
+        expectedMoveList.add(new Move(21,28));
+        expectedMoveList.add(new Move(22,28));
+        expectedMoveList.add(new Move(22,29));
+        expectedMoveList.add(new Move(23,29));
+        expectedMoveList.add(new Move(23,30));
+        expectedMoveList.add(new Move(24,30));
+        expectedMoveList.add(new Move(24,31));
+        expectedMoveList.add(new Move(25,31));
+
+        actualMoveList = possibleMovesFinder.getAvailableMovesFrom(position, IS_WHITE_TURN);
+
+        sortBothLists();
+
+        assertEquals(expectedMoveList, actualMoveList);
+    }
+
 
 }
