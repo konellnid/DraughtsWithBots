@@ -2,6 +2,7 @@ package model.game;
 
 import model.board.Move;
 import model.board.Position;
+import model.board.PositionGenerator;
 
 import java.util.BitSet;
 
@@ -14,8 +15,8 @@ public class GameStorage {
 
     GameStorage() {
         movesTillDraw = MAX_MOVES_TILL_DRAW;
-        position = new Position();
-        position.generateStartingPosition();
+        PositionGenerator positionGenerator = new PositionGenerator();
+        position = positionGenerator.generateBoardOfSideLength(8);
         isWhiteTurn = true;
     }
 

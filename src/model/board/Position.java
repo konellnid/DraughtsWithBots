@@ -62,14 +62,6 @@ public class Position {
         this.kings = (BitSet) kings.clone();
     }
 
-    public void generateStartingPosition() {
-        whitePieces.set(5, 13);
-        whitePieces.set(14, 18);
-
-        blackPieces.set(27, 31);
-        blackPieces.set(32, 40);
-    }
-
     public void performMoveOnPosition(Move move, boolean isWhiteMove) {
         int startingTileNumber = move.getStartingPositionOfThePiece();
         int endTileNumber = move.getLastPositionOfThePiece();
@@ -78,21 +70,21 @@ public class Position {
         checkArgument(currentBitSet.get(startingTileNumber), NO_SUCH_PIECE_MESSAGE);
         checkArgument(new PossibleMovesFinder(8).isMovePossible(this, move, isWhiteMove), ILLEGAL_MOVE_MESSAGE);
 
-        if(isKing(startingTileNumber)) {
+        if (isKing(startingTileNumber)) {
             performKingMove(startingTileNumber, endTileNumber, currentBitSet);
         } else {
             performPieceMove(startingTileNumber, endTileNumber, currentBitSet);
-            if(shouldPieceBePromoted(endTileNumber, isWhiteMove)) {
+            if (shouldPieceBePromoted(endTileNumber, isWhiteMove)) {
                 promote(endTileNumber);
             }
         }
-        if(move.isBeatingSequence()) {
+        if (move.isBeatingSequence()) {
             removeBeatenPiecesFromBoard(move);
         }
     }
 
     private BitSet getCurrentBitSet(boolean isWhiteMove) {
-        if(isWhiteMove) {
+        if (isWhiteMove) {
             return whitePieces;
         }
         return blackPieces;
@@ -120,8 +112,8 @@ public class Position {
 
     private void removeBeatenPiecesFromBoard(Move move) {
         boolean isEnemyPiece = false;
-        for(int piecePosition: move.getMoveSequence()) {
-            if(isEnemyPiece) {
+        for (int piecePosition : move.getMoveSequence()) {
+            if (isEnemyPiece) {
                 removePieceFromBoard(piecePosition);
             }
             isEnemyPiece = !isEnemyPiece;
@@ -130,7 +122,7 @@ public class Position {
 
     public boolean shouldPieceBePromoted(int piecePosition, boolean isWhite) {
         checkArgument(getCurrentBitSet(isWhite).get(piecePosition), NO_SUCH_PIECE_MESSAGE);
-        if(isKing(piecePosition)) {
+        if (isKing(piecePosition)) {
             return false;
         }
         if (isWhite) {

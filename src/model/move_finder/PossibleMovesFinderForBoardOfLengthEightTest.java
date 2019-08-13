@@ -2,6 +2,7 @@ package model.move_finder;
 
 import model.board.Move;
 import model.board.Position;
+import model.board.PositionGenerator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,7 +48,8 @@ class PossibleMovesFinderForBoardOfLengthEightTest {
         expectedMoveList.add(new Move(14, 18));
 
 
-        position.generateStartingPosition();
+        PositionGenerator positionGenerator = new PositionGenerator();
+        position = positionGenerator.generateBoardOfSideLength(BOARD_SIDE_LENGTH);
         actualMoveList = possibleMovesFinder.getAvailableMovesFrom(position, IS_WHITE_TURN);
 
         sortBothLists();
