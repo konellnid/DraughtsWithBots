@@ -21,7 +21,6 @@ public class PositionOperator {
     }
 
 
-
     private void checkerReachedPromotionZone(Position position, int checkerTileNumber) {
 
     }
