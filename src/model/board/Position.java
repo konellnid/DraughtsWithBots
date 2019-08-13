@@ -137,18 +137,5 @@ public class Position {
     public boolean isInPromotionZoneForBlack(int piecePosition) {
         return piecePosition < 9;
     }
-
-    public int getBoardSideLength() {
-        switch (whitePieces.size()) {
-            case 45:
-                return 8;
-            case 66:
-                return 10;
-            case 91:
-                return 12;
-            default:
-                return -1;
-        }
-    }
 }
 
