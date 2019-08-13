@@ -316,6 +316,7 @@ class PossibleMovesFinderTest {
         kings.set(20);
 
         expectedMoveList.add(new Move(20, 25));
+        expectedMoveList.add(new Move(20, 30));
         expectedMoveList.add(new Move(20, 14));
         expectedMoveList.add(new Move(20, 15));
         expectedMoveList.add(new Move(20, 10));
