@@ -303,7 +303,50 @@ class PossibleMovesFinderTest {
       |10  09  08  07  06  |
      */
 
+    @Test
+    void shouldFindProperMovesForKing() {
+        prepareBitSetsAndPositionFinderForBoardSideLength(BOARD_SIDE_LENGTH_TEN);
 
+        whitePieces.set(35);
+        whitePieces.set(40);
+        whitePieces.set(8);
+
+        blackPieces.set(20);
+
+        expectedMoveList.add(new Move(20, 25));
+        expectedMoveList.add(new Move(20, 14));
+        expectedMoveList.add(new Move(20, 15));
+        expectedMoveList.add(new Move(20, 10));
+        expectedMoveList.add(new Move(20, 26));
+        expectedMoveList.add(new Move(20, 32));
+
+        actualMoveList = possibleMovesFinder.getAvailableMovesFrom(position, IS_BLACK_TURN);
+
+        sortBothLists();
+
+        assertEquals(expectedMoveList, actualMoveList);
+    }
+
+    @Test
+    void shouldNotAllowInfiniteBeating() {
+        prepareBitSetsAndPositionFinderForBoardSideLength(BOARD_SIDE_LENGTH_TEN);
+
+        whitePieces.set(30);
+        whitePieces.set(41);
+        whitePieces.set(42);
+        whitePieces.set(31);
+
+        blackPieces.set(25);
+
+        expectedMoveList.add(new Move(25,30,35,41,47,42,37,31,25));
+        expectedMoveList.add(new Move(25,31,37,42,47,41,35,30,25));
+
+        actualMoveList = possibleMovesFinder.getAvailableMovesFrom(position, IS_WHITE_TURN);
+
+        sortBothLists();
+
+        assertEquals(expectedMoveList, actualMoveList);
+    }
 
     @Test
     void shouldFindAllPossibleMovesForStartingPosition() {
