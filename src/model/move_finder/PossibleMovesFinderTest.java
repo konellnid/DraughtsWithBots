@@ -10,7 +10,7 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PossibleMovesFinderForBoardOfLengthEightTest {
+class PossibleMovesFinderTest {
     private static final int BOARD_SIDE_LENGTH_EIGHT = 8;
     private static final int BOARD_SIDE_LENGTH_TEN = 10;
     private static final int BOARD_SIDE_LENGTH_TWELVE = 12;
@@ -303,11 +303,13 @@ class PossibleMovesFinderForBoardOfLengthEightTest {
       |10  09  08  07  06  |
      */
 
+
+
     @Test
-    void shouldReturnAllPossibleMovesForStartingPosition() {
+    void shouldFindAllPossibleMovesForStartingPosition() {
         prepareBitSetsAndPositionFinderForBoardSideLength(BOARD_SIDE_LENGTH_TEN);
 
-        position = positionGenerator.generateEmptyPositionForBoardSide(BOARD_SIDE_LENGTH_TEN);
+        position = positionGenerator.generateStartingPositionForBoardOfSideLength(BOARD_SIDE_LENGTH_TEN);
 
         expectedMoveList.add(new Move(22, 28));
         expectedMoveList.add(new Move(23, 28));
@@ -346,6 +348,8 @@ class PossibleMovesFinderForBoardOfLengthEightTest {
 
         assertEquals(expectedMoveList, actualMoveList);
     }
+
+
 
 
 }
