@@ -3,7 +3,6 @@ package model.move_finder;
 import model.board.Move;
 import model.board.Position;
 import model.board.PositionGenerator;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,22 +24,41 @@ class PossibleMovesFinderForBoardOfLengthEightTest {
     private BitSet blackPieces;
     private BitSet kings;
     private List<Move> actualMoveList;
+    private PositionGenerator positionGenerator;
 
     @BeforeEach
     void init() {
-        possibleMovesFinder = new PossibleMovesFinder(BOARD_SIDE_LENGTH_EIGHT);
         expectedMoveList = new LinkedList<>();
         actualMoveList = new LinkedList<>();
+        positionGenerator = new PositionGenerator();
     }
 
-    void preparePositionWithEmptyBitsetsForBoardSideLength(int boardSideLength) {
+    void prepareBitSetsAndPositionFinderForBoardSideLength(int boardSideLength) {
         // before each test, the position is empty (all bits in BitSets are set to 0)
-        PositionGenerator positionGenerator = new PositionGenerator();
+        possibleMovesFinder = new PossibleMovesFinder(boardSideLength);
         position = positionGenerator.generateEmptyPositionForBoardSide(boardSideLength);
         whitePieces = position.getWhitePieces();
         blackPieces = position.getBlackPieces();
         kings = position.getKings();
     }
+
+    private void sortBothLists() {
+        Comparator<Move> moveComparator = (o1, o2) -> {
+            List<Integer> o1MoveSequence = o1.getMoveSequence();
+            List<Integer> o2MoveSequence = o2.getMoveSequence();
+
+            for (int i = 0; i < o1MoveSequence.size() && i < o2MoveSequence.size(); i++) {
+                if (o1MoveSequence.get(i) < o2MoveSequence.get(i)) return -1;
+                if (o1MoveSequence.get(i) > o2MoveSequence.get(i)) return 1;
+
+            }
+            return 0;
+        };
+
+        expectedMoveList.sort(moveComparator);
+        actualMoveList.sort(moveComparator);
+    }
+
 
     // TESTS FOR BOARD SIDE LENGTH = 8
     /* Board of sideLength = 8: total BitSet size = 45
@@ -57,7 +75,7 @@ class PossibleMovesFinderForBoardOfLengthEightTest {
 
     @Test
     void shouldReturnAllPossibleMovesFromStartingPosition() {
-        preparePositionWithEmptyBitsetsForBoardSideLength(BOARD_SIDE_LENGTH_EIGHT);
+        prepareBitSetsAndPositionFinderForBoardSideLength(BOARD_SIDE_LENGTH_EIGHT);
 
         expectedMoveList.add(new Move(17, 21));
         expectedMoveList.add(new Move(16, 21));
@@ -67,8 +85,6 @@ class PossibleMovesFinderForBoardOfLengthEightTest {
         expectedMoveList.add(new Move(14, 19));
         expectedMoveList.add(new Move(14, 18));
 
-
-        PositionGenerator positionGenerator = new PositionGenerator();
         position = positionGenerator.generateStartingPositionForBoardOfSideLength(BOARD_SIDE_LENGTH_EIGHT);
         actualMoveList = possibleMovesFinder.getAvailableMovesFrom(position, IS_WHITE_TURN);
 
@@ -84,7 +100,7 @@ class PossibleMovesFinderForBoardOfLengthEightTest {
 
     @Test
     void shouldReturnProperNonBeatingMovesForKing() {
-        preparePositionWithEmptyBitsetsForBoardSideLength(BOARD_SIDE_LENGTH_EIGHT);
+        prepareBitSetsAndPositionFinderForBoardSideLength(BOARD_SIDE_LENGTH_EIGHT);
 
         blackPieces.set(30);
         kings.set(30);
@@ -110,7 +126,7 @@ class PossibleMovesFinderForBoardOfLengthEightTest {
 
     @Test
     void shouldPickTheLongerBeatingSequenceForKing() {
-        preparePositionWithEmptyBitsetsForBoardSideLength(BOARD_SIDE_LENGTH_EIGHT);
+        prepareBitSetsAndPositionFinderForBoardSideLength(BOARD_SIDE_LENGTH_EIGHT);
 
         whitePieces.set(16);
 
@@ -133,7 +149,7 @@ class PossibleMovesFinderForBoardOfLengthEightTest {
 
     @Test
     void shouldGiveTwoPossibleMoveSequencesOneStartingWithKingAndOneWithChecker() {
-        preparePositionWithEmptyBitsetsForBoardSideLength(BOARD_SIDE_LENGTH_EIGHT);
+        prepareBitSetsAndPositionFinderForBoardSideLength(BOARD_SIDE_LENGTH_EIGHT);
 
         blackPieces.set(11);
         blackPieces.set(16);
@@ -158,7 +174,7 @@ class PossibleMovesFinderForBoardOfLengthEightTest {
 
     @Test
     void shouldGiveEmptyListOfMoveSequencesDueToBlockedPieces() {
-        preparePositionWithEmptyBitsetsForBoardSideLength(BOARD_SIDE_LENGTH_EIGHT);
+        prepareBitSetsAndPositionFinderForBoardSideLength(BOARD_SIDE_LENGTH_EIGHT);
 
         whitePieces.set(27);
         blackPieces.set(32);
@@ -186,7 +202,7 @@ class PossibleMovesFinderForBoardOfLengthEightTest {
 
     @Test
     void shouldProperlyAllowCheckerToBeatBothBackwardsAndForward() {
-        preparePositionWithEmptyBitsetsForBoardSideLength(BOARD_SIDE_LENGTH_EIGHT);
+        prepareBitSetsAndPositionFinderForBoardSideLength(BOARD_SIDE_LENGTH_EIGHT);
 
         blackPieces.set(16);
 
@@ -208,7 +224,7 @@ class PossibleMovesFinderForBoardOfLengthEightTest {
 
     @Test
     void shouldNotAllowKingToGoInCompletelyOppositeDirectionDuringBeating() {
-        preparePositionWithEmptyBitsetsForBoardSideLength(BOARD_SIDE_LENGTH_EIGHT);
+        prepareBitSetsAndPositionFinderForBoardSideLength(BOARD_SIDE_LENGTH_EIGHT);
 
         whitePieces.set(8);
         kings.set(8);
@@ -230,7 +246,7 @@ class PossibleMovesFinderForBoardOfLengthEightTest {
 
     @Test
     void shouldNotGoIntoAnInfinitePromotedBeatingLoop() {
-        preparePositionWithEmptyBitsetsForBoardSideLength(BOARD_SIDE_LENGTH_EIGHT);
+        prepareBitSetsAndPositionFinderForBoardSideLength(BOARD_SIDE_LENGTH_EIGHT);
 
         whitePieces.set(7);
         kings.set(7);
@@ -252,7 +268,7 @@ class PossibleMovesFinderForBoardOfLengthEightTest {
 
     @Test
     void shouldNotGoIntoAnInfiniteStandardBeatingLoop() {
-        preparePositionWithEmptyBitsetsForBoardSideLength(BOARD_SIDE_LENGTH_EIGHT);
+        prepareBitSetsAndPositionFinderForBoardSideLength(BOARD_SIDE_LENGTH_EIGHT);
 
         blackPieces.set(20);
 
@@ -271,22 +287,45 @@ class PossibleMovesFinderForBoardOfLengthEightTest {
         assertEquals(expectedMoveList, actualMoveList);
     }
 
-    private void sortBothLists() {
-        Comparator<Move> moveComparator = (o1, o2) -> {
-            List<Integer> o1MoveSequence = o1.getMoveSequence();
-            List<Integer> o2MoveSequence = o2.getMoveSequence();
+    // ________________________________________________________________________
+    // TESTS FOR BOARD SIDE LENGTH = 10
+    /*
+    Board of sideLength = 10: total BitSet size = 66
+      |  59  58  57  56  55|
+      |54  53  52  51  50  |
+      |  48  47  46  45  44|
+      |43  42  41  40  39  |
+      |  37  36  35  34  33|
+      |32  31  30  29  28  |
+      |  26  25  24  23  22|
+      |21  20  19  18  17  |
+      |  15  14  13  12  11|
+      |10  09  08  07  06  |
+     */
 
-            for (int i = 0; i < o1MoveSequence.size() && i < o2MoveSequence.size(); i++) {
-                if (o1MoveSequence.get(i) < o2MoveSequence.get(i)) return -1;
-                if (o1MoveSequence.get(i) > o2MoveSequence.get(i)) return 1;
 
-            }
-            return 0;
-        };
 
-        expectedMoveList.sort(moveComparator);
-        actualMoveList.sort(moveComparator);
+    @Test
+    void shouldProperlyFindBothBeatingSequences() {
+        prepareBitSetsAndPositionFinderForBoardSideLength(BOARD_SIDE_LENGTH_TEN);
+
+        blackPieces.set(25);
+        blackPieces.set(42);
+        blackPieces.set(46);
+
+        whitePieces.set(34);
+        whitePieces.set(13);
+
+        expectedMoveList.add(new Move(34, 46, 52, 42, 37, 25, 19));
+        expectedMoveList.add(new Move(13, 25, 37, 42, 52, 46, 40));
+
+        actualMoveList = possibleMovesFinder.getAvailableMovesFrom(position, IS_WHITE_TURN);
+
+        sortBothLists();
+
+        assertEquals(expectedMoveList, actualMoveList);
     }
+
 
 
 }
