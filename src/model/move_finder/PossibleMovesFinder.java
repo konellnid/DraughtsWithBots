@@ -46,9 +46,11 @@ public class PossibleMovesFinder {
             case 10:
                 upperRight = 5;
                 upperLeft = 6;
+                break;
             case 12:
                 upperRight = 6;
                 upperLeft = 7;
+                break;
         }
 
         lowerRight = (-1) * upperLeft;
