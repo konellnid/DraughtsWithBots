@@ -10,7 +10,8 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PossibleMovesFinderTest {
+class PossibleMovesFinderForBoardOfLengthEightTest {
+    private static final int BOARD_SIDE_LENGTH = 8;
     private static final boolean IS_WHITE_TURN = true;
     private static final boolean IS_BLACK_TURN = false;
 
@@ -24,7 +25,7 @@ class PossibleMovesFinderTest {
 
     @BeforeEach
     void init() {
-        possibleMovesFinder = new PossibleMovesFinder();
+        possibleMovesFinder = new PossibleMovesFinder(BOARD_SIDE_LENGTH);
         expectedMoveList = new LinkedList<>();
         actualMoveList = new LinkedList<>();
         // before each test, the position is empty (all bits in BitSets are set to 0)

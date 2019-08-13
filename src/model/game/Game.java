@@ -37,7 +37,8 @@ public class Game {
     public void newGame(PlayerType whitePlayer, PlayerType blackPlayer) {
         gameStorage = new GameStorage();
 
-        possibleMovesFinder = new PossibleMovesFinder();
+        //TODO read value from MainView
+        possibleMovesFinder = new PossibleMovesFinder(8);
 
         whiteInputHandler = generateInputHandler(whitePlayer);
         blackInputHandler = generateInputHandler(blackPlayer);

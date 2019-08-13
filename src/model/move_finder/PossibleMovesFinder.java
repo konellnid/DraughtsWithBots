@@ -16,10 +16,10 @@ import java.util.*;
         |08  07  06  05  |
 */
 public class PossibleMovesFinder {
-    private static final int UPPER_RIGHT = 4;
-    private static final int UPPER_LEFT = 5;
-    private static final int LOWER_RIGHT = -5;
-    private static final int LOWER_LEFT = -4;
+    private int upperRight;
+    private int upperLeft;
+    private int lowerRight = -5;
+    private int lowerLeft = -4;
 
     private int currentBeatingLength;
     private BitSet freeTileNumbers;
@@ -31,10 +31,30 @@ public class PossibleMovesFinder {
     private boolean isWhiteMove;
 
 
-    public PossibleMovesFinder() {
+    public PossibleMovesFinder(int boardSideLength) {
         bitwiseOperator = new BitwiseOperator();
+
+        declareProperDirections(boardSideLength);
     }
-    
+
+    private void declareProperDirections(int boardSideLength) {
+        switch (boardSideLength) {
+            case 8:
+                upperRight = 4;
+                upperLeft = 5;
+                break;
+            case 10:
+                upperRight = 5;
+                upperLeft = 6;
+            case 12:
+                upperRight = 6;
+                upperLeft = 7;
+        }
+
+        lowerRight = (-1) * upperLeft;
+        lowerLeft = (-1) * upperRight;
+    }
+
     public List<Move> getAvailableMovesFrom(Position position, boolean isWhiteMove) { //TODO make available for different board sizes
 
         this.isWhiteMove = isWhiteMove;
@@ -64,10 +84,10 @@ public class PossibleMovesFinder {
     }
 
     private void findAStandardBeatingFromCurrentMoveSequence(Move move) {
-        findAStandardBeatingInDirection(move, UPPER_LEFT);
-        findAStandardBeatingInDirection(move, UPPER_RIGHT);
-        findAStandardBeatingInDirection(move, LOWER_RIGHT);
-        findAStandardBeatingInDirection(move, LOWER_LEFT);
+        findAStandardBeatingInDirection(move, upperLeft);
+        findAStandardBeatingInDirection(move, upperRight);
+        findAStandardBeatingInDirection(move, lowerRight);
+        findAStandardBeatingInDirection(move, lowerLeft);
     }
 
     private void findAStandardBeatingInDirection(Move move, int direction) {
@@ -100,10 +120,10 @@ public class PossibleMovesFinder {
     }
 
     private void findAPromotedBeatingFromCurrentMoveSequence(Move move, int comingDirection) {
-        if (comingDirection != LOWER_LEFT) checkForPromotedBeatingInDirection(move, UPPER_RIGHT);
-        if (comingDirection != LOWER_RIGHT) checkForPromotedBeatingInDirection(move, UPPER_LEFT);
-        if (comingDirection != UPPER_RIGHT) checkForPromotedBeatingInDirection(move, LOWER_LEFT);
-        if (comingDirection != UPPER_LEFT) checkForPromotedBeatingInDirection(move, LOWER_RIGHT);
+        if (comingDirection != lowerLeft) checkForPromotedBeatingInDirection(move, upperRight);
+        if (comingDirection != lowerRight) checkForPromotedBeatingInDirection(move, upperLeft);
+        if (comingDirection != upperRight) checkForPromotedBeatingInDirection(move, lowerLeft);
+        if (comingDirection != upperLeft) checkForPromotedBeatingInDirection(move, lowerRight);
     }
 
     private void checkForPromotedBeatingInDirection(Move move, int direction) {
@@ -157,10 +177,10 @@ public class PossibleMovesFinder {
 
 
     private void checkForPromotedMoves() {
-        checkForFlyingMoveInDirection(UPPER_RIGHT);
-        checkForFlyingMoveInDirection(UPPER_LEFT);
-        checkForFlyingMoveInDirection(LOWER_RIGHT);
-        checkForFlyingMoveInDirection(LOWER_LEFT);
+        checkForFlyingMoveInDirection(upperRight);
+        checkForFlyingMoveInDirection(upperLeft);
+        checkForFlyingMoveInDirection(lowerRight);
+        checkForFlyingMoveInDirection(lowerLeft);
     }
 
     private void checkForFlyingMoveInDirection(int direction) {
@@ -182,11 +202,11 @@ public class PossibleMovesFinder {
 
     private void checkForStandardMove() {
         if (isWhiteMove) {
-            checkFrStandardMoveInDirection(UPPER_LEFT);
-            checkFrStandardMoveInDirection(UPPER_RIGHT);
+            checkFrStandardMoveInDirection(upperLeft);
+            checkFrStandardMoveInDirection(upperRight);
         } else {
-            checkFrStandardMoveInDirection(LOWER_LEFT);
-            checkFrStandardMoveInDirection(LOWER_RIGHT);
+            checkFrStandardMoveInDirection(lowerLeft);
+            checkFrStandardMoveInDirection(lowerRight);
         }
 
     }
