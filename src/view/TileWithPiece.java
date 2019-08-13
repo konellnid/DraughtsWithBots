@@ -58,7 +58,7 @@ class TileWithPiece extends Group {
         else promotionCircle.setOpacity(0);
     }
 
-    void removeChecker() {
+    void removePiece() {
         checkerCircle.setOpacity(INVISIBLE);
         promotionCircle.setOpacity(INVISIBLE);
     }

@@ -143,7 +143,7 @@ public class BoardView {
         TileWithPiece endTile = tilesByNumberMap.get(endPosition);
 
         endTile.copyPropertiesFrom(startingTile);
-        startingTile.removeChecker();
+        startingTile.removePiece();
 
     }
 
@@ -155,13 +155,13 @@ public class BoardView {
     public void resetAllTiles() {
         for (TileWithPiece tileWithPiece : tilesByNumberMap.values()) {
             tileWithPiece.removeHighlight();
-            tileWithPiece.removeChecker();
+            tileWithPiece.removePiece();
         }
     }
 
     public void removeChecker(Integer enemyPosition) {
         TileWithPiece tileWithPiece = tilesByNumberMap.get(enemyPosition);
-        tileWithPiece.removeChecker();
+        tileWithPiece.removePiece();
     }
 
     public void highLight(Integer clickedTile) {

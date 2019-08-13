@@ -34,7 +34,6 @@ public class BoardController {
 
 
     public void showPositionOnBoard(Position position) {
-        boardView.resetAllTiles();
         boardView.generateBoardWithProperTilesWithPieces(position.getBoardSideLength());
 
         showOnBoardInColour(position.getWhitePieces(), Color.WHITE);
