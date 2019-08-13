@@ -38,7 +38,7 @@ public class PositionGeneratorTest {
         initializeBitSetsOfSize(45);
         expectedWhitePieces.set(5, 13);
         expectedWhitePieces.set(14, 18);
-        expectedBlackPieces.set(23, 27);
+        expectedBlackPieces.set(27, 31);
         expectedBlackPieces.set(32, 40);
 
         expectedPosition = new Position(expectedWhitePieces, expectedBlackPieces);
