@@ -303,7 +303,28 @@ class PossibleMovesFinderForBoardOfLengthEightTest {
       |10  09  08  07  06  |
      */
 
+    @Test
+    void shouldReturnAllPossibleMovesForStartingPosition() {
+        prepareBitSetsAndPositionFinderForBoardSideLength(BOARD_SIDE_LENGTH_TEN);
 
+        position = positionGenerator.generateEmptyPositionForBoardSide(BOARD_SIDE_LENGTH_TEN);
+
+        expectedMoveList.add(new Move(22, 28));
+        expectedMoveList.add(new Move(23, 28));
+        expectedMoveList.add(new Move(23, 29));
+        expectedMoveList.add(new Move(24, 29));
+        expectedMoveList.add(new Move(24, 30));
+        expectedMoveList.add(new Move(25, 30));
+        expectedMoveList.add(new Move(25, 31));
+        expectedMoveList.add(new Move(26, 31));
+        expectedMoveList.add(new Move(26, 32));
+
+        actualMoveList = possibleMovesFinder.getAvailableMovesFrom(position, IS_WHITE_TURN);
+
+        sortBothLists();
+
+        assertEquals(expectedMoveList, actualMoveList);
+    }
 
     @Test
     void shouldProperlyFindBothBeatingSequences() {
@@ -325,7 +346,6 @@ class PossibleMovesFinderForBoardOfLengthEightTest {
 
         assertEquals(expectedMoveList, actualMoveList);
     }
-
 
 
 }
