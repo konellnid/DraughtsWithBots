@@ -56,11 +56,23 @@ class PositionRaterTest {
     void shouldReturnProperRatingForDefaultSettings() {
         prepareEmptyBitSets(BOARD_SIDE_LENGTH_EIGHT);
         createPositionRaterForBoardSideLength(BOARD_SIDE_LENGTH_EIGHT);
-        expectedPositionRating = actualPositionRating = positionRater.getRatingOfPosition(position);
+
+        whitePieces.set(15);
+        whitePieces.set(33);
+        blackPieces.set(38);
+        blackPieces.set(5);
+        blackPieces.set(16);
+        kings.set(5);
+        kings.set(16);
+
+        int whiteRating = (10 * 2) + (2 + 6);   // 10 points for each checker, additional for rows being closer to promotion row
+        int blackRating = (20 * 2) + (5);       // 20 points for each king, 5 points for controlling main diagonal
+
+        expectedPositionRating = whiteRating - blackRating;
+        actualPositionRating = positionRater.getRatingOfPosition(position);
 
         assertEquals(expectedPositionRating, actualPositionRating);
     }
-
 
     // BOARD SIDE LENGTH = 10 TESTS
     /*
