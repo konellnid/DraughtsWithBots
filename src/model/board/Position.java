@@ -55,7 +55,7 @@ public class Position {
         this.blackPieces = (BitSet) blackPieces.clone();
         this.kings = (BitSet) kings.clone();
     }
-
+/*
     public void performMoveOnPosition(Move move, boolean isWhiteMove) {
         int startingTileNumber = move.getStartingPositionOfThePiece();
         int endTileNumber = move.getLastPositionOfThePiece();
@@ -75,7 +75,7 @@ public class Position {
         if (move.isBeatingSequence()) {
             removeBeatenPiecesFromBoard(move);
         }
-    }
+    }*/
 
     private BitSet getCurrentBitSet(boolean isWhiteMove) {
         if (isWhiteMove) {
@@ -84,7 +84,7 @@ public class Position {
         return blackPieces;
     }
 
-    private boolean isKing(int piecePosition) {
+    boolean isKing(int piecePosition) {
         return kings.get(piecePosition);
     }
 
@@ -113,7 +113,7 @@ public class Position {
             isEnemyPiece = !isEnemyPiece;
         }
     }
-
+/*
     public boolean shouldPieceBePromoted(int piecePosition, boolean isWhite) {
         checkArgument(getCurrentBitSet(isWhite).get(piecePosition), NO_SUCH_PIECE_MESSAGE);
         if (isKing(piecePosition)) {
@@ -136,6 +136,6 @@ public class Position {
 
     public boolean isInPromotionZoneForBlack(int piecePosition) {
         return piecePosition < 9;
-    }
+    }*/
 }
 
