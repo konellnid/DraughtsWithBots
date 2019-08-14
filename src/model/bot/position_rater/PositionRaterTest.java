@@ -195,6 +195,19 @@ class PositionRaterTest {
      */
 
     @Test
+    void shouldRatePositionAsBlackVictory() {
+        createPositionRaterForBoardSideLength(BOARD_SIDE_LENGTH_TWELVE);
+        position = positionGenerator.generateStartingPositionForBoardOfSideLength(BOARD_SIDE_LENGTH_TWELVE);
+
+        blackPieces.set(83);
+        blackPieces.set(43);
+        blackPieces.set(18);
+        kings.set(18);
+
+        expectedPositionRating = PositionRater.BLACK_WON;
+    }
+
+    @Test
     void shouldReturnZeroForStartingPositionOfBoardSizeTwelve() {
         createPositionRaterForBoardSideLength(BOARD_SIDE_LENGTH_TWELVE);
         position = positionGenerator.generateStartingPositionForBoardOfSideLength(BOARD_SIDE_LENGTH_TWELVE);
