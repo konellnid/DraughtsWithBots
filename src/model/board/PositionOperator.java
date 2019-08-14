@@ -11,7 +11,6 @@ public class PositionOperator {
     private boolean pieceWasPromotedDuringLastMove;
 
     private static final String NO_SUCH_PIECE_MESSAGE = "There is no such piece!";
-    private static final String ILLEGAL_MOVE_MESSAGE = "It is not possible to make such a move!";
 
     public PositionOperator(int boardSideLength) {
         this.boardSideLength = boardSideLength;
@@ -36,10 +35,55 @@ public class PositionOperator {
     }
 
     public void performMoveOnPosition(Position position, Move move, boolean isWhiteMove) {
+        pieceWasPromotedDuringLastMove = false;
 
+        int startingTileNumber = move.getStartingPositionOfThePiece();
+        int endTileNumber = move.getLastPositionOfThePiece();
+        BitSet currentBitSet = getProperBitSetFromPosition(position, isWhiteMove);
+
+        checkArgument(currentBitSet.get(startingTileNumber), NO_SUCH_PIECE_MESSAGE);
+
+        if (move.isBeatingSequence()) {
+            removeBeatenPiecesFromPosition(position, move);
+        }
+
+        if (position.isKing(startingTileNumber)) {
+            position.removePieceFromBoard(startingTileNumber);
+            currentBitSet.set(endTileNumber);
+            position.setAsKing(endTileNumber);
+        } else {
+            position.removePieceFromBoard(startingTileNumber);
+            currentBitSet.set(endTileNumber);
+
+            if (shouldPieceBePromoted(endTileNumber, isWhiteMove)) {
+                position.setAsKing(endTileNumber);
+                pieceWasPromotedDuringLastMove = true;
+            }
+        }
     }
 
-    private void checkerReachedPromotionZone(Position position, int checkerTileNumber) {
+    private boolean shouldPieceBePromoted(int endTileNumber, boolean isWhiteMove) {
+        if (isWhiteMove) return isTileNumberPartOfPromotionZoneTileNumbers(whitePromotionZone, endTileNumber);
+        else return isTileNumberPartOfPromotionZoneTileNumbers(blackPromotionZone, endTileNumber);
+    }
 
+    private boolean isTileNumberPartOfPromotionZoneTileNumbers(int[] promotionZoneTileNumbers, int endTileNumber) {
+        for (int promotionTileNumber : promotionZoneTileNumbers) {
+            if (promotionTileNumber == endTileNumber) return true;
+        }
+
+        return false;
+    }
+
+    private void removeBeatenPiecesFromPosition(Position position, Move move) {
+        for (int beatenPieceTileNumberInMovePlace = 1; beatenPieceTileNumberInMovePlace < move.size(); beatenPieceTileNumberInMovePlace += 2) {
+            int beatenPieceTileNumber = move.get(beatenPieceTileNumberInMovePlace);
+            position.removePieceFromBoard(beatenPieceTileNumber);
+        }
+    }
+
+    private BitSet getProperBitSetFromPosition(Position position, boolean isWhiteMove) {
+        if (isWhiteMove) return position.getWhitePieces();
+        else return position.getBlackPieces();
     }
 }
