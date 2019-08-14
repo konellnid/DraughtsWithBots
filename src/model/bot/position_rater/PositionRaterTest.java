@@ -193,6 +193,23 @@ class PositionRaterTest {
       |  18  17  16  15  14  13|
       |12  11  10  09  08  07  |
      */
+    @Test
+    void shouldSeeControllingMainDiagonalWithMultipleKings() {
+        createPositionRaterForBoardSideLength(BOARD_SIDE_LENGTH_TWELVE);
+        position = positionGenerator.generateStartingPositionForBoardOfSideLength(BOARD_SIDE_LENGTH_TWELVE);
+        positionRaterSettings.setBonusForBeingCloserToPromotionLineActive(NOT_ACTiVE);
+
+        whitePieces.set(51);
+        blackPieces.set(78);
+        blackPieces.set(60);
+        blackPieces.set(36);
+        kings.set(78);
+        kings.set(60);
+        kings.set(36);
+
+        int whiteScore = 10; // 10 for checker
+        int blackScore = (25 * 3) + 5; // 25 for each king, 5 for controlling main diagonal
+    }
 
     @Test
     void shouldRatePositionAsBlackVictory() {
