@@ -138,6 +138,19 @@ class PositionRaterTest {
       |10  09  08  07  06  |
      */
     @Test
+    void shouldRatePositionAsWhiteVictory() {
+        createPositionRaterForBoardSideLength(BOARD_SIDE_LENGTH_TEN);
+        position = positionGenerator.generateStartingPositionForBoardOfSideLength(BOARD_SIDE_LENGTH_TEN);
+
+        whitePieces.set(12);
+        whitePieces.set(44);
+        whitePieces.set(52);
+        kings.set(52);
+
+        expectedPositionRating = PositionRater.WHITE_WON;
+    }
+
+    @Test
     void shouldWorkProperlyWithSettingsOtherThanDefault() {
         createPositionRaterForBoardSideLength(BOARD_SIDE_LENGTH_TEN);
         position = positionGenerator.generateStartingPositionForBoardOfSideLength(BOARD_SIDE_LENGTH_TEN);
