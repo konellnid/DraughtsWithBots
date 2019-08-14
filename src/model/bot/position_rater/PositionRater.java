@@ -9,7 +9,8 @@ public class PositionRater {
     private PositionRaterSettings positionRaterSettings;
     private int boardSideLength;
 
-    public PositionRater(int boardSideLength) {
+    public PositionRater(PositionRaterSettings positionRaterSettings, int boardSideLength) {
+        this.positionRaterSettings = positionRaterSettings;
         this.boardSideLength = boardSideLength;
     }
 

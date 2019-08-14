@@ -1,16 +1,19 @@
 package model.bot.position_rater;
 
+import model.board.PositionGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class PositionRaterTest {
+    PositionGenerator positionGenerator;
     private PositionRaterSettings positionRaterSettings;
     private PositionRater positionRater;
 
     @BeforeEach
     void setUp() {
+        positionGenerator = new PositionGenerator();
         positionRaterSettings = new PositionRaterSettings();
     }
 
@@ -28,6 +31,7 @@ class PositionRaterTest {
      */
     @Test
     void shouldReturnProperRatingForDefaultSettings() {
+
     }
 
     // BOARD SIDE LENGTH = 10 TESTS
