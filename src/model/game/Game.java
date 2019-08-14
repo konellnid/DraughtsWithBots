@@ -24,6 +24,7 @@ public class Game {
     private BoardController boardController;
     private InputHandler whiteInputHandler;
     private InputHandler blackInputHandler;
+    private List<Move> currentlyPossibleMoves;
 
     private GameStorage gameStorage;
 
@@ -48,16 +49,16 @@ public class Game {
     }
 
     private void nextTurn() {
-        List<Move> possibleMoves = possibleMovesFinder.getAvailableMovesFrom(gameStorage.getPosition(), gameStorage.isWhiteTurn());
-        System.out.println("next turn possible moves size: " + possibleMoves.size());
-        if (possibleMoves.size() == 0) {
+        currentlyPossibleMoves = possibleMovesFinder.getAvailableMovesFrom(gameStorage.getPosition(), gameStorage.isWhiteTurn());
+        System.out.println("next turn possible moves size: " + currentlyPossibleMoves.size());
+        if (currentlyPossibleMoves.size() == 0) {
             boolean isWhiteMove = gameStorage.isWhiteTurn();
             if (isWhiteMove) endGame(BLACK_WON);
             else endGame(WHITE_WON);
         } else if (tooManyMovesWereMadeWithoutBeatingOrCheckerMove()) {
             endGame(DRAW);
         } else {
-            noticeProperInputHandler(possibleMoves);
+            noticeProperInputHandler(currentlyPossibleMoves);
         }
     }
 
@@ -99,6 +100,7 @@ public class Game {
 
 
     public void makeMove(Move move) {
+        if (!currentlyPossibleMoves.contains(move)) throw new IllegalArgumentException();
         gameStorage.updateGameStorageWithMove(move);
         mainViewController.updateMovesTillDraw(gameStorage.getMovesTillDraw());
         System.out.println(gameStorage.getPosition().getWhitePieces().get(move.getLastPositionOfThePiece()));

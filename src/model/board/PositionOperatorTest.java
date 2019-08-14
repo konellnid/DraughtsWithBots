@@ -89,22 +89,6 @@ public class PositionOperatorTest {
     }
 
     @Test
-    void shouldThrowExceptionOnMovingNonExistingPiece() {
-        whitePieces.set(30);
-        Move invalidMove = new Move(21, 26);
-        testPosition.generatePosition(whitePieces, blackPieces, kings);
-        assertThrows(IllegalArgumentException.class, () -> positionOperator.performMoveOnPosition(testPosition, invalidMove, IS_WHITE_TURN));
-    }
-
-    @Test
-    void shouldThrowExceptionForIllegalMove() {
-        whitePieces.set(30);
-        Move invalidMove = new Move(30, 20);
-        testPosition.generatePosition(whitePieces, blackPieces, kings);
-        assertThrows(IllegalArgumentException.class, () -> positionOperator.performMoveOnPosition(testPosition, invalidMove, IS_WHITE_TURN));
-    }
-
-    @Test
     void shouldNotPieceBePromotedAfterTheMove() {
         blackPieces.set(20);
         testPosition.generatePosition(whitePieces, blackPieces, kings);

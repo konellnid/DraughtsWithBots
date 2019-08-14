@@ -2,15 +2,11 @@ package model.board;
 
 import java.util.BitSet;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
 public class PositionOperator {
     private int boardSideLength;
     private int[] whitePromotionZone;
     private int[] blackPromotionZone;
     private boolean pieceWasPromotedDuringLastMove;
-
-    private static final String NO_SUCH_PIECE_MESSAGE = "There is no such piece!";
 
     public PositionOperator(int boardSideLength) {
         this.boardSideLength = boardSideLength;
@@ -40,8 +36,6 @@ public class PositionOperator {
         int startingTileNumber = move.getStartingPositionOfThePiece();
         int endTileNumber = move.getLastPositionOfThePiece();
         BitSet currentBitSet = getProperBitSetFromPosition(position, isWhiteMove);
-
-        checkArgument(currentBitSet.get(startingTileNumber), NO_SUCH_PIECE_MESSAGE);
 
         if (move.isBeatingSequence()) {
             removeBeatenPiecesFromPosition(position, move);
