@@ -1,15 +1,28 @@
 package model.bot.position_rater;
 
+import model.board.Position;
 import model.board.PositionGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.BitSet;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class PositionRaterTest {
-    PositionGenerator positionGenerator;
+    private static final int BOARD_SIDE_LENGTH_EIGHT = 8;
+    private static final int BOARD_SIDE_LENGTH_TEN = 10;
+    private static final int BOARD_SIDE_LENGTH_TWELVE = 12;
+
+    private PositionGenerator positionGenerator;
     private PositionRaterSettings positionRaterSettings;
     private PositionRater positionRater;
+    private Position position;
+    private int expectedPositionRating;
+    private int actualPositionRating;
+    private BitSet whitePieces;
+    private BitSet blackPieces;
+    private BitSet kings;
 
     @BeforeEach
     void setUp() {
@@ -17,6 +30,12 @@ class PositionRaterTest {
         positionRaterSettings = new PositionRaterSettings();
     }
 
+    private void prepareEmptyBitSets(int boardSideLengthEight) {
+        position = positionGenerator.generateEmptyPositionForBoardSide(boardSideLengthEight);
+        whitePieces = position.getWhitePieces();
+        blackPieces = position.getBlackPieces();
+        kings = position.getKings();
+    }
 
     // BOARD SIDE LENGTH = 8 TESTS
     /*
@@ -31,8 +50,16 @@ class PositionRaterTest {
      */
     @Test
     void shouldReturnProperRatingForDefaultSettings() {
+        prepareEmptyBitSets(BOARD_SIDE_LENGTH_EIGHT);
+        position = positionGenerator.generateStartingPositionForBoardOfSideLength(BOARD_SIDE_LENGTH_EIGHT);
+        positionRater = new PositionRater(positionRaterSettings, BOARD_SIDE_LENGTH_EIGHT);
 
+        expectedPositionRating =
+        actualPositionRating = positionRater.getRatingOfPosition(position);
+
+        assertEquals(expectedPositionRating, actualPositionRating);
     }
+
 
     // BOARD SIDE LENGTH = 10 TESTS
     /*
