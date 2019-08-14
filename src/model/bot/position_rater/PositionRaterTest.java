@@ -124,7 +124,6 @@ class PositionRaterTest {
     }
 
 
-
     // BOARD SIDE LENGTH = 10 TESTS
     /*
       |  59  58  57  56  55|
@@ -138,6 +137,26 @@ class PositionRaterTest {
       |  15  14  13  12  11|
       |10  09  08  07  06  |
      */
+    @Test
+    void shouldWorkProperlyWithSettingsOtherThanDefault() {
+        createPositionRaterForBoardSideLength(BOARD_SIDE_LENGTH_TEN);
+        position = positionGenerator.generateStartingPositionForBoardOfSideLength(BOARD_SIDE_LENGTH_TEN);
+
+        positionRaterSettings.setPointsPerChecker(7);
+        positionRaterSettings.setPointsPerKing(28);
+
+        whitePieces.set(41);
+        whitePieces.set(31);
+        blackPieces.set(13);
+        blackPieces.set(55);
+        kings.set(55);
+
+        int whiteScore = (10 * 2) + (4 + 6); // 10 for each checker, 4 and 6 for being close to promotion row
+        int blackScore = (10 + 20) + 8 + 5; // 10 for checker, 20 for kin, 8 for being closer to promotion row, 5 for controlling main row
+
+        expectedPositionRating = whiteScore - blackScore;
+    }
+
     @Test
     void shouldReturnZeroForStartingPositionOfBoardSizeTen() {
         createPositionRaterForBoardSideLength(BOARD_SIDE_LENGTH_TEN);
