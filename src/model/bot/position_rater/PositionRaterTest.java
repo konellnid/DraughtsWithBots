@@ -37,6 +37,10 @@ class PositionRaterTest {
         kings = position.getKings();
     }
 
+    private void createPositionRaterForBoardSideLength(int boardSideLength) {
+        positionRater = new PositionRater(positionRaterSettings, boardSideLength);
+    }
+
     // BOARD SIDE LENGTH = 8 TESTS
     /*
       |  39  38  37  36|
@@ -51,11 +55,8 @@ class PositionRaterTest {
     @Test
     void shouldReturnProperRatingForDefaultSettings() {
         prepareEmptyBitSets(BOARD_SIDE_LENGTH_EIGHT);
-        position = positionGenerator.generateStartingPositionForBoardOfSideLength(BOARD_SIDE_LENGTH_EIGHT);
-        positionRater = new PositionRater(positionRaterSettings, BOARD_SIDE_LENGTH_EIGHT);
-
-        expectedPositionRating =
-        actualPositionRating = positionRater.getRatingOfPosition(position);
+        createPositionRaterForBoardSideLength(BOARD_SIDE_LENGTH_EIGHT);
+        expectedPositionRating = actualPositionRating = positionRater.getRatingOfPosition(position);
 
         assertEquals(expectedPositionRating, actualPositionRating);
     }
