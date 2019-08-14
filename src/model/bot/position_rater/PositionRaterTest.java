@@ -50,14 +50,6 @@ class PositionRaterTest {
         positionRater = new PositionRater(positionRaterSettings, boardSideLength);
     }
 
-    @Test
-    void shouldReturnZeroForStartingPositions() {
-        createPositionRaterForBoardSideLength(BOARD_SIDE_LENGTH_EIGHT);
-        position = positionGenerator.generateStartingPositionForBoardOfSideLength(BOARD_SIDE_LENGTH_EIGHT);
-
-        expectedPositionRating = 0;
-    }
-
     // BOARD SIDE LENGTH = 8 TESTS
     /*
       |  39  38  37  36|
@@ -69,6 +61,14 @@ class PositionRaterTest {
       |  12  11  10  09|
       |08  07  06  05  |
      */
+
+    @Test
+    void shouldReturnZeroForStartingPositionOfBoardSizeEight() {
+        createPositionRaterForBoardSideLength(BOARD_SIDE_LENGTH_EIGHT);
+        position = positionGenerator.generateStartingPositionForBoardOfSideLength(BOARD_SIDE_LENGTH_EIGHT);
+
+        expectedPositionRating = 0;
+    }
 
     @Test
     void shouldReturnProperRatingForDefaultSettings() {
