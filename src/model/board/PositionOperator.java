@@ -1,14 +1,20 @@
 package model.board;
 
+import java.util.BitSet;
+
+import static com.google.common.base.Preconditions.checkArgument;
+
 public class PositionOperator {
     private int boardSideLength;
     private int[] whitePromotionZone;
     private int[] blackPromotionZone;
     private boolean pieceWasPromotedDuringLastMove;
 
+    private static final String NO_SUCH_PIECE_MESSAGE = "There is no such piece!";
+    private static final String ILLEGAL_MOVE_MESSAGE = "It is not possible to make such a move!";
+
     public PositionOperator(int boardSideLength) {
         this.boardSideLength = boardSideLength;
-
         setUpPromotionZones();
     }
 
@@ -29,7 +35,7 @@ public class PositionOperator {
         }
     }
 
-    public void performMoveOnPosition(Position position, Move move) {
+    public void performMoveOnPosition(Position position, Move move, boolean isWhiteMove) {
 
     }
 

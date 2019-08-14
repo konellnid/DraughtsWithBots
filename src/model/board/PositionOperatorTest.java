@@ -8,6 +8,9 @@ import java.util.BitSet;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PositionOperatorTest {
+    private static final boolean IS_WHITE_TURN = true;
+    private static final boolean IS_BLACK_TURN = false;
+
     private PositionOperator positionOperator;
     private Position testPosition;
     private BitSet whitePieces;
@@ -28,7 +31,7 @@ public class PositionOperatorTest {
     void shouldMakeASimpleMoveOnAPosition() {
         whitePieces.set(10);
         testPosition.generatePosition(whitePieces, blackPieces, kings);
-        positionOperator.performMoveOnPosition(testPosition, new Move(10, 15));
+        positionOperator.performMoveOnPosition(testPosition, new Move(10, 15), IS_WHITE_TURN);
 
         assertTrue(testPosition.getWhitePieces().get(15));
         assertFalse(testPosition.getWhitePieces().get(10));
@@ -40,7 +43,7 @@ public class PositionOperatorTest {
         blackPieces.set(25);
         Move beatingMove = new Move(20, 25, 30);
         testPosition.generatePosition(whitePieces, blackPieces, kings);
-        positionOperator.performMoveOnPosition(testPosition, beatingMove);
+        positionOperator.performMoveOnPosition(testPosition, beatingMove, IS_WHITE_TURN);
         assertTrue(testPosition.getWhitePieces().get(30));
         assertFalse(testPosition.getBlackPieces().get(25));
     }
@@ -54,7 +57,7 @@ public class PositionOperatorTest {
         blackPieces.set(19);
         Move beatingMove = new Move(16, 21, 26, 30, 34, 29, 24, 19, 14);
         testPosition.generatePosition(whitePieces, blackPieces, kings);
-        positionOperator.performMoveOnPosition(testPosition, beatingMove);
+        positionOperator.performMoveOnPosition(testPosition, beatingMove, IS_WHITE_TURN);
         assertTrue(testPosition.getWhitePieces().get(14));
         assertFalse(testPosition.getBlackPieces().get(21));
         assertFalse(testPosition.getBlackPieces().get(30));
@@ -68,7 +71,7 @@ public class PositionOperatorTest {
         kings.set(17);
         Move kingMove = new Move(17, 33);
         testPosition.generatePosition(whitePieces, blackPieces, kings);
-        positionOperator.performMoveOnPosition(testPosition, kingMove);
+        positionOperator.performMoveOnPosition(testPosition, kingMove, IS_WHITE_TURN);
         assertTrue(testPosition.getWhitePieces().get(33));
         assertTrue(testPosition.getKings().get(33));
         assertFalse(testPosition.getBlackPieces().get(17));
@@ -80,7 +83,7 @@ public class PositionOperatorTest {
         whitePieces.set(35);
         Move promotionMove = new Move(35, 39);
         testPosition.generatePosition(whitePieces, blackPieces, kings);
-        positionOperator.performMoveOnPosition(testPosition, promotionMove);
+        positionOperator.performMoveOnPosition(testPosition, promotionMove, IS_WHITE_TURN);
         assertTrue(testPosition.getWhitePieces().get(39));
         assertTrue(testPosition.getKings().get(39));
     }
@@ -90,7 +93,7 @@ public class PositionOperatorTest {
         whitePieces.set(30);
         Move invalidMove = new Move(21, 26);
         testPosition.generatePosition(whitePieces, blackPieces, kings);
-        assertThrows(IllegalArgumentException.class, () -> positionOperator.performMoveOnPosition(testPosition, invalidMove));
+        assertThrows(IllegalArgumentException.class, () -> positionOperator.performMoveOnPosition(testPosition, invalidMove, IS_WHITE_TURN));
     }
 
     @Test
@@ -98,7 +101,7 @@ public class PositionOperatorTest {
         whitePieces.set(30);
         Move invalidMove = new Move(30, 20);
         testPosition.generatePosition(whitePieces, blackPieces, kings);
-        assertThrows(IllegalArgumentException.class, () -> positionOperator.performMoveOnPosition(testPosition, invalidMove));
+        assertThrows(IllegalArgumentException.class, () -> positionOperator.performMoveOnPosition(testPosition, invalidMove, IS_WHITE_TURN));
     }
 
     @Test
@@ -106,7 +109,7 @@ public class PositionOperatorTest {
         blackPieces.set(20);
         testPosition.generatePosition(whitePieces, blackPieces, kings);
         Move notPromotingMove = new Move(20, 24);
-        positionOperator.performMoveOnPosition(testPosition, notPromotingMove);
+        positionOperator.performMoveOnPosition(testPosition, notPromotingMove, IS_WHITE_TURN);
         assertFalse(testPosition.isKing(20));
     }
 
@@ -116,7 +119,7 @@ public class PositionOperatorTest {
         kings.set(39);
         testPosition.generatePosition(whitePieces, blackPieces, kings);
         Move kingMove = new Move(39, 24);
-        positionOperator.performMoveOnPosition(testPosition, kingMove);
+        positionOperator.performMoveOnPosition(testPosition, kingMove, IS_WHITE_TURN);
 
         assertFalse(testPosition.isKing(39));
         assertTrue(testPosition.isKing(24));
