@@ -10,12 +10,11 @@ import java.util.BitSet;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
+// every test compares the scoring from PositionRater with expected score - that's why it's moved to @AfterEach method (may be changed in the future)
 class PositionRaterTest {
     private static final int BOARD_SIDE_LENGTH_EIGHT = 8;
     private static final int BOARD_SIDE_LENGTH_TEN = 10;
     private static final int BOARD_SIDE_LENGTH_TWELVE = 12;
-    private static final boolean ACTIVE = true;
     private static final boolean NOT_ACTiVE = false;
 
     private PositionGenerator positionGenerator;
