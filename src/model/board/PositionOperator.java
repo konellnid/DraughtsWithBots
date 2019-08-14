@@ -56,6 +56,18 @@ public class PositionOperator {
         }
     }
 
+    private BitSet getProperBitSetFromPosition(Position position, boolean isWhiteMove) {
+        if (isWhiteMove) return position.getWhitePieces();
+        else return position.getBlackPieces();
+    }
+
+    private void removeBeatenPiecesFromPosition(Position position, Move move) {
+        for (int beatenPieceTileNumberInMovePlace = 1; beatenPieceTileNumberInMovePlace < move.size(); beatenPieceTileNumberInMovePlace += 2) {
+            int beatenPieceTileNumber = move.get(beatenPieceTileNumberInMovePlace);
+            position.removePieceFromBoard(beatenPieceTileNumber);
+        }
+    }
+
     private boolean shouldPieceBePromoted(int endTileNumber, boolean isWhiteMove) {
         if (isWhiteMove) return isTileNumberPartOfPromotionZoneTileNumbers(whitePromotionZone, endTileNumber);
         else return isTileNumberPartOfPromotionZoneTileNumbers(blackPromotionZone, endTileNumber);
@@ -67,18 +79,6 @@ public class PositionOperator {
         }
 
         return false;
-    }
-
-    private void removeBeatenPiecesFromPosition(Position position, Move move) {
-        for (int beatenPieceTileNumberInMovePlace = 1; beatenPieceTileNumberInMovePlace < move.size(); beatenPieceTileNumberInMovePlace += 2) {
-            int beatenPieceTileNumber = move.get(beatenPieceTileNumberInMovePlace);
-            position.removePieceFromBoard(beatenPieceTileNumber);
-        }
-    }
-
-    private BitSet getProperBitSetFromPosition(Position position, boolean isWhiteMove) {
-        if (isWhiteMove) return position.getWhitePieces();
-        else return position.getBlackPieces();
     }
 
     public boolean pieceWasPromotedDuringLastMove() {

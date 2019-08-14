@@ -7,18 +7,6 @@ public class Position {
     private BitSet blackPieces;
     private BitSet kings;
 
-    public BitSet getWhitePieces() {
-        return whitePieces;
-    }
-
-    public BitSet getBlackPieces() {
-        return blackPieces;
-    }
-
-    public BitSet getKings() {
-        return kings;
-    }
-
     public Position(BitSet whitePieces, BitSet blackPieces) {
         this.whitePieces = whitePieces;
         this.blackPieces = blackPieces;
@@ -31,10 +19,16 @@ public class Position {
         kings = (BitSet) position.getKings().clone();
     }
 
-    void generatePosition(BitSet whitePieces, BitSet blackPieces, BitSet kings) {
-        this.whitePieces = (BitSet) whitePieces.clone();
-        this.blackPieces = (BitSet) blackPieces.clone();
-        this.kings = (BitSet) kings.clone();
+    public BitSet getWhitePieces() {
+        return whitePieces;
+    }
+
+    public BitSet getBlackPieces() {
+        return blackPieces;
+    }
+
+    public BitSet getKings() {
+        return kings;
     }
 
     void removePieceFromBoard(int bitIndex) {

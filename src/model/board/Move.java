@@ -25,10 +25,6 @@ public class Move {
         return moveSequence.size() > 2;
     }
 
-    public List<Integer> getMoveSequence() {
-        return moveSequence;
-    }
-
     public Move getCopy() {
         Move copy = new Move();
         copy.moveSequence = new ArrayList<>(moveSequence);
@@ -39,6 +35,27 @@ public class Move {
         if (placeInMoveSequence >= 0 && placeInMoveSequence < moveSequence.size())
             return moveSequence.get(placeInMoveSequence);
         else return -1;
+    }
+
+    public int getStartingPositionOfThePiece() {
+        if (moveSequence.size() > 0) {
+            return moveSequence.get(0);
+        } else {
+            return -1;
+        }
+    }
+
+    public int getLastPositionOfThePiece() {
+        if (moveSequence.size() > 0) {
+            int lastElementIndex = moveSequence.size() - 1;
+            return moveSequence.get(lastElementIndex);
+        } else {
+            return -1;
+        }
+    }
+
+    public int size() {
+        return moveSequence.size();
     }
 
     @Override
@@ -63,25 +80,7 @@ public class Move {
         return stringBuilder.toString();
     }
 
-    public int getLastPositionOfThePiece() {
-        if (moveSequence.size() > 0) {
-            int lastElementIndex = moveSequence.size() - 1;
-            return moveSequence.get(lastElementIndex);
-        } else {
-            return -1;
-        }
+    public List<Integer> getMoveSequence() {
+        return moveSequence;
     }
-
-    public int getStartingPositionOfThePiece() {
-        if (moveSequence.size() > 0) {
-            return moveSequence.get(0);
-        } else {
-            return -1;
-        }
-    }
-
-    public int size() {
-        return moveSequence.size();
-    }
-
 }

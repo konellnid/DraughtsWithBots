@@ -21,6 +21,12 @@ public class PositionGenerator {
         return new Position(whitePieces, blackPieces);
     }
 
+    public Position generateEmptyPositionForBoardSide(int boardSideLength) {
+        if (!isProperBoardSideLength(boardSideLength)) return null;
+        initializeProperBitSetsForBoardSide(boardSideLength);
+        return new Position(whitePieces, blackPieces);
+    }
+
     private boolean isProperBoardSideLength(int boardSideLength) {
         if (boardSideLength == 8) return true;
         if (boardSideLength == 10) return true;
@@ -28,7 +34,7 @@ public class PositionGenerator {
 
         return false;
     }
-
+    
     private void initializeProperBitSetsForBoardSide(int boardSideLength) {
         switch (boardSideLength) {
             case 8:
@@ -44,11 +50,6 @@ public class PositionGenerator {
                 whitePieces = new BitSet();
                 blackPieces = new BitSet();
         }
-    }
-
-    public Position generateEmptyPositionForBoardSide(int boardSideLength) {
-        initializeProperBitSetsForBoardSide(boardSideLength);
-        return new Position(whitePieces, blackPieces);
     }
 
     private void initializeBitSetsWithSize(int bitSetSize) {
@@ -74,8 +75,8 @@ public class PositionGenerator {
     }
 
     private void addBlackCheckers(int boardSideLength) {
-        int weirdNumber = (boardSideLength / 2) - 1;
-        int currentTileNumber = boardSideLength * weirdNumber + weirdNumber;
+        int auxiliaryNumber = (boardSideLength / 2) - 1;
+        int currentTileNumber = boardSideLength * auxiliaryNumber + auxiliaryNumber;
 
         for (int firstRowCounter = 0; firstRowCounter < boardSideLength / 2; firstRowCounter++) {
             blackPieces.set(currentTileNumber);
@@ -89,42 +90,4 @@ public class PositionGenerator {
             currentTileNumber++;
         }
     }
-
-    /*  Board of sideLength = 8: total BitSet size = 45
-      |  39  38  37  36|
-      |35  34  33  32  |
-      |  30  29  28  27|
-      |26  25  24  23  |
-      |  21  20  19  18|
-      |17  16  15  14  |
-      |  12  11  10  09|
-      |08  07  06  05  |
-
-    Board of sideLength = 10: total BitSet size = 66
-      |  59  58  57  56  55|
-      |54  53  52  51  50  |
-      |  48  47  46  45  44|
-      |43  42  41  40  39  |
-      |  37  36  35  34  33|
-      |32  31  30  29  28  |
-      |  26  25  24  23  22|
-      |21  20  19  18  17  |
-      |  15  14  13  12  11|
-      |10  09  08  07  06  |
-
-Board of sideLength = 12: total BitSet size = 91
-      |  83  82  81  80  79  78|
-      |77  76  75  74  73  72  |
-      |  70  69  68  67  66  65|
-      |64  63  62  61  60  59  |
-      |  57  56  55  54  53  52|
-      |51  50  49  48  47  46  |
-      |  44  43  42  41  40  39|
-      |38  37  36  35  34  33  |
-      |  31  30  29  28  27  26|
-      |25  24  23  22  21  20  |
-      |  18  17  16  15  14  13|
-      |12  11  10  09  08  07  |
-
-*/
 }
