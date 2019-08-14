@@ -15,6 +15,8 @@ class PositionRaterTest {
     private static final int BOARD_SIDE_LENGTH_EIGHT = 8;
     private static final int BOARD_SIDE_LENGTH_TEN = 10;
     private static final int BOARD_SIDE_LENGTH_TWELVE = 12;
+    private static final boolean ACTIVE = true;
+    private static final boolean NOT_ACTiVE = false;
 
     private PositionGenerator positionGenerator;
     private PositionRaterSettings positionRaterSettings;
@@ -61,6 +63,23 @@ class PositionRaterTest {
       |  12  11  10  09|
       |08  07  06  05  |
      */
+
+    @Test
+    void shouldGivePointsForMaintainingMainDiagonal() {
+        createPositionRaterForBoardSideLength(BOARD_SIDE_LENGTH_EIGHT);
+        prepareEmptyBitSets(BOARD_SIDE_LENGTH_EIGHT);
+        positionRaterSettings.setBonusForBeingCloserToPromotionLineActive(NOT_ACTiVE);
+
+        whitePieces.set(5);
+        blackPieces.set(12);
+        blackPieces.set(24);
+        kings.set(12);
+
+        int whiteScore = 10; // 10 for checker
+        int blackScore = (10 + 20) + 5; // 10 for checker, 20 for kings, 5 for controlling main diagonal
+
+        expectedPositionRating = whiteScore - blackScore;
+    }
 
     @Test
     void shouldReturnZeroForStartingPositionOfBoardSizeEight() {
