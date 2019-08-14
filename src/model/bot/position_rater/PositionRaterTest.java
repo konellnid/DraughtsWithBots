@@ -2,12 +2,14 @@ package model.bot.position_rater;
 
 import model.board.Position;
 import model.board.PositionGenerator;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.BitSet;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 
 class PositionRaterTest {
     private static final int BOARD_SIDE_LENGTH_EIGHT = 8;
@@ -30,6 +32,13 @@ class PositionRaterTest {
         positionRaterSettings = new PositionRaterSettings();
     }
 
+    @AfterEach
+    void getActualRatingAndCompareWithExpected() {
+        actualPositionRating = positionRater.getRatingOfPosition(position);
+
+        assertEquals(expectedPositionRating, actualPositionRating);
+    }
+
     private void prepareEmptyBitSets(int boardSideLengthEight) {
         position = positionGenerator.generateEmptyPositionForBoardSide(boardSideLengthEight);
         whitePieces = position.getWhitePieces();
@@ -39,6 +48,14 @@ class PositionRaterTest {
 
     private void createPositionRaterForBoardSideLength(int boardSideLength) {
         positionRater = new PositionRater(positionRaterSettings, boardSideLength);
+    }
+
+    @Test
+    void shouldReturnZeroForStartingPositions() {
+        createPositionRaterForBoardSideLength(BOARD_SIDE_LENGTH_EIGHT);
+        position = positionGenerator.generateStartingPositionForBoardOfSideLength(BOARD_SIDE_LENGTH_EIGHT);
+
+        expectedPositionRating = 0;
     }
 
     // BOARD SIDE LENGTH = 8 TESTS
@@ -52,10 +69,11 @@ class PositionRaterTest {
       |  12  11  10  09|
       |08  07  06  05  |
      */
+
     @Test
     void shouldReturnProperRatingForDefaultSettings() {
-        prepareEmptyBitSets(BOARD_SIDE_LENGTH_EIGHT);
         createPositionRaterForBoardSideLength(BOARD_SIDE_LENGTH_EIGHT);
+        prepareEmptyBitSets(BOARD_SIDE_LENGTH_EIGHT);
 
         whitePieces.set(15);
         whitePieces.set(33);
@@ -69,10 +87,9 @@ class PositionRaterTest {
         int blackRating = (20 * 2) + (5);       // 20 points for each king, 5 points for controlling main diagonal
 
         expectedPositionRating = whiteRating - blackRating;
-        actualPositionRating = positionRater.getRatingOfPosition(position);
-
-        assertEquals(expectedPositionRating, actualPositionRating);
     }
+
+
 
     // BOARD SIDE LENGTH = 10 TESTS
     /*
@@ -87,6 +104,13 @@ class PositionRaterTest {
       |  15  14  13  12  11|
       |10  09  08  07  06  |
      */
+    @Test
+    void shouldReturnZeroForStartingPositionOfBoardSizeTen() {
+        createPositionRaterForBoardSideLength(BOARD_SIDE_LENGTH_TEN);
+        position = positionGenerator.generateStartingPositionForBoardOfSideLength(BOARD_SIDE_LENGTH_TEN);
+
+        expectedPositionRating = 0;
+    }
 
     // BOARD SIDE LENGTH = 12 TESTS
     /*
@@ -103,5 +127,13 @@ class PositionRaterTest {
       |  18  17  16  15  14  13|
       |12  11  10  09  08  07  |
      */
+
+    @Test
+    void shouldReturnZeroForStartingPositionOfBoardSizeTwelve() {
+        createPositionRaterForBoardSideLength(BOARD_SIDE_LENGTH_TWELVE);
+        position = positionGenerator.generateStartingPositionForBoardOfSideLength(BOARD_SIDE_LENGTH_TWELVE);
+
+        expectedPositionRating = 0;
+    }
 
 }
