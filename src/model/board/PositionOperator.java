@@ -13,13 +13,25 @@ public class PositionOperator {
     }
 
     private void setUpPromotionZones() {
-
+        switch (boardSideLength) {
+            case 8:
+                whitePromotionZone = new int[]{36, 37, 38, 39};
+                blackPromotionZone = new int[]{5, 6, 7, 8};
+                break;
+            case 10:
+                whitePromotionZone = new int[]{55, 56, 57, 58, 59};
+                blackPromotionZone = new int[]{6, 7, 8, 9, 10};
+                break;
+            case 12:
+                whitePromotionZone = new int[]{78, 79, 80, 81, 82, 83};
+                blackPromotionZone = new int[]{7, 8, 9, 10, 11, 12};
+                break;
+        }
     }
 
     public void performMoveOnPosition(Position position, Move move) {
 
     }
-
 
     private void checkerReachedPromotionZone(Position position, int checkerTileNumber) {
 
