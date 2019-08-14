@@ -63,6 +63,22 @@ class PositionRaterTest {
       |  12  11  10  09|
       |08  07  06  05  |
      */
+    @Test
+    void shouldSeeThatMainDiagonalIsNotControlled() {
+        createPositionRaterForBoardSideLength(BOARD_SIDE_LENGTH_EIGHT);
+        prepareEmptyBitSets(BOARD_SIDE_LENGTH_EIGHT);
+        positionRaterSettings.setBonusForBeingCloserToPromotionLineActive(NOT_ACTiVE);
+
+        whitePieces.set(12);
+        whitePieces.set(28);
+        blackPieces.set(24);
+        kings.set(12);
+
+        int whiteScore = (20 + 10); // 20 for king, 10 for checker,
+        int blackScore = 10; // 10 for checker
+
+        expectedPositionRating = whiteScore - blackScore;
+    }
 
     @Test
     void shouldGivePointsForMaintainingMainDiagonal() {
