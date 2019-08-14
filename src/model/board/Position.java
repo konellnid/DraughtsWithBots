@@ -1,10 +1,6 @@
 package model.board;
 
-import model.move_finder.PossibleMovesFinder;
-
 import java.util.BitSet;
-
-import static com.google.common.base.Preconditions.checkArgument;
 
 public class Position {
     private BitSet whitePieces;
