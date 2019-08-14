@@ -46,6 +46,7 @@ public class MainView {
 
         newGameButton.setOnAction(event -> {
             newGameButton.setDisable(true);
+            setResult("");
 
             int whiteChoice = whiteSettingsComboBox.getSelectionModel().getSelectedIndex();
             int blackChoice = blackSettingsComboBox.getSelectionModel().getSelectedIndex();
