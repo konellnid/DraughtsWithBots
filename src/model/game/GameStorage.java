@@ -3,6 +3,7 @@ package model.game;
 import model.board.Move;
 import model.board.Position;
 import model.board.PositionGenerator;
+import model.board.PositionOperator;
 
 import java.util.BitSet;
 
@@ -11,12 +12,14 @@ public class GameStorage {
 
     private int movesTillDraw;
     private Position position;
+    private PositionOperator positionOperator;
     private boolean isWhiteTurn;
 
     GameStorage(int boardSideLength) {
         movesTillDraw = MAX_MOVES_TILL_DRAW;
         PositionGenerator positionGenerator = new PositionGenerator();
         position = positionGenerator.generateStartingPositionForBoardOfSideLength(boardSideLength);
+        positionOperator = new PositionOperator(boardSideLength);
         isWhiteTurn = true;
     }
 
@@ -42,7 +45,7 @@ public class GameStorage {
 
     void updateGameStorageWithMove(Move move) {
         updateMovesTillDraw(move);
-        position.performMoveOnPosition(move, isWhiteTurn);
+        positionOperator.performMoveOnPosition(position, move, isWhiteTurn);
         //isWhiteTurn = !isWhiteTurn;
     }
 
@@ -57,12 +60,7 @@ public class GameStorage {
         }
     }
 
-    boolean pieceGetsPromotedDuringMove(Move move) {
-        int pieceEndTileNumber = move.getLastPositionOfThePiece();
-
-        if (isWhiteTurn) {
-            return position.isInPromotionZoneForWhite(pieceEndTileNumber);
-        } else {
-            return position.isInPromotionZoneForBlack(pieceEndTileNumber);
-        }    }
+    boolean pieceGotPromoted() {
+        return positionOperator.pieceWasPromotedDuringLastMove();
+    }
 }

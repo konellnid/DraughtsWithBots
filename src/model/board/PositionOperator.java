@@ -86,4 +86,8 @@ public class PositionOperator {
         if (isWhiteMove) return position.getWhitePieces();
         else return position.getBlackPieces();
     }
+
+    public boolean pieceWasPromotedDuringLastMove() {
+        return pieceWasPromotedDuringLastMove;
+    }
 }

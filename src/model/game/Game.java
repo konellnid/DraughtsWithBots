@@ -102,9 +102,11 @@ public class Game {
         gameStorage.updateGameStorageWithMove(move);
         mainViewController.updateMovesTillDraw(gameStorage.getMovesTillDraw());
         System.out.println(gameStorage.getPosition().getWhitePieces().get(move.getLastPositionOfThePiece()));
-        if (gameStorage.pieceGetsPromotedDuringMove(move)) {
+
+        if (gameStorage.pieceGotPromoted()) {
             boardController.promote(move.getLastPositionOfThePiece());
         }
+
         gameStorage.setWhiteTurn(!gameStorage.isWhiteTurn());
         nextTurn();
     }
