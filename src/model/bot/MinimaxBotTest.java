@@ -1,12 +1,17 @@
 package model.bot;
 
+import model.board.Move;
 import model.board.Position;
 import model.board.PositionGenerator;
 import model.board.PositionOperator;
+import model.bot.position_rater.PositionRater;
+import model.bot.position_rater.PositionRaterSettings;
+import model.move_finder.PossibleMovesFinder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.BitSet;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,13 +19,17 @@ class MinimaxBotTest {
     private static final int BOARD_SIDE_LENGTH_EIGHT = 8;
     private static final int BOARD_SIDE_LENGTH_TEN = 10;
     private static final int BOARD_SIDE_LENGTH_TWELVE = 12;
-    private static final  boolean EXCEEDING_IS_ALLOWED = true;
-    private static final  boolean EXCEEDING_IS_NOT_ALLOWED = false;
+    private static final boolean EXCEEDING_IS_ALLOWED = true;
+    private static final boolean EXCEEDING_IS_NOT_ALLOWED = false;
+    private static final boolean IS_WHITE_MOVE = true;
+    private static final boolean IS_BLACK_MOVE = true;
 
     private MinimaxBot minimaxBot;
     private MinimaxBotSettings minimaxBotSettings;
     private PositionOperator positionOperator;
-    private PositionGenerator positionGenerator;
+    private PositionRaterSettings positionRaterSettings;
+    private PositionRater positionRater;
+    private PossibleMovesFinder possibleMovesFinder;
     private Position position;
     private BitSet whitePieces;
     private BitSet blackPieces;
@@ -28,15 +37,18 @@ class MinimaxBotTest {
 
     @BeforeEach
     void setUp() {
+        positionRaterSettings = new PositionRaterSettings();
+
+        whitePieces = new BitSet();
+        blackPieces = new BitSet();
+        kings = new BitSet();
+        position = new Position(whitePieces, blackPieces, kings);
     }
 
     void prepareObjectsForBoardSideLength(int boardSideLength) {
         positionOperator = new PositionOperator(boardSideLength);
-        position = positionGenerator.generateEmptyPositionForBoardSide(boardSideLength);
-        whitePieces = position.getWhitePieces();
-        blackPieces = position.getBlackPieces();
-        kings = position.getKings();
-
+        positionRater = new PositionRater(positionRaterSettings, boardSideLength);
+        possibleMovesFinder = new PossibleMovesFinder(boardSideLength);
     }
 
     // TESTS FOR BOARD SIDE LENGTH = 9
@@ -53,15 +65,20 @@ class MinimaxBotTest {
 
     @Test
     void shouldTakeControlOverMainDiagonal() {
-        prepareObjectsForBoardSideLength(8);
+        prepareObjectsForBoardSideLength(BOARD_SIDE_LENGTH_EIGHT);
         minimaxBotSettings = new MinimaxBotSettings(1, EXCEEDING_IS_ALLOWED, 0);
+        minimaxBot = new MinimaxBot(minimaxBotSettings, positionRater, BOARD_SIDE_LENGTH_EIGHT);
 
         whitePieces.set(14);
         blackPieces.set(30);
         kings.set(30);
 
+        List<Move> possibleMoves = possibleMovesFinder.getAvailableMovesFrom(position, IS_BLACK_MOVE);
 
+        Move expectedMove = new Move(30, 20); // controlling main diagonal would give +5 for black score
 
+        Move actualMove = minimaxBot.choseAMoveFrom(possibleMoves, position);
 
+        assertEquals(expectedMove, actualMove);
     }
 }

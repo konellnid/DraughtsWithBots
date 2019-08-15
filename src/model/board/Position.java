@@ -19,6 +19,12 @@ public class Position {
         kings = (BitSet) position.getKings().clone();
     }
 
+    public Position(BitSet whitePieces, BitSet blackPieces, BitSet kings) {
+        this.whitePieces = whitePieces;
+        this.blackPieces = blackPieces;
+        this.kings = kings;
+    }
+
     public BitSet getWhitePieces() {
         return whitePieces;
     }
