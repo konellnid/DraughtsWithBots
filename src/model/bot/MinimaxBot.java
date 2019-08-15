@@ -2,18 +2,22 @@ package model.bot;
 
 import model.board.Move;
 import model.board.Position;
+import model.board.PositionOperator;
 import model.move_finder.PossibleMovesFinder;
 
 import java.util.List;
 import java.util.Random;
 
 public class MinimaxBot extends GameBot {
-    private Random random;
+    private MinimaxBotSettings minimaxBotSettings;
     private PossibleMovesFinder possibleMovesFinder;
+    private PositionOperator positionOperator;
+    private Random random;
 
-
-    public MinimaxBot(PossibleMovesFinder possibleMovesFinder) {
-        this.possibleMovesFinder = possibleMovesFinder;
+    public MinimaxBot(int boardSideLength, MinimaxBotSettings minimaxBotSettings) {
+        this.minimaxBotSettings = minimaxBotSettings;
+        possibleMovesFinder = new PossibleMovesFinder(boardSideLength);
+        positionOperator = new PositionOperator(boardSideLength);
         random = new Random();
     }
 
