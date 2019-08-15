@@ -54,11 +54,13 @@ class MinimaxBotTest {
     @Test
     void shouldTakeControlOverMainDiagonal() {
         prepareObjectsForBoardSideLength(8);
+        minimaxBotSettings = new MinimaxBotSettings(1, EXCEEDING_IS_ALLOWED, 0);
+
         whitePieces.set(14);
         blackPieces.set(30);
         kings.set(30);
 
-        minimaxBotSettings = new MinimaxBotSettings(1, EXCEEDING_IS_NOT_ALLOWED, 0);
+
 
 
     }
