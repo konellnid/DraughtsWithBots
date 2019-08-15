@@ -162,8 +162,8 @@ class PositionRaterTest {
         blackPieces.set(55);
         kings.set(55);
 
-        int whiteScore = (7 * 2) + (4 + 6); // 10 for each checker, 4 and 6 for being close to promotion row
-        int blackScore = (7 + 28) + 8 + 5; // 10 for checker, 20 for kin, 8 for being closer to promotion row, 5 for controlling main row
+        int whiteScore = (7 * 2) + (4 + 6); // 7 for each checker, 4 and 6 for being close to promotion row
+        int blackScore = (7 + 28) + 8 + 5; // 7 for checker, 28 for king, 8 for being closer to promotion row, 5 for controlling main row
 
         expectedPositionRating = whiteScore - blackScore;
     }
