@@ -11,8 +11,11 @@ import java.util.BitSet;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MinimaxBotTest {
-    private final static boolean EXCEEDING_IS_ALLOWED = true;
-    private final static boolean EXCEEDING_IS_NOT_ALLOWED = false;
+    private static final int BOARD_SIDE_LENGTH_EIGHT = 8;
+    private static final int BOARD_SIDE_LENGTH_TEN = 10;
+    private static final int BOARD_SIDE_LENGTH_TWELVE = 12;
+    private static final  boolean EXCEEDING_IS_ALLOWED = true;
+    private static final  boolean EXCEEDING_IS_NOT_ALLOWED = false;
 
     private MinimaxBot minimaxBot;
     private MinimaxBotSettings minimaxBotSettings;
@@ -49,7 +52,14 @@ class MinimaxBotTest {
      */
 
     @Test
-    void shouldTakeControlOver() {
+    void shouldTakeControlOverMainDiagonal() {
+        prepareObjectsForBoardSideLength(8);
+        whitePieces.set(14);
+        blackPieces.set(30);
+        kings.set(30);
+
+        minimaxBotSettings = new MinimaxBotSettings(1, EXCEEDING_IS_NOT_ALLOWED, 0);
+
 
     }
 }
