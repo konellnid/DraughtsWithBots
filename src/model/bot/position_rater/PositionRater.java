@@ -36,10 +36,10 @@ public class PositionRater {
     }
 
     private void prepareBlackBitSets(BitSet blackPieces, BitSet kings) {
-        whiteCheckers = (BitSet) blackPieces.clone();
-        whiteCheckers.andNot(kings);
+        blackCheckers = (BitSet) blackPieces.clone();
+        blackCheckers.andNot(kings);
 
-        whiteKings = (BitSet) blackPieces.clone();
-        whiteKings.and(kings);
+        blackKings = (BitSet) blackPieces.clone();
+        blackKings.and(kings);
     }
 }
