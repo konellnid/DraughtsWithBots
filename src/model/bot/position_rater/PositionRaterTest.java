@@ -206,7 +206,7 @@ class PositionRaterTest {
         kings.set(36);
 
         int whiteScore = 10; // 10 for checker
-        int blackScore = (25 * 3) + 5; // 25 for each king, 5 for controlling main diagonal
+        int blackScore = (20 * 3) + 5; // 20 for each king, 5 for controlling main diagonal
 
         expectedPositionRating = whiteScore - blackScore;
     }
