@@ -14,6 +14,9 @@ public class PositionRater {
     private BitSet whiteKings;
     private BitSet blackCheckers;
     private BitSet blackKings;
+    private int whiteScore;
+    private int blackScore;
+
 
     public PositionRater(PositionRaterSettings positionRaterSettings, int boardSideLength) {
         this.positionRaterSettings = positionRaterSettings;
@@ -23,6 +26,9 @@ public class PositionRater {
     public int getRatingOfPosition(Position position) {
         prepareWhiteBitSets(position.getWhitePieces(), position.getKings());
         prepareBlackBitSets(position.getBlackPieces(), position.getKings());
+
+        whiteScore = getBasicPieceScore(whiteCheckers, whiteKings);
+        blackScore = getBasicPieceScore(blackCheckers, blackKings);
 
         return 0;
     }
@@ -41,5 +47,14 @@ public class PositionRater {
 
         blackKings = (BitSet) blackPieces.clone();
         blackKings.and(kings);
+    }
+
+    private int getBasicPieceScore(BitSet checkers, BitSet kings) {
+        int pieceScore = 0;
+
+        pieceScore += positionRaterSettings.getPointsPerChecker() * checkers.cardinality();
+        pieceScore += positionRaterSettings.getPointsPerKing() * kings.cardinality();
+
+        return pieceScore;
     }
 }
