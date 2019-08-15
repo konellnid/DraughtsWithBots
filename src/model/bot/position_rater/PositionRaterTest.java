@@ -140,7 +140,7 @@ class PositionRaterTest {
     @Test
     void shouldRatePositionAsWhiteVictory() {
         createPositionRaterForBoardSideLength(BOARD_SIDE_LENGTH_TEN);
-        position = positionGenerator.generateStartingPositionForBoardOfSideLength(BOARD_SIDE_LENGTH_TEN);
+        prepareEmptyBitSets(BOARD_SIDE_LENGTH_TEN);
 
         whitePieces.set(12);
         whitePieces.set(44);
@@ -153,8 +153,7 @@ class PositionRaterTest {
     @Test
     void shouldWorkProperlyWithSettingsOtherThanDefault() {
         createPositionRaterForBoardSideLength(BOARD_SIDE_LENGTH_TEN);
-        position = positionGenerator.generateStartingPositionForBoardOfSideLength(BOARD_SIDE_LENGTH_TEN);
-
+        prepareEmptyBitSets(BOARD_SIDE_LENGTH_TEN);
         positionRaterSettings.setPointsPerChecker(7);
         positionRaterSettings.setPointsPerKing(28);
 
@@ -196,7 +195,7 @@ class PositionRaterTest {
     @Test
     void shouldSeeControllingMainDiagonalWithMultipleKings() {
         createPositionRaterForBoardSideLength(BOARD_SIDE_LENGTH_TWELVE);
-        position = positionGenerator.generateStartingPositionForBoardOfSideLength(BOARD_SIDE_LENGTH_TWELVE);
+        prepareEmptyBitSets(BOARD_SIDE_LENGTH_TWELVE);
         positionRaterSettings.setBonusForBeingCloserToPromotionLineActive(NOT_ACTiVE);
 
         whitePieces.set(51);
@@ -209,12 +208,14 @@ class PositionRaterTest {
 
         int whiteScore = 10; // 10 for checker
         int blackScore = (25 * 3) + 5; // 25 for each king, 5 for controlling main diagonal
+
+        expectedPositionRating = whiteScore - blackScore;
     }
 
     @Test
     void shouldRatePositionAsBlackVictory() {
         createPositionRaterForBoardSideLength(BOARD_SIDE_LENGTH_TWELVE);
-        position = positionGenerator.generateStartingPositionForBoardOfSideLength(BOARD_SIDE_LENGTH_TWELVE);
+        prepareEmptyBitSets(BOARD_SIDE_LENGTH_TWELVE);
 
         blackPieces.set(83);
         blackPieces.set(43);
