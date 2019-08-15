@@ -4,6 +4,7 @@ import model.board.Position;
 
 import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.LinkedList;
 import java.util.List;
 
 public class PositionRater {
@@ -32,9 +33,16 @@ public class PositionRater {
         whiteScore = getBasicPieceScore(whiteCheckers, whiteKings);
         blackScore = getBasicPieceScore(blackCheckers, blackKings);
 
+        if (whiteScore == 0) return BLACK_WON;
+        if (blackScore == 0) return WHITE_WON;
+
         if (positionRaterSettings.isBonusForBeingCloserToPromotionLineActive()) {
             whiteScore += getWhiteScoreForBeingCloserToThePromotionRow(whiteCheckers);
             blackScore += getBlackScoreForBeingCloserToThePromotionRow(blackCheckers);
+        }
+
+        if (positionRaterSettings.isBonusForKingControllingMainDiagonalActive()) {
+            checkForKingsControllingMainDiagonal();
         }
 
         return whiteScore - blackScore;
@@ -92,11 +100,11 @@ public class PositionRater {
     private List<Integer> getListOfRowsFromBitSet(BitSet checkers) {
         List<Integer> listOfRowsWithCheckers = new ArrayList<>(checkers.cardinality());
 
-        for (int checkerTileNumber = whiteCheckers.length(); (checkerTileNumber = whiteCheckers.previousSetBit(checkerTileNumber-1)) >= 0; ) {
+        for (int checkerTileNumber = whiteCheckers.length(); (checkerTileNumber = whiteCheckers.previousSetBit(checkerTileNumber - 1)) >= 0; ) {
             checkerTileNumber -= boardSideLength / 2;
             int doubleRowIndicator = boardSideLength;
 
-            while(checkerTileNumber > doubleRowIndicator) {
+            while (checkerTileNumber > doubleRowIndicator) {
                 checkerTileNumber--;
                 doubleRowIndicator += boardSideLength;
             }
@@ -109,5 +117,47 @@ public class PositionRater {
         }
 
         return listOfRowsWithCheckers;
+    }
+
+    private void checkForKingsControllingMainDiagonal() {
+        BitSet whitePieces = mergeBitSets(whiteCheckers, whiteKings);
+        BitSet blackPieces = mergeBitSets(blackCheckers, blackKings);
+
+        List<Integer> mainDiagonalTileNumbers = getMainDiagonalTileNumbers();
+
+        if (anyPieceIsOnMainDiagonal(whiteKings, mainDiagonalTileNumbers) && !anyPieceIsOnMainDiagonal(blackPieces, mainDiagonalTileNumbers)) {
+            whiteScore += 5;
+        } else if (anyPieceIsOnMainDiagonal(blackKings, mainDiagonalTileNumbers) && !anyPieceIsOnMainDiagonal(whitePieces, mainDiagonalTileNumbers)) {
+            blackScore += 5;
+        }
+    }
+
+    private BitSet mergeBitSets(BitSet checkers, BitSet kings) {
+        BitSet pieces = (BitSet) checkers.clone();
+        pieces.or(kings);
+
+        return pieces;
+    }
+
+    private List<Integer> getMainDiagonalTileNumbers() {
+        List<Integer> mainDiagonalTileNumbers = new LinkedList<>();
+
+        int currentMainDiagonalTileNumber = boardSideLength;
+        int upperRightDirectionChange = boardSideLength / 2;
+
+        while (mainDiagonalTileNumbers.size() < boardSideLength) {
+            mainDiagonalTileNumbers.add(currentMainDiagonalTileNumber);
+            currentMainDiagonalTileNumber += upperRightDirectionChange;
+        }
+
+        return mainDiagonalTileNumbers;
+    }
+
+    private boolean anyPieceIsOnMainDiagonal(BitSet kings, List<Integer> mainDiagonalTileNumbers) {
+        for (int kingTileNumber = kings.length(); (kingTileNumber = kings.previousSetBit(kingTileNumber - 1)) >= 0; ) {
+            if (mainDiagonalTileNumbers.contains(kingTileNumber)) return true;
+        }
+
+        return false;
     }
 }
