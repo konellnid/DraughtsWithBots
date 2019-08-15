@@ -76,9 +76,9 @@ public class PositionRater {
     private int getWhiteScoreForBeingCloserToThePromotionRow(BitSet whiteCheckers) {
         int score = 0;
 
-        List<Integer> listOfTowsWithCheckers = getListOfRowsFromBitSet(whiteCheckers);
+        List<Integer> listOfRowsWithCheckers = getListOfRowsFromBitSet(whiteCheckers);
 
-        for (Integer checkerRow : listOfTowsWithCheckers) {
+        for (Integer checkerRow : listOfRowsWithCheckers) {
             score += checkerRow;
         }
 
