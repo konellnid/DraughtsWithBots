@@ -100,7 +100,7 @@ public class PositionRater {
     private List<Integer> getListOfRowsFromBitSet(BitSet checkers) {
         List<Integer> listOfRowsWithCheckers = new ArrayList<>(checkers.cardinality());
 
-        for (int checkerTileNumber = whiteCheckers.length(); (checkerTileNumber = whiteCheckers.previousSetBit(checkerTileNumber - 1)) >= 0; ) {
+        for (int checkerTileNumber = checkers.length(); (checkerTileNumber = whiteCheckers.previousSetBit(checkerTileNumber - 1)) >= 0; ) {
             checkerTileNumber -= boardSideLength / 2;
             int doubleRowIndicator = boardSideLength;
 
