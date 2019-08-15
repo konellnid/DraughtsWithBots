@@ -13,9 +13,11 @@ public class MinimaxBot extends GameBot {
     private PossibleMovesFinder possibleMovesFinder;
     private PositionOperator positionOperator;
     private Random random;
+    private boolean isWhitePlayer;
 
-    public MinimaxBot(int boardSideLength, MinimaxBotSettings minimaxBotSettings) {
+    public MinimaxBot(int boardSideLength, MinimaxBotSettings minimaxBotSettings, boolean isWhitePlayer) {
         this.minimaxBotSettings = minimaxBotSettings;
+        this.isWhitePlayer = isWhitePlayer;
         possibleMovesFinder = new PossibleMovesFinder(boardSideLength);
         positionOperator = new PositionOperator(boardSideLength);
         random = new Random();

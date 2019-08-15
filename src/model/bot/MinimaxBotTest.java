@@ -36,8 +36,20 @@ class MinimaxBotTest {
 
     }
 
+    // TESTS FOR BOARD SIDE LENGTH = 9
+    /*
+      |  39  38  37  36|
+      |35  34  33  32  |
+      |  30  29  28  27|
+      |26  25  24  23  |
+      |  21  20  19  18|
+      |17  16  15  14  |
+      |  12  11  10  09|
+      |08  07  06  05  |
+     */
+
     @Test
-    void choseAMoveFrom() {
+    void shouldTakeControlOver() {
 
     }
 }
