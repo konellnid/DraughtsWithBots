@@ -66,8 +66,8 @@ public class PositionGeneratorTest {
     void shouldReturnProperPositionForTenBoardSideLength() {
         initializeBitSetsOfSize(66);
         expectedWhitePieces.set(6, 16);
-        expectedWhitePieces.set(17, 22);
-        expectedBlackPieces.set(44, 49);
+        expectedWhitePieces.set(17, 27);
+        expectedBlackPieces.set(39, 49);
         expectedBlackPieces.set(50, 60);
 
         expectedPosition = new Position(expectedWhitePieces, expectedBlackPieces);
