@@ -59,18 +59,22 @@ public class PositionGenerator {
     }
 
     private void addWhiteCheckers(int boardSideLength) {
-        int currentTileNumber = (boardSideLength / 2) + 1;
+        int smallestTileNumberInRow = (boardSideLength / 2) + 1;
+        int numberOfUnfilledRowsWithCheckers = (boardSideLength / 2) - 1;
+        int numberOfPiecesInRow = boardSideLength / 2;
+        int doubleRowIndicator = 0;
 
-        for (int firstTwoRowsCounter = 0; firstTwoRowsCounter < boardSideLength; firstTwoRowsCounter++) {
-            whitePieces.set(currentTileNumber);
-            currentTileNumber++;
-        }
+        while (numberOfUnfilledRowsWithCheckers > 0) {
+            whitePieces.set(smallestTileNumberInRow, smallestTileNumberInRow + numberOfPiecesInRow);
+            smallestTileNumberInRow += numberOfPiecesInRow;
 
-        currentTileNumber++; // skips the tile number between the second and third row
+            doubleRowIndicator++;
+            if (doubleRowIndicator == 2) {
+                smallestTileNumberInRow++; // skips the missing number in between every pair of rows
+                doubleRowIndicator = 0;
+            }
 
-        for (int thirdRowCounter = 0; thirdRowCounter < boardSideLength / 2; thirdRowCounter++) {
-            whitePieces.set(currentTileNumber);
-            currentTileNumber++;
+            numberOfUnfilledRowsWithCheckers--;
         }
     }
 
