@@ -34,7 +34,7 @@ public class PositionGenerator {
 
         return false;
     }
-    
+
     private void initializeProperBitSetsForBoardSide(int boardSideLength) {
         switch (boardSideLength) {
             case 8:
@@ -60,38 +60,45 @@ public class PositionGenerator {
 
     private void addWhiteCheckers(int boardSideLength) {
         int smallestTileNumberInRow = (boardSideLength / 2) + 1;
-        int numberOfUnfilledRowsWithCheckers = (boardSideLength / 2) - 1;
-        int numberOfPiecesInRow = boardSideLength / 2;
-        int doubleRowIndicator = 0;
+
+        addCheckersToBitSet(whitePieces, boardSideLength, smallestTileNumberInRow, 0);
+    }
+
+    private void addBlackCheckers(int boardSideLength) {
+        int smallestTileNumberInRow = getProperSmallestBlackTileNumber(boardSideLength);
+        int doubleRowIndicator = (boardSideLength == 10) ? 0 : 1;
+
+        addCheckersToBitSet(blackPieces, boardSideLength, smallestTileNumberInRow, doubleRowIndicator);
+    }
+
+    private int getProperSmallestBlackTileNumber(int boardSideLength) {
+        switch (boardSideLength) {
+            case 8:
+                return 27;
+            case 10:
+                return 39;
+            case 12:
+                return 52;
+        }
+
+        return -1;
+    }
+
+    private void addCheckersToBitSet(BitSet checkersBitSet, int boardSideLength, int smallestTileNumberInRow, int doubleRowIndicator) {
+        int numberOfUnfilledRowsWithCheckers = boardSideLength / 2 - 1;
+        int numberOfPiecesInARow = boardSideLength / 2;
 
         while (numberOfUnfilledRowsWithCheckers > 0) {
-            whitePieces.set(smallestTileNumberInRow, smallestTileNumberInRow + numberOfPiecesInRow);
-            smallestTileNumberInRow += numberOfPiecesInRow;
+            checkersBitSet.set(smallestTileNumberInRow, smallestTileNumberInRow + numberOfPiecesInARow);
+            smallestTileNumberInRow += numberOfPiecesInARow;
 
             doubleRowIndicator++;
             if (doubleRowIndicator == 2) {
-                smallestTileNumberInRow++; // skips the missing number in between every pair of rows
+                smallestTileNumberInRow++;
                 doubleRowIndicator = 0;
             }
 
             numberOfUnfilledRowsWithCheckers--;
-        }
-    }
-
-    private void addBlackCheckers(int boardSideLength) {
-        int auxiliaryNumber = (boardSideLength / 2) - 1;
-        int currentTileNumber = boardSideLength * auxiliaryNumber + auxiliaryNumber;
-
-        for (int firstRowCounter = 0; firstRowCounter < boardSideLength / 2; firstRowCounter++) {
-            blackPieces.set(currentTileNumber);
-            currentTileNumber++;
-        }
-
-        currentTileNumber++; // skips the tile number between the first and second row (looking from bottom of the board)
-
-        for (int lastTwoRowsCounter = 0; lastTwoRowsCounter < boardSideLength; lastTwoRowsCounter++) {
-            blackPieces.set(currentTileNumber);
-            currentTileNumber++;
         }
     }
 }
