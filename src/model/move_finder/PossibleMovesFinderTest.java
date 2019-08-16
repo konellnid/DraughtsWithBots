@@ -370,15 +370,15 @@ class PossibleMovesFinderTest {
 
         position = positionGenerator.generateStartingPositionForBoardOfSideLength(BOARD_SIDE_LENGTH_TEN);
 
-        expectedMoveList.add(new Move(17, 22));
-        expectedMoveList.add(new Move(17, 23));
-        expectedMoveList.add(new Move(18, 23));
-        expectedMoveList.add(new Move(18, 24));
-        expectedMoveList.add(new Move(19, 24));
-        expectedMoveList.add(new Move(19, 25));
-        expectedMoveList.add(new Move(20, 25));
-        expectedMoveList.add(new Move(20, 26));
-        expectedMoveList.add(new Move(21, 26));
+        expectedMoveList.add(new Move(22, 28));
+        expectedMoveList.add(new Move(23, 28));
+        expectedMoveList.add(new Move(23, 29));
+        expectedMoveList.add(new Move(24, 29));
+        expectedMoveList.add(new Move(24, 30));
+        expectedMoveList.add(new Move(25, 30));
+        expectedMoveList.add(new Move(25, 31));
+        expectedMoveList.add(new Move(26, 31));
+        expectedMoveList.add(new Move(26, 32));
 
         actualMoveList = possibleMovesFinder.getAvailableMovesFrom(position, IS_WHITE_TURN);
 
