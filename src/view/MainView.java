@@ -32,6 +32,12 @@ public class MainView {
     @FXML
     private Slider boardSizeSlider;
 
+    @FXML
+    private CheckBox flyingKingsCheckBox;
+
+    @FXML
+    private CheckBox checkersCanBeatBackwardsCheckBox;
+
     private MainViewController mainViewController;
 
     @FXML
