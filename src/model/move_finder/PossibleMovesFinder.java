@@ -59,7 +59,7 @@ public class PossibleMovesFinder {
         lowerLeft = (-1) * upperRight;
     }
 
-    public List<Move> getAvailableMovesFrom(Position position, boolean isWhiteMove) { //TODO make available for different board sizes
+    public List<Move> getAvailableMovesFrom(Position position, boolean isWhiteMove) {
 
         this.isWhiteMove = isWhiteMove;
         availableMoves = new LinkedList<>();
