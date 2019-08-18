@@ -73,6 +73,27 @@ class PossibleMovesFinderTest {
         |08  07  06  05  |
      */
 
+    @Test
+    void shouldStopCheckerAtPromotionLineWithNoBackwardBeatingsEnabled() {
+        prepareBitSetsAndPositionFinderForBoardSideLength(BOARD_SIDE_LENGTH_EIGHT);
+
+        MoveFinderSettings customMoveFinderSettings = new MoveFinderSettings(true, false);
+        possibleMovesFinder = new PossibleMovesFinder(customMoveFinderSettings, BOARD_SIDE_LENGTH_EIGHT);
+
+        whitePieces.set(25);
+        whitePieces.set(34);
+        whitePieces.set(33);
+
+        blackPieces.set(20);
+
+        expectedMoveList.add(new Move(20, 25, 30, 34, 38));
+        actualMoveList = possibleMovesFinder.getAvailableMovesFrom(position, IS_BLACK_TURN);
+
+        sortBothLists();
+
+        assertEquals(expectedMoveList, actualMoveList);
+    }
+
 
     @Test
     void shouldReturnAllPossibleMovesFromStartingPosition() {
