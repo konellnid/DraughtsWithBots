@@ -515,7 +515,7 @@ class PossibleMovesFinderTest {
         expectedMoveList.add(new Move(29, 22));
         expectedMoveList.add(new Move(29, 23));
 
-        actualMoveList = possibleMovesFinder.getAvailableMovesFrom(position, IS_WHITE_TURN);
+        actualMoveList = possibleMovesFinder.getAvailableMovesFrom(position, IS_BLACK_TURN);
 
         sortBothLists();
 
