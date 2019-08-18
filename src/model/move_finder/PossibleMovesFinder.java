@@ -21,6 +21,7 @@ public class PossibleMovesFinder {
     private int lowerRight = -5;
     private int lowerLeft = -4;
 
+    private MoveFinderSettings moveFinderSettings;
     private int currentBeatingLength;
     private BitSet freeTileNumbers;
     private BitSet ownCheckers;
@@ -31,7 +32,8 @@ public class PossibleMovesFinder {
     private boolean isWhiteMove;
 
 
-    public PossibleMovesFinder(int boardSideLength) {
+    public PossibleMovesFinder(MoveFinderSettings moveFinderSettings, int boardSideLength) {
+        this.moveFinderSettings = moveFinderSettings;
         bitwiseOperator = new BitwiseOperator(boardSideLength);
 
         declareProperDirections(boardSideLength);

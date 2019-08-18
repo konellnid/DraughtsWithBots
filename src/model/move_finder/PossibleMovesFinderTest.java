@@ -35,7 +35,8 @@ class PossibleMovesFinderTest {
 
     void prepareBitSetsAndPositionFinderForBoardSideLength(int boardSideLength) {
         // before each test, the position is empty (all bits in BitSets are set to 0)
-        possibleMovesFinder = new PossibleMovesFinder(boardSideLength);
+        MoveFinderSettings moveFinderSettings = new MoveFinderSettings(true, true);
+        possibleMovesFinder = new PossibleMovesFinder(moveFinderSettings, boardSideLength);
         position = positionGenerator.generateEmptyPositionForBoardSide(boardSideLength);
         whitePieces = position.getWhitePieces();
         blackPieces = position.getBlackPieces();

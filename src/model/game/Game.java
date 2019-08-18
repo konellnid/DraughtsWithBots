@@ -9,6 +9,7 @@ import model.bot.RandomPieceBot;
 import model.input_handler.BotInputHandler;
 import model.input_handler.InputHandler;
 import model.input_handler.PlayerInputHandler;
+import model.move_finder.MoveFinderSettings;
 import model.move_finder.PossibleMovesFinder;
 
 import java.util.List;
@@ -38,7 +39,9 @@ public class Game {
     public void newGame(PlayerType whitePlayer, PlayerType blackPlayer, int boardSideLength) {
         gameStorage = new GameStorage(boardSideLength);
 
-        possibleMovesFinder = new PossibleMovesFinder(boardSideLength);
+        //TODO read move finder settings from board
+        MoveFinderSettings moveFinderSettings = new MoveFinderSettings(true, true);
+        possibleMovesFinder = new PossibleMovesFinder(moveFinderSettings, boardSideLength);
 
         whiteInputHandler = generateInputHandler(whitePlayer);
         blackInputHandler = generateInputHandler(blackPlayer);
