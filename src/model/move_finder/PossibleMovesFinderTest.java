@@ -347,6 +347,34 @@ class PossibleMovesFinderTest {
      */
 
     @Test
+    void shouldSeeOnlyNotBeatingMovesDueToDisabledFlyingKingsAndCheckerBackwardBeatingNotEnabled() {
+        prepareBitSetsAndPositionFinderForBoardSideLength(BOARD_SIDE_LENGTH_TEN);
+
+        MoveFinderSettings customMoveFinderSettings = new MoveFinderSettings(false, false);
+        possibleMovesFinder = new PossibleMovesFinder(customMoveFinderSettings, BOARD_SIDE_LENGTH_TEN);
+
+        whitePieces.set(35);
+        whitePieces.set(34);
+        whitePieces.set(53);
+        whitePieces.set(25);
+
+        blackPieces.set(40);
+        blackPieces.set(43);
+        kings.set(43);
+
+        expectedMoveList.add(new Move(40, 46));
+        expectedMoveList.add(new Move(40, 45));
+        expectedMoveList.add(new Move(43, 48));
+        expectedMoveList.add(new Move(43, 37));
+
+        actualMoveList = possibleMovesFinder.getAvailableMovesFrom(position, IS_BLACK_TURN);
+
+        sortBothLists();
+
+        assertEquals(expectedMoveList, actualMoveList);
+    }
+
+    @Test
     void shouldFindProperMovesForKing() {
         prepareBitSetsAndPositionFinderForBoardSideLength(BOARD_SIDE_LENGTH_TEN);
 
