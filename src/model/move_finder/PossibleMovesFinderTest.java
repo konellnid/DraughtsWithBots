@@ -395,7 +395,7 @@ class PossibleMovesFinderTest {
     }
 
     /*
-    |  59  58  57  56  55|
+      |  59  58  57  56  55|
       |54  53  52  51  50  |
       |  48  47  46  45  44|
       |43  42  41  40  39  |
@@ -406,6 +406,29 @@ class PossibleMovesFinderTest {
       |  15  14  13  12  11|
       |10  09  08  07  06  |
      */
+
+    @Test
+    void shouldNotAllowFlyingMovesForKing() {
+        prepareBitSetsAndPositionFinderForBoardSideLength(BOARD_SIDE_LENGTH_TEN);
+
+        MoveFinderSettings customMoveFinderSettings = new MoveFinderSettings(false, true);
+        possibleMovesFinder = new PossibleMovesFinder(customMoveFinderSettings, BOARD_SIDE_LENGTH_TEN);
+
+        whitePieces.set(19);
+        kings.set(19);
+        blackPieces.set(22);
+
+        expectedMoveList.add(new Move(19, 25));
+        expectedMoveList.add(new Move(19, 24));
+        expectedMoveList.add(new Move(19, 13));
+        expectedMoveList.add(new Move(19, 14));
+
+        actualMoveList = possibleMovesFinder.getAvailableMovesFrom(position, IS_WHITE_TURN);
+
+        sortBothLists();
+
+        assertEquals(expectedMoveList, actualMoveList);
+    }
 
     @Test
     void shouldFindAllPossibleMovesForStartingPosition() {
