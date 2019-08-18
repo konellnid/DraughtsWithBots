@@ -496,6 +496,30 @@ class PossibleMovesFinderTest {
      */
 
     @Test
+    void shouldAllowPromotedBeatingButNotFlyingOne() {
+        prepareBitSetsAndPositionFinderForBoardSideLength(BOARD_SIDE_LENGTH_TWELVE);
+
+        MoveFinderSettings customMoveFinderSettings = new MoveFinderSettings(false, true);
+        possibleMovesFinder = new PossibleMovesFinder(customMoveFinderSettings, BOARD_SIDE_LENGTH_TWELVE);
+
+        whitePieces.set(49);
+        whitePieces.set(36);
+
+        blackPieces.set(42);
+        kings.set(42);
+
+        expectedMoveList.add(new Move(42, 49, 56));
+        expectedMoveList.add(new Move(42, 36, 30));
+        // notice lack of flying beatings like (42, 49, 63), (42, 49, 70)...
+
+        actualMoveList = possibleMovesFinder.getAvailableMovesFrom(position, IS_BLACK_TURN);
+
+        sortBothLists();
+
+        assertEquals(expectedMoveList, actualMoveList);
+    }
+
+    @Test
     void shouldNotAllowFlyingBeatings() {
         prepareBitSetsAndPositionFinderForBoardSideLength(BOARD_SIDE_LENGTH_TWELVE);
 
