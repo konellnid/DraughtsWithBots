@@ -496,6 +496,33 @@ class PossibleMovesFinderTest {
      */
 
     @Test
+    void shouldNotAllowFlyingBeatings() {
+        prepareBitSetsAndPositionFinderForBoardSideLength(BOARD_SIDE_LENGTH_TWELVE);
+
+        MoveFinderSettings customMoveFinderSettings = new MoveFinderSettings(false, true);
+        possibleMovesFinder = new PossibleMovesFinder(customMoveFinderSettings, BOARD_SIDE_LENGTH_TWELVE);
+
+        whitePieces.set(47);
+        whitePieces.set(17);
+        whitePieces.set(43);
+        whitePieces.set(15);
+
+        blackPieces.set(29);
+        kings.set(29);
+
+        expectedMoveList.add(new Move(29, 35));
+        expectedMoveList.add(new Move(29, 36));
+        expectedMoveList.add(new Move(29, 22));
+        expectedMoveList.add(new Move(29, 23));
+
+        actualMoveList = possibleMovesFinder.getAvailableMovesFrom(position, IS_WHITE_TURN);
+
+        sortBothLists();
+
+        assertEquals(expectedMoveList, actualMoveList);
+    }
+
+    @Test
     void shouldFindAllBeatingsForCheckers() {
         prepareBitSetsAndPositionFinderForBoardSideLength(BOARD_SIDE_LENGTH_TWELVE);
 
