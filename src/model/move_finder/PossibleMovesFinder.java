@@ -246,9 +246,4 @@ public class PossibleMovesFinder {
         ownCheckers = bitwiseOperator.getOwnCheckers(ownPieces, position.getKings());
         ownKings = bitwiseOperator.getOwnKings(ownPieces, position.getKings());
     }
-
-    public boolean isMovePossible(Position position, Move move, boolean isWhiteMove) {
-        return getAvailableMovesFrom(position, isWhiteMove).contains(move);
-        //TODO: it's probably possible to use here some of the private methods instead of whole public method
-    }
 }
