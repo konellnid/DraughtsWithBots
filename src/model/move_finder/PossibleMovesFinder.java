@@ -60,7 +60,6 @@ public class PossibleMovesFinder {
     }
 
     public List<Move> getAvailableMovesFrom(Position position, boolean isWhiteMove) {
-
         this.isWhiteMove = isWhiteMove;
         availableMoves = new LinkedList<>();
         currentBeatingLength = 0;
