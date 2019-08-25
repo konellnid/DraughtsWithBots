@@ -16,17 +16,13 @@ import java.util.*;
         |08  07  06  05  |
 */
 public class PossibleMovesFinder {
-    private int upperRight;
-    private int upperLeft;
-    private int lowerRight;
-    private int lowerLeft;
-
     private MoveFinderSettings moveFinderSettings;
     private int currentBeatingLength;
     private BitwiseOperator bitwiseOperator;
     private List<Move> availableMoves;
     private boolean isWhiteMove;
     private BasicBitSets basicBitSets;
+    private DirectionsValueBySize directions;
 
 
     public PossibleMovesFinder(MoveFinderSettings moveFinderSettings, int boardSideLength) {
@@ -38,21 +34,15 @@ public class PossibleMovesFinder {
     private void declareProperDirections(int boardSideLength) {
         switch (boardSideLength) {
             case 8:
-                upperRight = 4;
-                upperLeft = 5;
+                directions = DirectionsValueBySize.BOARD_OF_SIZE_EIGHT;
                 break;
             case 10:
-                upperRight = 5;
-                upperLeft = 6;
+                directions = DirectionsValueBySize.BOARD_OF_SIZE_TEN;
                 break;
             case 12:
-                upperRight = 6;
-                upperLeft = 7;
+                directions = DirectionsValueBySize.BOARD_OF_SIZE_TWELVE;
                 break;
         }
-
-        lowerRight = (-1) * upperLeft;
-        lowerLeft = (-1) * upperRight;
     }
 
     public List<Move> getAvailableMovesFrom(Position position, boolean isWhiteMove) {
@@ -84,10 +74,10 @@ public class PossibleMovesFinder {
     }
 
     private void findAStandardBeatingFromCurrentMoveSequence(Move move) {
-        findAStandardBeatingInDirection(move, upperLeft);
-        findAStandardBeatingInDirection(move, upperRight);
-        findAStandardBeatingInDirection(move, lowerRight);
-        findAStandardBeatingInDirection(move, lowerLeft);
+        findAStandardBeatingInDirection(move, directions.upperLeft);
+        findAStandardBeatingInDirection(move, directions.upperRight);
+        findAStandardBeatingInDirection(move, directions.lowerRight);
+        findAStandardBeatingInDirection(move, directions.lowerLeft);
     }
 
     private void findAStandardBeatingInDirection(Move move, int direction) {
@@ -121,10 +111,10 @@ public class PossibleMovesFinder {
     }
 
     private void findAPromotedBeatingFromCurrentMoveSequence(Move move, int comingDirection) {
-        if (comingDirection != lowerLeft) checkForPromotedBeatingInDirection(move, upperRight);
-        if (comingDirection != lowerRight) checkForPromotedBeatingInDirection(move, upperLeft);
-        if (comingDirection != upperRight) checkForPromotedBeatingInDirection(move, lowerLeft);
-        if (comingDirection != upperLeft) checkForPromotedBeatingInDirection(move, lowerRight);
+        if (comingDirection != directions.lowerLeft) checkForPromotedBeatingInDirection(move, directions.upperRight);
+        if (comingDirection != directions.lowerRight) checkForPromotedBeatingInDirection(move, directions.upperLeft);
+        if (comingDirection != directions.upperRight) checkForPromotedBeatingInDirection(move, directions.lowerLeft);
+        if (comingDirection != directions.upperLeft) checkForPromotedBeatingInDirection(move, directions.lowerRight);
     }
 
     private void checkForPromotedBeatingInDirection(Move move, int direction) {
@@ -178,10 +168,10 @@ public class PossibleMovesFinder {
 
 
     private void checkForPromotedMoves() {
-        checkForFlyingMoveInDirection(upperRight);
-        checkForFlyingMoveInDirection(upperLeft);
-        checkForFlyingMoveInDirection(lowerRight);
-        checkForFlyingMoveInDirection(lowerLeft);
+        checkForFlyingMoveInDirection(directions.upperRight);
+        checkForFlyingMoveInDirection(directions.upperLeft);
+        checkForFlyingMoveInDirection(directions.lowerRight);
+        checkForFlyingMoveInDirection(directions.lowerLeft);
     }
 
     private void checkForFlyingMoveInDirection(int direction) {
@@ -203,11 +193,11 @@ public class PossibleMovesFinder {
 
     private void checkForStandardMove() {
         if (isWhiteMove) {
-            checkFrStandardMoveInDirection(upperLeft);
-            checkFrStandardMoveInDirection(upperRight);
+            checkFrStandardMoveInDirection(directions.upperLeft);
+            checkFrStandardMoveInDirection(directions.upperRight);
         } else {
-            checkFrStandardMoveInDirection(lowerLeft);
-            checkFrStandardMoveInDirection(lowerRight);
+            checkFrStandardMoveInDirection(directions.lowerLeft);
+            checkFrStandardMoveInDirection(directions.lowerRight);
         }
 
     }
