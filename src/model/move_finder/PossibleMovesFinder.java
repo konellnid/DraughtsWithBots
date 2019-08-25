@@ -23,19 +23,15 @@ public class PossibleMovesFinder {
 
     private MoveFinderSettings moveFinderSettings;
     private int currentBeatingLength;
-    private BitSet freeTileNumbers;
-    private BitSet ownCheckers;
-    private BitSet ownKings;
-    private BitSet enemyPieces;
     private BitwiseOperator bitwiseOperator;
     private List<Move> availableMoves;
     private boolean isWhiteMove;
+    private BasicBitSets basicBitSets;
 
 
     public PossibleMovesFinder(MoveFinderSettings moveFinderSettings, int boardSideLength) {
         this.moveFinderSettings = moveFinderSettings;
         bitwiseOperator = new BitwiseOperator(boardSideLength);
-
         declareProperDirections(boardSideLength);
     }
 
@@ -61,28 +57,29 @@ public class PossibleMovesFinder {
 
     public List<Move> getAvailableMovesFrom(Position position, boolean isWhiteMove) {
         this.isWhiteMove = isWhiteMove;
+        prepareBasicBitSets(position, isWhiteMove);
         availableMoves = new LinkedList<>();
         currentBeatingLength = 0;
         prepareBasicBitSets(position, isWhiteMove);
 
-        if (!ownKings.isEmpty()) checkForPromotedBeating();
-        if (!ownCheckers.isEmpty()) checkForStandardBeating();
+        if (!basicBitSets.getOwnKings().isEmpty()) checkForPromotedBeating();
+        if (!basicBitSets.getOwnCheckers().isEmpty()) checkForStandardBeating();
 
         if (noBeatingWasFound()) {
-            if (!ownKings.isEmpty()) checkForPromotedMoves();
-            if (!ownCheckers.isEmpty()) checkForStandardMove();
+            if (!basicBitSets.getOwnKings().isEmpty()) checkForPromotedMoves();
+            if (!basicBitSets.getOwnCheckers().isEmpty()) checkForStandardMove();
         }
 
         return availableMoves;
     }
 
     private void checkForStandardBeating() {
-        for (int checkerPositionIndex = ownCheckers.nextSetBit(0); checkerPositionIndex >= 0; checkerPositionIndex = ownCheckers.nextSetBit(checkerPositionIndex + 1)) {
-            freeTileNumbers.set(checkerPositionIndex);
+        for (int checkerPositionIndex = basicBitSets.getOwnCheckers().nextSetBit(0); checkerPositionIndex >= 0; checkerPositionIndex = basicBitSets.getOwnCheckers().nextSetBit(checkerPositionIndex + 1)) {
+            basicBitSets.getFreeTileNumbers().set(checkerPositionIndex);
             Move move = new Move();
             move.addNewTileNumberToMoveSequence(checkerPositionIndex);
             findAStandardBeatingFromCurrentMoveSequence(move);
-            freeTileNumbers.clear(checkerPositionIndex);
+            basicBitSets.getFreeTileNumbers().clear(checkerPositionIndex);
         }
     }
 
@@ -97,28 +94,29 @@ public class PossibleMovesFinder {
         int expectedEnemyTileNumber = move.getLastPositionOfThePiece() + direction;
         int expectedFreeTileNumber = expectedEnemyTileNumber + direction;
 
-        if (enemyPieces.get(expectedEnemyTileNumber)) if (freeTileNumbers.get(expectedFreeTileNumber)) {
-            enemyPieces.clear(expectedEnemyTileNumber);
+        if (basicBitSets.getEnemyPieces().get(expectedEnemyTileNumber))
+            if (basicBitSets.getFreeTileNumbers().get(expectedFreeTileNumber)) {
+                basicBitSets.getEnemyPieces().clear(expectedEnemyTileNumber);
 
-            Move foundMove = move.getCopy();
-            foundMove.addNewTileNumberToMoveSequence(expectedEnemyTileNumber);
-            foundMove.addNewTileNumberToMoveSequence(expectedFreeTileNumber);
+                Move foundMove = move.getCopy();
+                foundMove.addNewTileNumberToMoveSequence(expectedEnemyTileNumber);
+                foundMove.addNewTileNumberToMoveSequence(expectedFreeTileNumber);
 
-            updateAvailableMoves(foundMove);
+                updateAvailableMoves(foundMove);
 
-            findAStandardBeatingFromCurrentMoveSequence(foundMove);
+                findAStandardBeatingFromCurrentMoveSequence(foundMove);
 
-            enemyPieces.set(expectedEnemyTileNumber);
-        }
+                basicBitSets.getEnemyPieces().set(expectedEnemyTileNumber);
+            }
     }
 
     private void checkForPromotedBeating() {
-        for (int kingPosition = ownKings.nextSetBit(0); kingPosition >= 0; kingPosition = ownKings.nextSetBit(kingPosition + 1)) {
+        for (int kingPosition = basicBitSets.getOwnKings().nextSetBit(0); kingPosition >= 0; kingPosition = basicBitSets.getOwnKings().nextSetBit(kingPosition + 1)) {
             Move move = new Move();
             move.addNewTileNumberToMoveSequence(kingPosition);
-            freeTileNumbers.set(kingPosition);
+            basicBitSets.getFreeTileNumbers().set(kingPosition);
             findAPromotedBeatingFromCurrentMoveSequence(move, 0);
-            freeTileNumbers.clear(kingPosition);
+            basicBitSets.getFreeTileNumbers().clear(kingPosition);
         }
     }
 
@@ -134,9 +132,9 @@ public class PossibleMovesFinder {
         int enemyTileNumber = findClosestEnemyInDirectionFromTile(direction, endTileNumber);
         if (properEnemyWasFound(enemyTileNumber)) {
             int expectedFreeTileNumber = enemyTileNumber + direction;
-            enemyPieces.clear(enemyTileNumber); //this will be fixed after finding all (if any) further beatings
+            basicBitSets.getEnemyPieces().clear(enemyTileNumber); //this will be fixed after finding all (if any) further beatings
 
-            while (freeTileNumbers.get(expectedFreeTileNumber)) {
+            while (basicBitSets.getFreeTileNumbers().get(expectedFreeTileNumber)) {
                 Move updatedMove = move.getCopy();
                 updatedMove.addNewTileNumberToMoveSequence(enemyTileNumber);
 
@@ -149,7 +147,7 @@ public class PossibleMovesFinder {
                 expectedFreeTileNumber += direction;
             }
 
-            enemyPieces.set(enemyTileNumber);
+            basicBitSets.getEnemyPieces().set(enemyTileNumber);
         }
     }
 
@@ -170,11 +168,11 @@ public class PossibleMovesFinder {
     private int findClosestEnemyInDirectionFromTile(int direction, int currentKingPosition) {
         int checkedPosition = currentKingPosition + direction;
 
-        while (freeTileNumbers.get(checkedPosition)) {
+        while (basicBitSets.getFreeTileNumbers().get(checkedPosition)) {
             checkedPosition += direction;
         }
 
-        if (enemyPieces.get(checkedPosition)) return checkedPosition;
+        if (basicBitSets.getEnemyPieces().get(checkedPosition)) return checkedPosition;
         else return -1;
     }
 
@@ -188,8 +186,8 @@ public class PossibleMovesFinder {
 
     private void checkForFlyingMoveInDirection(int direction) {
         int totalDirection = direction;
-        BitSet shiftedCopy = bitwiseOperator.getShiftedCopy(ownKings, direction);
-        shiftedCopy.and(freeTileNumbers);
+        BitSet shiftedCopy = bitwiseOperator.getShiftedCopy(basicBitSets.getOwnKings(), direction);
+        shiftedCopy.and(basicBitSets.getFreeTileNumbers());
 
         while (!shiftedCopy.isEmpty()) {
             for (int i = shiftedCopy.nextSetBit(0); i >= 0; i = shiftedCopy.nextSetBit(i + 1)) {
@@ -198,7 +196,7 @@ public class PossibleMovesFinder {
 
             totalDirection += direction;
             shiftedCopy = bitwiseOperator.getShiftedCopy(shiftedCopy, direction);
-            shiftedCopy.and(freeTileNumbers);
+            shiftedCopy.and(basicBitSets.getFreeTileNumbers());
         }
 
     }
@@ -215,8 +213,8 @@ public class PossibleMovesFinder {
     }
 
     private void checkFrStandardMoveInDirection(int direction) {
-        BitSet shiftedCopy = bitwiseOperator.getShiftedCopy(ownCheckers, direction);
-        shiftedCopy.and(freeTileNumbers);
+        BitSet shiftedCopy = bitwiseOperator.getShiftedCopy(basicBitSets.getOwnCheckers(), direction);
+        shiftedCopy.and(basicBitSets.getFreeTileNumbers());
 
         for (int i = shiftedCopy.nextSetBit(0); i >= 0; i = shiftedCopy.nextSetBit(i + 1)) {
             availableMoves.add(new Move(i - direction, i));
@@ -230,19 +228,6 @@ public class PossibleMovesFinder {
 
 
     private void prepareBasicBitSets(Position position, boolean isWhiteMove) {
-        BitSet ownPieces;
-        if (isWhiteMove) {
-            ownPieces = position.getWhitePieces();
-            enemyPieces = (BitSet) position.getBlackPieces().clone();
-        } else {
-            ownPieces = position.getBlackPieces();
-            enemyPieces = (BitSet) position.getWhitePieces().clone();
-        }
-
-        freeTileNumbers = bitwiseOperator.merge(position.getWhitePieces(), position.getBlackPieces());
-        freeTileNumbers.flip(0, freeTileNumbers.size());
-        freeTileNumbers.and(bitwiseOperator.getExistingTileNumbers());
-        ownCheckers = bitwiseOperator.getOwnCheckers(ownPieces, position.getKings());
-        ownKings = bitwiseOperator.getOwnKings(ownPieces, position.getKings());
+        basicBitSets = new BasicBitSets(position, isWhiteMove, bitwiseOperator);
     }
 }
