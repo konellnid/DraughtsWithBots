@@ -105,12 +105,12 @@ public class PossibleMovesFinder {
             Move move = new Move();
             move.addNewTileNumberToMoveSequence(kingPosition);
             basicBitSets.getFreeTileNumbers().set(kingPosition);
-            findAPromotedBeatingFromCurrentMoveSequence(move, 0);
+            findAFlyingBeatingFromCurrentMoveSequence(move, 0);
             basicBitSets.getFreeTileNumbers().clear(kingPosition);
         }
     }
 
-    private void findAPromotedBeatingFromCurrentMoveSequence(Move move, int comingDirection) {
+    private void findAFlyingBeatingFromCurrentMoveSequence(Move move, int comingDirection) {
         if (comingDirection != directions.lowerLeft) checkForPromotedBeatingInDirection(move, directions.upperRight);
         if (comingDirection != directions.lowerRight) checkForPromotedBeatingInDirection(move, directions.upperLeft);
         if (comingDirection != directions.upperRight) checkForPromotedBeatingInDirection(move, directions.lowerLeft);
@@ -132,7 +132,7 @@ public class PossibleMovesFinder {
                 updatedMove.addNewTileNumberToMoveSequence(expectedFreeTileNumber);
                 updateAvailableMoves(updatedMove);
 
-                findAPromotedBeatingFromCurrentMoveSequence(updatedMove, direction);
+                findAFlyingBeatingFromCurrentMoveSequence(updatedMove, direction);
 
                 expectedFreeTileNumber += direction;
             }
