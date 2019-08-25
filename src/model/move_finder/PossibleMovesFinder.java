@@ -18,8 +18,8 @@ import java.util.*;
 public class PossibleMovesFinder {
     private int upperRight;
     private int upperLeft;
-    private int lowerRight = -5;
-    private int lowerLeft = -4;
+    private int lowerRight;
+    private int lowerLeft;
 
     private MoveFinderSettings moveFinderSettings;
     private int currentBeatingLength;
