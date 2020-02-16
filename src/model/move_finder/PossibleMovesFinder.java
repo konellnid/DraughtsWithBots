@@ -74,10 +74,20 @@ public class PossibleMovesFinder {
     }
 
     private void findAStandardBeatingFromCurrentMoveSequence(Move move) {
-        findAStandardBeatingInDirection(move, directions.upperLeft);
-        findAStandardBeatingInDirection(move, directions.upperRight);
-        findAStandardBeatingInDirection(move, directions.lowerRight);
-        findAStandardBeatingInDirection(move, directions.lowerLeft);
+        if (moveFinderSettings.isCheckerBeatingBackwardsEnabled()) {
+            findAStandardBeatingInDirection(move, directions.upperLeft);
+            findAStandardBeatingInDirection(move, directions.upperRight);
+            findAStandardBeatingInDirection(move, directions.lowerRight);
+            findAStandardBeatingInDirection(move, directions.lowerLeft);
+        } else {
+            if (isWhiteMove) {
+                findAStandardBeatingInDirection(move, directions.upperLeft);
+                findAStandardBeatingInDirection(move, directions.upperRight);
+            } else {
+                findAStandardBeatingInDirection(move, directions.lowerRight);
+                findAStandardBeatingInDirection(move, directions.lowerLeft);
+            }
+        }
     }
 
     private void findAStandardBeatingInDirection(Move move, int direction) {
