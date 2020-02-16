@@ -174,10 +174,17 @@ public class PossibleMovesFinder {
 
 
     private void checkForPromotedMoves() {
-        checkForFlyingMoveInDirection(directions.upperRight);
-        checkForFlyingMoveInDirection(directions.upperLeft);
-        checkForFlyingMoveInDirection(directions.lowerRight);
-        checkForFlyingMoveInDirection(directions.lowerLeft);
+        if (moveFinderSettings.isFlyingKingEnabled()) {
+            checkForFlyingMoveInDirection(directions.upperRight);
+            checkForFlyingMoveInDirection(directions.upperLeft);
+            checkForFlyingMoveInDirection(directions.lowerRight);
+            checkForFlyingMoveInDirection(directions.lowerLeft);
+        } else {
+            checkForStandardMoveInDirection(basicBitSets.getOwnKings(), directions.upperLeft);
+            checkForStandardMoveInDirection(basicBitSets.getOwnKings(), directions.upperRight);
+            checkForStandardMoveInDirection(basicBitSets.getOwnKings(), directions.lowerLeft);
+            checkForStandardMoveInDirection(basicBitSets.getOwnKings(), directions.lowerRight);
+        }
     }
 
     private void checkForFlyingMoveInDirection(int direction) {
@@ -199,17 +206,17 @@ public class PossibleMovesFinder {
 
     private void checkForStandardMove() {
         if (isWhiteMove) {
-            checkForStandardMoveInDirection(directions.upperLeft);
-            checkForStandardMoveInDirection(directions.upperRight);
+            checkForStandardMoveInDirection(basicBitSets.getOwnCheckers(), directions.upperLeft);
+            checkForStandardMoveInDirection(basicBitSets.getOwnCheckers(), directions.upperRight);
         } else {
-            checkForStandardMoveInDirection(directions.lowerLeft);
-            checkForStandardMoveInDirection(directions.lowerRight);
+            checkForStandardMoveInDirection(basicBitSets.getOwnCheckers(), directions.lowerLeft);
+            checkForStandardMoveInDirection(basicBitSets.getOwnCheckers(), directions.lowerRight);
         }
 
     }
 
-    private void checkForStandardMoveInDirection(int direction) {
-        BitSet shiftedCopy = bitwiseOperator.getShiftedCopy(basicBitSets.getOwnCheckers(), direction);
+    private void checkForStandardMoveInDirection(BitSet piecesToCheck, int direction) {
+        BitSet shiftedCopy = bitwiseOperator.getShiftedCopy(piecesToCheck, direction);
         shiftedCopy.and(basicBitSets.getFreeTileNumbers());
 
         for (int i = shiftedCopy.nextSetBit(0); i >= 0; i = shiftedCopy.nextSetBit(i + 1)) {
