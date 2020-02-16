@@ -105,7 +105,13 @@ public class PossibleMovesFinder {
             Move move = new Move();
             move.addNewTileNumberToMoveSequence(kingPosition);
             basicBitSets.getFreeTileNumbers().set(kingPosition);
-            findAFlyingBeatingFromCurrentMoveSequence(move, 0);
+
+            if (moveFinderSettings.isFlyingKingEnabled()) {
+                findAFlyingBeatingFromCurrentMoveSequence(move, 0);
+            } else {
+                findAStandardBeatingFromCurrentMoveSequence(move);
+            }
+
             basicBitSets.getFreeTileNumbers().clear(kingPosition);
         }
     }
