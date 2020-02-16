@@ -199,16 +199,16 @@ public class PossibleMovesFinder {
 
     private void checkForStandardMove() {
         if (isWhiteMove) {
-            checkFrStandardMoveInDirection(directions.upperLeft);
-            checkFrStandardMoveInDirection(directions.upperRight);
+            checkForStandardMoveInDirection(directions.upperLeft);
+            checkForStandardMoveInDirection(directions.upperRight);
         } else {
-            checkFrStandardMoveInDirection(directions.lowerLeft);
-            checkFrStandardMoveInDirection(directions.lowerRight);
+            checkForStandardMoveInDirection(directions.lowerLeft);
+            checkForStandardMoveInDirection(directions.lowerRight);
         }
 
     }
 
-    private void checkFrStandardMoveInDirection(int direction) {
+    private void checkForStandardMoveInDirection(int direction) {
         BitSet shiftedCopy = bitwiseOperator.getShiftedCopy(basicBitSets.getOwnCheckers(), direction);
         shiftedCopy.and(basicBitSets.getFreeTileNumbers());
 
