@@ -2,6 +2,7 @@ package controller;
 
 import model.game.Game;
 import model.game.PlayerType;
+import model.move_finder.MoveFinderSettings;
 import view.MainView;
 
 public class MainViewController {
@@ -16,7 +17,8 @@ public class MainViewController {
 
     public void newGame(PlayerType whitePlayerType, PlayerType blackPlayerType, int boardSize) {
         Game game = new Game(boardController, this);
-        game.newGame(whitePlayerType, blackPlayerType, boardSize);
+        MoveFinderSettings moveFinderSettings = new MoveFinderSettings(mainView.isFlyingKingEnabled(), mainView.isCheckerBeatingBackwardEnabled());
+        game.newGame(whitePlayerType, blackPlayerType, boardSize, moveFinderSettings);
     }
 
     public void setResult(String resultText) {

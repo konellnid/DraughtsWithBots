@@ -36,11 +36,9 @@ public class Game {
 
     }
 
-    public void newGame(PlayerType whitePlayer, PlayerType blackPlayer, int boardSideLength) {
+    public void newGame(PlayerType whitePlayer, PlayerType blackPlayer, int boardSideLength, MoveFinderSettings moveFinderSettings) {
         gameStorage = new GameStorage(boardSideLength);
 
-        //TODO read move finder settings from board
-        MoveFinderSettings moveFinderSettings = new MoveFinderSettings(true, true);
         possibleMovesFinder = new PossibleMovesFinder(moveFinderSettings, boardSideLength);
 
         whiteInputHandler = generateInputHandler(whitePlayer);

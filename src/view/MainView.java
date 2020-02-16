@@ -87,4 +87,12 @@ public class MainView {
     public void setMovesTillDraw(int movesTillDraw) {
         Platform.runLater(() -> movesTillDrawLabel.setText(String.valueOf(movesTillDraw)));
     }
+
+    public boolean isFlyingKingEnabled() {
+        return flyingKingsCheckBox.isSelected();
+    }
+
+    public boolean isCheckerBeatingBackwardEnabled() {
+        return checkersCanBeatBackwardsCheckBox.isSelected();
+    }
 }
