@@ -80,14 +80,15 @@ class PossibleMovesFinderTest {
         MoveFinderSettings customMoveFinderSettings = new MoveFinderSettings(true, false);
         possibleMovesFinder = new PossibleMovesFinder(customMoveFinderSettings, BOARD_SIDE_LENGTH_EIGHT);
 
-        whitePieces.set(20);
-        whitePieces.set(19);
-        blackPieces.set(24);
+        blackPieces.set(20);
+        blackPieces.set(19);
+
+        whitePieces.set(24);
 
         expectedMoveList.add(new Move(24, 29));
         expectedMoveList.add(new Move(24, 28));
 
-        actualMoveList = possibleMovesFinder.getAvailableMovesFrom(position, IS_BLACK_TURN);
+        actualMoveList = possibleMovesFinder.getAvailableMovesFrom(position, IS_WHITE_TURN);
 
         sortBothLists();
 
@@ -101,14 +102,14 @@ class PossibleMovesFinderTest {
         MoveFinderSettings customMoveFinderSettings = new MoveFinderSettings(true, false);
         possibleMovesFinder = new PossibleMovesFinder(customMoveFinderSettings, BOARD_SIDE_LENGTH_EIGHT);
 
-        whitePieces.set(25);
-        whitePieces.set(34);
-        whitePieces.set(33);
+        blackPieces.set(25);
+        blackPieces.set(34);
+        blackPieces.set(33);
 
-        blackPieces.set(20);
+        whitePieces.set(20);
 
         expectedMoveList.add(new Move(20, 25, 30, 34, 38));
-        actualMoveList = possibleMovesFinder.getAvailableMovesFrom(position, IS_BLACK_TURN);
+        actualMoveList = possibleMovesFinder.getAvailableMovesFrom(position, IS_WHITE_TURN);
 
         sortBothLists();
 
@@ -353,13 +354,13 @@ class PossibleMovesFinderTest {
         MoveFinderSettings customMoveFinderSettings = new MoveFinderSettings(false, false);
         possibleMovesFinder = new PossibleMovesFinder(customMoveFinderSettings, BOARD_SIDE_LENGTH_TEN);
 
-        whitePieces.set(35);
-        whitePieces.set(34);
-        whitePieces.set(53);
-        whitePieces.set(25);
+        blackPieces.set(35);
+        blackPieces.set(34);
+        blackPieces.set(53);
+        blackPieces.set(25);
 
-        blackPieces.set(40);
-        blackPieces.set(43);
+        whitePieces.set(40);
+        whitePieces.set(43);
         kings.set(43);
 
         expectedMoveList.add(new Move(40, 46));
@@ -367,7 +368,7 @@ class PossibleMovesFinderTest {
         expectedMoveList.add(new Move(43, 48));
         expectedMoveList.add(new Move(43, 37));
 
-        actualMoveList = possibleMovesFinder.getAvailableMovesFrom(position, IS_BLACK_TURN);
+        actualMoveList = possibleMovesFinder.getAvailableMovesFrom(position, IS_WHITE_TURN);
 
         sortBothLists();
 
