@@ -11,9 +11,9 @@ public abstract class MoveFinderBeatingStrategy {
     protected BasicBitSets currentBasicBitSets;
     private List<Move> foundMoves;
     private int longestBeatingFoundSize;
-    private DirectionsValueBySize directions;
-    private int frontLeftDirectionValue;
-    private int frontRightDirectionValue;
+    DirectionsValueBySize directions;
+    int frontLeftDirectionValue;
+    int frontRightDirectionValue;
 
     public MoveFinderBeatingStrategy(DirectionsValueBySize directions) {
         this.directions = directions;
@@ -24,8 +24,12 @@ public abstract class MoveFinderBeatingStrategy {
         currentBasicBitSets = basicBitSets;
         longestBeatingFoundSize = 0;
 
+        currentBasicBitSets.getFreeTileNumbers().set(startingTileNumber);
+
         Move startingMove = new Move(startingTileNumber);
         findBeatingMovesFromMoveSequence(startingMove);
+
+        currentBasicBitSets.getFreeTileNumbers().clear(startingTileNumber);
 
         return foundMoves;
     }
@@ -51,5 +55,6 @@ public abstract class MoveFinderBeatingStrategy {
     }
 
     abstract void findBeatingMovesFromMoveSequence(Move move);
+
     abstract void checkForBeatingMoveInDirection(Move move, int direction);
 }
