@@ -12,8 +12,8 @@ public enum DirectionsValueBySize {
         this.lowerLeft = lowerLeft;
     }
 
-    int upperRight;
-    int upperLeft;
-    int lowerRight;
-    int lowerLeft;
+    public int upperRight;
+    public int upperLeft;
+    public int lowerRight;
+    public int lowerLeft;
 }
