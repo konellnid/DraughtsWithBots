@@ -32,6 +32,12 @@ public class MainView {
     @FXML
     private Slider boardSizeSlider;
 
+    @FXML
+    private CheckBox flyingKingsCheckBox;
+
+    @FXML
+    private CheckBox checkersCanBeatBackwardsCheckBox;
+
     private MainViewController mainViewController;
 
     @FXML
@@ -80,5 +86,13 @@ public class MainView {
 
     public void setMovesTillDraw(int movesTillDraw) {
         Platform.runLater(() -> movesTillDrawLabel.setText(String.valueOf(movesTillDraw)));
+    }
+
+    public boolean isFlyingKingEnabled() {
+        return flyingKingsCheckBox.isSelected();
+    }
+
+    public boolean isCheckerBeatingBackwardEnabled() {
+        return checkersCanBeatBackwardsCheckBox.isSelected();
     }
 }

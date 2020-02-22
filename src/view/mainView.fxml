@@ -5,10 +5,8 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -48,18 +46,13 @@
                                     <Insets left="10.0" />
                                  </VBox.margin>
                               </HBox>
-                              <VBox prefHeight="200.0" prefWidth="100.0">
+                              <VBox prefHeight="200.0" prefWidth="100.0" spacing="6.0">
                                  <children>
-                                    <RadioButton alignment="CENTER_LEFT" mnemonicParsing="false" selected="true" text="Flying king, men can capture backwards">
-                                       <toggleGroup>
-                                          <ToggleGroup fx:id="kingSettings" />
-                                       </toggleGroup>
-                                    </RadioButton>
-                                    <RadioButton alignment="CENTER_RIGHT" mnemonicParsing="false" text="Flying kings, men can't capture backwards" toggleGroup="$kingSettings" />
-                                    <RadioButton alignment="CENTER_RIGHT" mnemonicParsing="false" text="No flying kings, men can't capture backwards" toggleGroup="$kingSettings" />
+                                    <CheckBox fx:id="flyingKingsCheckBox" mnemonicParsing="false" selected="true" text="Flying kings" />
+                                    <CheckBox fx:id="checkersCanBeatBackwardsCheckBox" mnemonicParsing="false" selected="true" text="Checkers can beat backwards" />
                                  </children>
                                  <VBox.margin>
-                                    <Insets left="5.0" />
+                                    <Insets left="10.0" />
                                  </VBox.margin>
                               </VBox>
                               <CheckBox fx:id="showTileNumbersCheckBox" mnemonicParsing="false" text="Show tile numbers" />

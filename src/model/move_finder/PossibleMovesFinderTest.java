@@ -35,7 +35,8 @@ class PossibleMovesFinderTest {
 
     void prepareBitSetsAndPositionFinderForBoardSideLength(int boardSideLength) {
         // before each test, the position is empty (all bits in BitSets are set to 0)
-        possibleMovesFinder = new PossibleMovesFinder(boardSideLength);
+        MoveFinderSettings moveFinderSettings = new MoveFinderSettings(true, true);
+        possibleMovesFinder = new PossibleMovesFinder(moveFinderSettings, boardSideLength);
         position = positionGenerator.generateEmptyPositionForBoardSide(boardSideLength);
         whitePieces = position.getWhitePieces();
         blackPieces = position.getBlackPieces();
@@ -71,6 +72,49 @@ class PossibleMovesFinderTest {
         |  12  11  10  09|
         |08  07  06  05  |
      */
+
+    @Test
+    void shouldNotAllowCheckerBeatingBackwards() {
+        prepareBitSetsAndPositionFinderForBoardSideLength(BOARD_SIDE_LENGTH_EIGHT);
+
+        MoveFinderSettings customMoveFinderSettings = new MoveFinderSettings(true, false);
+        possibleMovesFinder = new PossibleMovesFinder(customMoveFinderSettings, BOARD_SIDE_LENGTH_EIGHT);
+
+        blackPieces.set(20);
+        blackPieces.set(19);
+
+        whitePieces.set(24);
+
+        expectedMoveList.add(new Move(24, 29));
+        expectedMoveList.add(new Move(24, 28));
+
+        actualMoveList = possibleMovesFinder.getAvailableMovesFrom(position, IS_WHITE_TURN);
+
+        sortBothLists();
+
+        assertEquals(expectedMoveList, actualMoveList);
+    }
+
+    @Test
+    void shouldStopCheckerAtPromotionLineWithNoBackwardBeatingsEnabled() {
+        prepareBitSetsAndPositionFinderForBoardSideLength(BOARD_SIDE_LENGTH_EIGHT);
+
+        MoveFinderSettings customMoveFinderSettings = new MoveFinderSettings(true, false);
+        possibleMovesFinder = new PossibleMovesFinder(customMoveFinderSettings, BOARD_SIDE_LENGTH_EIGHT);
+
+        blackPieces.set(25);
+        blackPieces.set(34);
+        blackPieces.set(33);
+
+        whitePieces.set(20);
+
+        expectedMoveList.add(new Move(20, 25, 30, 34, 38));
+        actualMoveList = possibleMovesFinder.getAvailableMovesFrom(position, IS_WHITE_TURN);
+
+        sortBothLists();
+
+        assertEquals(expectedMoveList, actualMoveList);
+    }
 
 
     @Test
@@ -304,6 +348,34 @@ class PossibleMovesFinderTest {
      */
 
     @Test
+    void shouldSeeOnlyNotBeatingMovesDueToDisabledFlyingKingsAndCheckerBackwardBeatingNotEnabled() {
+        prepareBitSetsAndPositionFinderForBoardSideLength(BOARD_SIDE_LENGTH_TEN);
+
+        MoveFinderSettings customMoveFinderSettings = new MoveFinderSettings(false, false);
+        possibleMovesFinder = new PossibleMovesFinder(customMoveFinderSettings, BOARD_SIDE_LENGTH_TEN);
+
+        blackPieces.set(35);
+        blackPieces.set(34);
+        blackPieces.set(53);
+        blackPieces.set(25);
+
+        whitePieces.set(40);
+        whitePieces.set(43);
+        kings.set(43);
+
+        expectedMoveList.add(new Move(40, 46));
+        expectedMoveList.add(new Move(40, 45));
+        expectedMoveList.add(new Move(43, 48));
+        expectedMoveList.add(new Move(43, 37));
+
+        actualMoveList = possibleMovesFinder.getAvailableMovesFrom(position, IS_WHITE_TURN);
+
+        sortBothLists();
+
+        assertEquals(expectedMoveList, actualMoveList);
+    }
+
+    @Test
     void shouldFindProperMovesForKing() {
         prepareBitSetsAndPositionFinderForBoardSideLength(BOARD_SIDE_LENGTH_TEN);
 
@@ -352,7 +424,7 @@ class PossibleMovesFinderTest {
     }
 
     /*
-    |  59  58  57  56  55|
+      |  59  58  57  56  55|
       |54  53  52  51  50  |
       |  48  47  46  45  44|
       |43  42  41  40  39  |
@@ -363,6 +435,29 @@ class PossibleMovesFinderTest {
       |  15  14  13  12  11|
       |10  09  08  07  06  |
      */
+
+    @Test
+    void shouldNotAllowFlyingMovesForKing() {
+        prepareBitSetsAndPositionFinderForBoardSideLength(BOARD_SIDE_LENGTH_TEN);
+
+        MoveFinderSettings customMoveFinderSettings = new MoveFinderSettings(false, true);
+        possibleMovesFinder = new PossibleMovesFinder(customMoveFinderSettings, BOARD_SIDE_LENGTH_TEN);
+
+        whitePieces.set(19);
+        kings.set(19);
+        blackPieces.set(22);
+
+        expectedMoveList.add(new Move(19, 25));
+        expectedMoveList.add(new Move(19, 24));
+        expectedMoveList.add(new Move(19, 13));
+        expectedMoveList.add(new Move(19, 14));
+
+        actualMoveList = possibleMovesFinder.getAvailableMovesFrom(position, IS_WHITE_TURN);
+
+        sortBothLists();
+
+        assertEquals(expectedMoveList, actualMoveList);
+    }
 
     @Test
     void shouldFindAllPossibleMovesForStartingPosition() {
@@ -430,6 +525,57 @@ class PossibleMovesFinderTest {
      */
 
     @Test
+    void shouldAllowPromotedBeatingButNotFlyingOne() {
+        prepareBitSetsAndPositionFinderForBoardSideLength(BOARD_SIDE_LENGTH_TWELVE);
+
+        MoveFinderSettings customMoveFinderSettings = new MoveFinderSettings(false, true);
+        possibleMovesFinder = new PossibleMovesFinder(customMoveFinderSettings, BOARD_SIDE_LENGTH_TWELVE);
+
+        whitePieces.set(49);
+        whitePieces.set(36);
+
+        blackPieces.set(42);
+        kings.set(42);
+
+        expectedMoveList.add(new Move(42, 49, 56));
+        expectedMoveList.add(new Move(42, 36, 30));
+        // notice lack of flying beatings like (42, 49, 63), (42, 49, 70)...
+
+        actualMoveList = possibleMovesFinder.getAvailableMovesFrom(position, IS_BLACK_TURN);
+
+        sortBothLists();
+
+        assertEquals(expectedMoveList, actualMoveList);
+    }
+
+    @Test
+    void shouldNotAllowFlyingBeatings() {
+        prepareBitSetsAndPositionFinderForBoardSideLength(BOARD_SIDE_LENGTH_TWELVE);
+
+        MoveFinderSettings customMoveFinderSettings = new MoveFinderSettings(false, true);
+        possibleMovesFinder = new PossibleMovesFinder(customMoveFinderSettings, BOARD_SIDE_LENGTH_TWELVE);
+
+        whitePieces.set(47);
+        whitePieces.set(17);
+        whitePieces.set(43);
+        whitePieces.set(15);
+
+        blackPieces.set(29);
+        kings.set(29);
+
+        expectedMoveList.add(new Move(29, 35));
+        expectedMoveList.add(new Move(29, 36));
+        expectedMoveList.add(new Move(29, 22));
+        expectedMoveList.add(new Move(29, 23));
+
+        actualMoveList = possibleMovesFinder.getAvailableMovesFrom(position, IS_BLACK_TURN);
+
+        sortBothLists();
+
+        assertEquals(expectedMoveList, actualMoveList);
+    }
+
+    @Test
     void shouldFindAllBeatingsForCheckers() {
         prepareBitSetsAndPositionFinderForBoardSideLength(BOARD_SIDE_LENGTH_TWELVE);
 
@@ -493,6 +639,29 @@ class PossibleMovesFinderTest {
         expectedMoveList.add(new Move(37, 43));
         expectedMoveList.add(new Move(37, 44));
         expectedMoveList.add(new Move(38, 44));
+
+        actualMoveList = possibleMovesFinder.getAvailableMovesFrom(position, IS_WHITE_TURN);
+
+        sortBothLists();
+
+        assertEquals(expectedMoveList, actualMoveList);
+    }
+
+    @Test
+    void shouldNotFlyingKingBeatBackwardWithCheckerBackwardBeatingDisabled() {
+        prepareBitSetsAndPositionFinderForBoardSideLength(BOARD_SIDE_LENGTH_EIGHT);
+
+        MoveFinderSettings customMoveFinderSettings = new MoveFinderSettings(false, false);
+        possibleMovesFinder = new PossibleMovesFinder(customMoveFinderSettings, BOARD_SIDE_LENGTH_EIGHT);
+
+        blackPieces.set(20);
+        blackPieces.set(19);
+
+        whitePieces.set(24);
+        kings.set(24);
+
+        expectedMoveList.add(new Move(24, 20, 16));
+        expectedMoveList.add(new Move(24, 19, 14));
 
         actualMoveList = possibleMovesFinder.getAvailableMovesFrom(position, IS_WHITE_TURN);
 
