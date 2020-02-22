@@ -31,7 +31,6 @@ public class PossibleMovesFinder {
     private MoveFinderBeatingStrategy kingBeatingStrategy;
 
 
-
     public PossibleMovesFinder(MoveFinderSettings moveFinderSettings, int boardSideLength) {
         this.moveFinderSettings = moveFinderSettings;
         bitwiseOperator = new BitwiseOperator(boardSideLength);
@@ -95,10 +94,57 @@ public class PossibleMovesFinder {
     }
 
     private void checkForKingsMove() {
-
+        if (moveFinderSettings.isFlyingKingEnabled()) {
+            checkForKingsFlyingMove();
+        } else {
+            checkForStandardMoveInDirection(basicBitSets.getOwnKings(), directions.upperLeft);
+            checkForStandardMoveInDirection(basicBitSets.getOwnKings(), directions.upperRight);
+            checkForStandardMoveInDirection(basicBitSets.getOwnKings(), directions.lowerLeft);
+            checkForStandardMoveInDirection(basicBitSets.getOwnKings(), directions.lowerRight);
+        }
     }
 
     private void checkForCheckersMove() {
+        if (isWhiteMove) {
+            checkForStandardMoveInDirection(basicBitSets.getOwnCheckers(), directions.upperLeft);
+            checkForStandardMoveInDirection(basicBitSets.getOwnCheckers(), directions.upperRight);
+        } else {
+            checkForStandardMoveInDirection(basicBitSets.getOwnCheckers(), directions.lowerLeft);
+            checkForStandardMoveInDirection(basicBitSets.getOwnCheckers(), directions.lowerRight);
+        }
+    }
+
+    private void checkForStandardMoveInDirection(BitSet bitSetToShift, int direction) {
+        BitSet shiftedCopy = bitwiseOperator.getShiftedCopy(bitSetToShift, direction);
+        shiftedCopy.and(basicBitSets.getFreeTileNumbers());
+
+        for (int i = shiftedCopy.nextSetBit(0); i >= 0; i = shiftedCopy.nextSetBit(i + 1)) {
+            availableMoves.add(new Move(i - direction, i));
+        }
+    }
+
+    private void checkForKingsFlyingMove() {
+        checkForFlyingMoveInDirection(directions.lowerLeft);
+        checkForFlyingMoveInDirection(directions.lowerRight);
+        checkForFlyingMoveInDirection(directions.upperLeft);
+        checkForFlyingMoveInDirection(directions.upperRight);
+    }
+
+    private void checkForFlyingMoveInDirection(int direction) {
+        BitSet shiftedCopy = bitwiseOperator.getShiftedCopy(basicBitSets.getOwnKings(), direction);
+        shiftedCopy.and(basicBitSets.getFreeTileNumbers());
+        int totalDirection = direction;
+
+        while (!shiftedCopy.isEmpty()) {
+            for (int i = shiftedCopy.nextSetBit(0); i >= 0; i = shiftedCopy.nextSetBit(i + 1)) {
+                availableMoves.add(new Move(i - totalDirection, i));
+            }
+
+            totalDirection += direction;
+
+            shiftedCopy = bitwiseOperator.getShiftedCopy(shiftedCopy, direction);
+            shiftedCopy.and(basicBitSets.getFreeTileNumbers());
+        }
     }
 
     private void checkForCheckersBeating() {
@@ -123,7 +169,8 @@ public class PossibleMovesFinder {
             if (foundMoveSize > currentLongestMoveLength) {
                 availableMoves.clear();
                 availableMoves = foundMoves;
-            } else if (foundMoveSize == currentLongestMoveLength){
+                currentLongestMoveLength = foundMoveSize;
+            } else if (foundMoveSize == currentLongestMoveLength) {
                 availableMoves.addAll(foundMoves);
             }
         }
