@@ -73,21 +73,22 @@ public class PossibleMovesFinder {
         }
     }
 
-    private void findAStandardBeatingFromCurrentMoveSequence(Move move) {
-        if (moveFinderSettings.isCheckerBeatingBackwardsEnabled()) {
+
+    private void findAForwardBeatingFromCurrentMoveSequence(Move move) {
+        if (isWhiteMove) {
             findAStandardBeatingInDirection(move, directions.upperLeft);
             findAStandardBeatingInDirection(move, directions.upperRight);
+        } else {
             findAStandardBeatingInDirection(move, directions.lowerRight);
             findAStandardBeatingInDirection(move, directions.lowerLeft);
-        } else {
-            if (isWhiteMove) {
-                findAStandardBeatingInDirection(move, directions.upperLeft);
-                findAStandardBeatingInDirection(move, directions.upperRight);
-            } else {
-                findAStandardBeatingInDirection(move, directions.lowerRight);
-                findAStandardBeatingInDirection(move, directions.lowerLeft);
-            }
         }
+    }
+
+    private void findAStandardBeatingFromCurrentMoveSequence(Move move) {
+        findAStandardBeatingInDirection(move, directions.upperLeft);
+        findAStandardBeatingInDirection(move, directions.upperRight);
+        findAStandardBeatingInDirection(move, directions.lowerRight);
+        findAStandardBeatingInDirection(move, directions.lowerLeft);
     }
 
     private void findAStandardBeatingInDirection(Move move, int direction) {
@@ -104,7 +105,11 @@ public class PossibleMovesFinder {
 
                 updateAvailableMoves(foundMove);
 
-                findAStandardBeatingFromCurrentMoveSequence(foundMove);
+                if (moveFinderSettings.isCheckerBeatingBackwardsEnabled()) {
+                    findAStandardBeatingFromCurrentMoveSequence(foundMove);
+                } else {
+                    findAForwardBeatingFromCurrentMoveSequence(move);
+                }
 
                 basicBitSets.getEnemyPieces().set(expectedEnemyTileNumber);
             }
