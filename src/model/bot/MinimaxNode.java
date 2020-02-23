@@ -8,7 +8,7 @@ import java.util.List;
 
 public class MinimaxNode {
     private Position position;
-    private List<MinimaxNode> reachablePositions;
+    private List<MinimaxNode> childrenNodes;
     private int nodeDepthLeft;
     private boolean isWhiteMove;
     private int foundRating;
@@ -19,7 +19,7 @@ public class MinimaxNode {
         this.nodeDepthLeft = nodeDepthLeft;
         this.isWhiteMove = isWhiteMove;
 
-        reachablePositions = new LinkedList<>();
+        childrenNodes = new LinkedList<>();
         isEndNode = false;
     }
 
@@ -29,7 +29,7 @@ public class MinimaxNode {
     }
 
     public void addChild(Position position) {
-        reachablePositions.add(new MinimaxNode(position, nodeDepthLeft - 1, !isWhiteMove));
+        childrenNodes.add(new MinimaxNode(position, nodeDepthLeft - 1, !isWhiteMove));
     }
 
     public boolean isWhiteMove() {
@@ -45,7 +45,7 @@ public class MinimaxNode {
     }
 
     public List<MinimaxNode> getChildren() {
-        return reachablePositions;
+        return childrenNodes;
     }
 
     public boolean isEndNode() {
@@ -57,7 +57,7 @@ public class MinimaxNode {
     }
 
     public boolean hasChildren() {
-        return !reachablePositions.isEmpty();
+        return !childrenNodes.isEmpty();
     }
 
     public void pickBestChildRating() {
@@ -65,7 +65,7 @@ public class MinimaxNode {
         if (isWhiteMove) bestFoundRating = PositionRater.BLACK_WON;
         else bestFoundRating = PositionRater.WHITE_WON;
 
-        for (MinimaxNode childRating : reachablePositions) {
+        for (MinimaxNode childRating : childrenNodes) {
             bestFoundRating = pickBetterRating(bestFoundRating, childRating.getFoundRating());
         }
     }
