@@ -69,7 +69,7 @@ class MinimaxBotTest {
     @Test
     void shouldTakeControlOverMainDiagonal() {
         prepareBasicObjects(BOARD_SIDE_LENGTH_EIGHT, FLYING_KING_IS_ENABLED, CHECKERS_CAN_BEAT_BACKWARD);
-        minimaxBotSettings = new MinimaxBotSettings(1, EXCEEDING_IS_ALLOWED, 0);
+        minimaxBotSettings = new MinimaxBotSettings(1, EXCEEDING_IS_ALLOWED);
         minimaxBot = new MinimaxBot(minimaxBotSettings, positionRater, BOARD_SIDE_LENGTH_EIGHT, possibleMovesFinder);
 
         whitePieces.set(14);
