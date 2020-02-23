@@ -2,6 +2,7 @@ package model.bot;
 
 import model.board.Move;
 import model.board.Position;
+import model.board.PositionGenerator;
 import model.bot.position_rater.PositionRater;
 import model.bot.position_rater.PositionRaterSettings;
 import model.move_finder.MoveFinderSettings;
@@ -43,11 +44,15 @@ class MinimaxBotTest {
     @BeforeEach
     void setUp() {
         positionRaterSettings = new PositionRaterSettings();
+    }
 
-        whitePieces = new BitSet();
-        blackPieces = new BitSet();
-        kings = new BitSet();
-        position = new Position(whitePieces, blackPieces, kings);
+    private void generatePosition(int boardSideLength) {
+        PositionGenerator positionGenerator = new PositionGenerator();
+        position = positionGenerator.generateStartingPositionForBoardOfSideLength(boardSideLength);
+
+        whitePieces = position.getWhitePieces();
+        blackPieces = position.getBlackPieces();
+        kings = position.getKings();
     }
 
     void prepareBasicObjects(int boardSideLength, boolean isFlyingKingEnabled, boolean isCheckerBeatingBackwardsEnabled) {
@@ -70,6 +75,7 @@ class MinimaxBotTest {
 
     @Test
     void shouldMoveToBlockEnemyPath() {
+        generatePosition(BOARD_SIDE_LENGTH_EIGHT);
         prepareBasicObjects(BOARD_SIDE_LENGTH_EIGHT, FLYING_KING_IS_ENABLED, CHECKERS_CAN_BEAT_BACKWARD);
         minimaxBotSettings = new MinimaxBotSettings(3, EXCEEDING_IS_NOT_ALLOWED);
         minimaxBot = new MinimaxBot(minimaxBotSettings, positionRater, BOARD_SIDE_LENGTH_EIGHT, possibleMovesFinder);
@@ -90,6 +96,7 @@ class MinimaxBotTest {
 
     @Test
     void shouldSeeExceededBeating() {
+        generatePosition(BOARD_SIDE_LENGTH_EIGHT);
         prepareBasicObjects(BOARD_SIDE_LENGTH_EIGHT, FLYING_KING_IS_ENABLED, CHECKERS_CAN_BEAT_BACKWARD);
         minimaxBotSettings = new MinimaxBotSettings(1, EXCEEDING_IS_ALLOWED);
         minimaxBot = new MinimaxBot(minimaxBotSettings, positionRater, BOARD_SIDE_LENGTH_EIGHT, possibleMovesFinder);
@@ -117,6 +124,7 @@ class MinimaxBotTest {
 
     @Test
     void shouldTakeControlOverMainDiagonal() {
+        generatePosition(BOARD_SIDE_LENGTH_EIGHT);
         prepareBasicObjects(BOARD_SIDE_LENGTH_EIGHT, FLYING_KING_IS_ENABLED, CHECKERS_CAN_BEAT_BACKWARD);
         minimaxBotSettings = new MinimaxBotSettings(1, EXCEEDING_IS_ALLOWED);
         minimaxBot = new MinimaxBot(minimaxBotSettings, positionRater, BOARD_SIDE_LENGTH_EIGHT, possibleMovesFinder);
