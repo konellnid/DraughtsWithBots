@@ -1,5 +1,6 @@
 package model.bot;
 
+import javafx.geometry.Pos;
 import model.board.Move;
 import model.board.Position;
 import model.board.PositionOperator;
@@ -47,10 +48,50 @@ public class MinimaxBot extends GameBot {
     }
 
     private void operateFromNode(MinimaxNode node) {
+        addPossibleChildrenFromNode(node);
 
+        if (!node.isEndNode()) {
+            operateOnNodeChildren(node);
+        }
     }
 
+    private void operateOnNodeChildren(MinimaxNode node) {
+        for (MinimaxNode childNode : node.getChildren()) {
+            operateFromNode(childNode);
+        }
+    }
 
+    private void addPossibleChildrenFromNode(MinimaxNode node) {
+        if (node.getNodeDepthLeft() > 0) {
+            List<Move> possibleMovesFromNode = possibleMovesFinder.getAvailableMovesFrom(node.getPosition(), node.isWhiteMove());
+            if (possibleMovesFromNode.size() != 0)
+                addReachablePositionsAsChildNodes(node, possibleMovesFromNode);
+            else
+                node.setNodeAsEndNode();
+        } else if (minimaxBotSettings.isAllowedExceedingSearchingDepthIfBeatingIsFound()) {
+            List<Move> possibleMovesFromNode = possibleMovesFinder.getAvailableMovesFrom(node.getPosition(), node.isWhiteMove());
+            if (possibleMovesFromNode.isEmpty()) {
+                node.setNodeAsEndNode();
+            } else if (listContainsBeatingMoves(possibleMovesFromNode)) {
+                addReachablePositionsAsChildNodes(node, possibleMovesFromNode);
+            }
+        }
+    }
 
+    private boolean listContainsBeatingMoves(List<Move> possibleMovesFromNode) {
+        if (!possibleMovesFromNode.isEmpty()) {
+            Move exampleMove = possibleMovesFromNode.get(0);
+            return exampleMove.isBeatingSequence();
+        } else {
+            return false;
+        }
+    }
 
+    private void addReachablePositionsAsChildNodes(MinimaxNode node, List<Move> possibleMovesFromNode) {
+        for (Move move : possibleMovesFromNode) {
+            Position positionCopy = new Position(node.getPosition());
+            positionOperator.performMoveOnPosition(positionCopy, move, node.isWhiteMove());
+            node.addChild(positionCopy);
+        }
+    }
 }
