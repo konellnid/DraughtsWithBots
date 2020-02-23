@@ -35,7 +35,7 @@ public class MinimaxBot extends GameBot {
         MinimaxNode startingNode = new MinimaxNode(currentPosition, minimaxBotSettings.getSearchingDepth(), isWhiteMove);
 
         operateFromNode(startingNode);
-            
+
         return null;
     }
 
@@ -46,7 +46,7 @@ public class MinimaxBot extends GameBot {
         return position.getWhitePieces().get(startingTileNumber);
     }
 
-    private void operateFromNode(MinimaxNode startingNode) {
+    private void operateFromNode(MinimaxNode node) {
 
     }
 
