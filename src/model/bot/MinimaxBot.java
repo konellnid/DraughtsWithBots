@@ -28,8 +28,17 @@ public class MinimaxBot extends GameBot {
 
     @Override
     public Move choseAMoveFrom(List<Move> possibleMoves, Position currentPosition) {
+        boolean isWhiteMove = checkIfIsWhiteMove(possibleMoves, currentPosition);
+
 
         return null;
+    }
+
+    private boolean checkIfIsWhiteMove(List<Move> possibleMoves, Position position) {
+        Move exampleMove = possibleMoves.get(0);
+        int startingTileNumber = exampleMove.getStartingPositionOfThePiece();
+
+        return position.getWhitePieces().get(startingTileNumber);
     }
 
 
