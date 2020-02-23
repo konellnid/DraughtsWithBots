@@ -84,10 +84,14 @@ public class MinimaxNode {
     }
 
     public List<Position> getBestChildren() {
-        List<Position> bestChildren;
+        List<Position> bestChildren = new LinkedList<>();
 
+        for (MinimaxNode childNode : childrenNodes) {
+            if (foundRating == childNode.foundRating) {
+                bestChildren.add(childNode.getPosition());
+            }
+        }
 
-
-        return null;
+        return bestChildren;
     }
 }

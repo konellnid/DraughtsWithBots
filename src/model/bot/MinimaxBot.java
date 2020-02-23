@@ -7,6 +7,7 @@ import model.board.PositionOperator;
 import model.bot.position_rater.PositionRater;
 import model.move_finder.PossibleMovesFinder;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -38,8 +39,23 @@ public class MinimaxBot extends GameBot {
         operateFromNode(startingNode);
 
         List<Position> bestFoundPositions = startingNode.getBestChildren();
+        List<Move> bestMoves = findMovesReachingToPositions(startingNode, possibleMoves, bestFoundPositions);
 
-        return null;
+        int chosenMoveIndex = random.nextInt(bestMoves.size());
+
+        return possibleMoves.get(chosenMoveIndex);
+    }
+
+    private List<Move> findMovesReachingToPositions(MinimaxNode node, List<Move> possibleMovesFromNode, List<Position> bestFoundPositions) {
+        List<Move> bestMoves = new LinkedList<>();
+
+        for (Move possibleMove : possibleMovesFromNode) {
+            Position startingPositionCopy = new Position(node.getPosition());
+            positionOperator.performMoveOnPosition(startingPositionCopy, possibleMove, node.isWhiteMove());
+            if (bestFoundPositions.contains(startingPositionCopy)) bestMoves.add(possibleMove);
+        }
+
+        return bestMoves;
     }
 
     private boolean checkIfIsWhiteMove(List<Move> possibleMoves, Position position) {
@@ -86,6 +102,8 @@ public class MinimaxBot extends GameBot {
             } else if (listContainsBeatingMoves(possibleMovesFromNode)) {
                 addReachablePositionsAsChildNodes(node, possibleMovesFromNode);
             }
+        } else {
+            node.setNodeAsEndNode();
         }
     }
 
