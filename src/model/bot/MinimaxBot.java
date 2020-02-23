@@ -37,6 +37,8 @@ public class MinimaxBot extends GameBot {
 
         operateFromNode(startingNode);
 
+        List<Position> bestFoundPositions = startingNode.getBestChildren();
+
         return null;
     }
 
@@ -50,8 +52,17 @@ public class MinimaxBot extends GameBot {
     private void operateFromNode(MinimaxNode node) {
         addPossibleChildrenFromNode(node);
 
-        if (!node.isEndNode()) {
+        if (!node.isEndNode() && node.hasChildren()) {
             operateOnNodeChildren(node);
+        }
+
+        if (node.hasChildren()) {
+            node.pickBestChildRating();
+        } else if (node.isEndNode()) {
+            node.setAsWinningNode();
+        } else {
+            int positionRating = positionRater.getRatingOfPosition(node.getPosition());
+            node.setFoundRating(positionRating);
         }
     }
 

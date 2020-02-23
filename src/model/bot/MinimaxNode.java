@@ -55,4 +55,39 @@ public class MinimaxNode {
     public void setNodeAsEndNode() {
         isEndNode = true;
     }
+
+    public boolean hasChildren() {
+        return !reachablePositions.isEmpty();
+    }
+
+    public void pickBestChildRating() {
+        int bestFoundRating;
+        if (isWhiteMove) bestFoundRating = PositionRater.BLACK_WON;
+        else bestFoundRating = PositionRater.WHITE_WON;
+
+        for (MinimaxNode childRating : reachablePositions) {
+            bestFoundRating = pickBetterRating(bestFoundRating, childRating.getFoundRating());
+        }
+    }
+
+    private int pickBetterRating(int bestFoundRating, int foundRating) {
+        if (isWhiteMove) return Integer.max(bestFoundRating, foundRating);
+        else return Integer.min(bestFoundRating, foundRating);
+    }
+
+    public int getFoundRating() {
+        return foundRating;
+    }
+
+    public void setFoundRating(int foundRating) {
+        this.foundRating = foundRating;
+    }
+
+    public List<Position> getBestChildren() {
+        List<Position> bestChildren;
+
+
+
+        return null;
+    }
 }
