@@ -6,6 +6,7 @@ import model.board.PositionGenerator;
 import model.board.PositionOperator;
 import model.bot.position_rater.PositionRater;
 import model.bot.position_rater.PositionRaterSettings;
+import model.move_finder.MoveFinderSettings;
 import model.move_finder.PossibleMovesFinder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,6 +24,10 @@ class MinimaxBotTest {
     private static final boolean EXCEEDING_IS_NOT_ALLOWED = false;
     private static final boolean IS_WHITE_MOVE = true;
     private static final boolean IS_BLACK_MOVE = true;
+    private static final boolean FLYING_KING_IS_ENABLED = true;
+    private static final boolean FLYING_KING_IS_DISABLED = false;
+    private static final boolean CHECKERS_CAN_BEAT_BACKWARD = true;
+    private static final boolean CHECKERS_CAN_NOT_BEAT_BACKWARD = false;
 
     private MinimaxBot minimaxBot;
     private MinimaxBotSettings minimaxBotSettings;
@@ -45,10 +50,11 @@ class MinimaxBotTest {
         position = new Position(whitePieces, blackPieces, kings);
     }
 
-    void prepareObjectsForBoardSideLength(int boardSideLength) {
+    void prepareObjectsForBoardSideLength(int boardSideLength, boolean isFlyingKingEnabled, boolean isCheckerBeatingBackwardsEnabled) {
         positionOperator = new PositionOperator(boardSideLength);
         positionRater = new PositionRater(positionRaterSettings, boardSideLength);
-        possibleMovesFinder = new PossibleMovesFinder(boardSideLength);
+        MoveFinderSettings moveFinderSettings = new MoveFinderSettings(isFlyingKingEnabled, isCheckerBeatingBackwardsEnabled);
+        possibleMovesFinder = new PossibleMovesFinder(moveFinderSettings, boardSideLength);
     }
 
     // TESTS FOR BOARD SIDE LENGTH = 9
@@ -65,9 +71,9 @@ class MinimaxBotTest {
 
     @Test
     void shouldTakeControlOverMainDiagonal() {
-        prepareObjectsForBoardSideLength(BOARD_SIDE_LENGTH_EIGHT);
+        prepareObjectsForBoardSideLength(BOARD_SIDE_LENGTH_EIGHT, FLYING_KING_IS_ENABLED, CHECKERS_CAN_BEAT_BACKWARD);
         minimaxBotSettings = new MinimaxBotSettings(1, EXCEEDING_IS_ALLOWED, 0);
-        minimaxBot = new MinimaxBot(minimaxBotSettings, positionRater, BOARD_SIDE_LENGTH_EIGHT);
+        minimaxBot = new MinimaxBot(minimaxBotSettings, positionRater, BOARD_SIDE_LENGTH_EIGHT, possibleMovesFinder);
 
         whitePieces.set(14);
         blackPieces.set(30);
