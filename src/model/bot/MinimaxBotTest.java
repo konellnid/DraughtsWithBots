@@ -69,6 +69,26 @@ class MinimaxBotTest {
      */
 
     @Test
+    void shouldMoveToBlockEnemyPath() {
+        prepareBasicObjects(BOARD_SIDE_LENGTH_EIGHT, FLYING_KING_IS_ENABLED, CHECKERS_CAN_BEAT_BACKWARD);
+        minimaxBotSettings = new MinimaxBotSettings(3, EXCEEDING_IS_NOT_ALLOWED);
+        minimaxBot = new MinimaxBot(minimaxBotSettings, positionRater, BOARD_SIDE_LENGTH_EIGHT, possibleMovesFinder);
+
+        whitePieces.set(20);
+
+        blackPieces.set(33);
+
+        List<Move> possibleMoves = possibleMovesFinder.getAvailableMovesFrom(position, IS_WHITE_MOVE);
+
+        // this move makes white certain about winning
+        Move expectedMove = new Move(20, 24);
+
+        Move actualMove = minimaxBot.choseAMoveFrom(possibleMoves, position);
+
+        assertEquals(expectedMove, actualMove);
+    }
+
+    @Test
     void shouldSeeExceededBeating() {
         prepareBasicObjects(BOARD_SIDE_LENGTH_EIGHT, FLYING_KING_IS_ENABLED, CHECKERS_CAN_BEAT_BACKWARD);
         minimaxBotSettings = new MinimaxBotSettings(1, EXCEEDING_IS_ALLOWED);
