@@ -57,7 +57,7 @@ class MinimaxBotTest {
         possibleMovesFinder = new PossibleMovesFinder(moveFinderSettings, boardSideLength);
     }
 
-    // TESTS FOR BOARD SIDE LENGTH = 9
+    // TESTS FOR BOARD SIDE LENGTH = 8
     /*
       |  39  38  37  36|
       |35  34  33  32  |
