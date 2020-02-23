@@ -2,8 +2,6 @@ package model.bot;
 
 import model.board.Move;
 import model.board.Position;
-import model.board.PositionGenerator;
-import model.board.PositionOperator;
 import model.bot.position_rater.PositionRater;
 import model.bot.position_rater.PositionRaterSettings;
 import model.move_finder.MoveFinderSettings;
@@ -23,7 +21,7 @@ class MinimaxBotTest {
     private static final boolean EXCEEDING_IS_ALLOWED = true;
     private static final boolean EXCEEDING_IS_NOT_ALLOWED = false;
     private static final boolean IS_WHITE_MOVE = true;
-    private static final boolean IS_BLACK_MOVE = true;
+    private static final boolean IS_BLACK_MOVE = false;
     private static final boolean FLYING_KING_IS_ENABLED = true;
     private static final boolean FLYING_KING_IS_DISABLED = false;
     private static final boolean CHECKERS_CAN_BEAT_BACKWARD = true;
@@ -31,10 +29,10 @@ class MinimaxBotTest {
 
     private MinimaxBot minimaxBot;
     private MinimaxBotSettings minimaxBotSettings;
-    private PositionOperator positionOperator;
     private PositionRaterSettings positionRaterSettings;
     private PositionRater positionRater;
     private PossibleMovesFinder possibleMovesFinder;
+
     private Position position;
     private BitSet whitePieces;
     private BitSet blackPieces;
@@ -50,8 +48,7 @@ class MinimaxBotTest {
         position = new Position(whitePieces, blackPieces, kings);
     }
 
-    void prepareObjectsForBoardSideLength(int boardSideLength, boolean isFlyingKingEnabled, boolean isCheckerBeatingBackwardsEnabled) {
-        positionOperator = new PositionOperator(boardSideLength);
+    void prepareBasicObjects(int boardSideLength, boolean isFlyingKingEnabled, boolean isCheckerBeatingBackwardsEnabled) {
         positionRater = new PositionRater(positionRaterSettings, boardSideLength);
         MoveFinderSettings moveFinderSettings = new MoveFinderSettings(isFlyingKingEnabled, isCheckerBeatingBackwardsEnabled);
         possibleMovesFinder = new PossibleMovesFinder(moveFinderSettings, boardSideLength);
@@ -71,7 +68,7 @@ class MinimaxBotTest {
 
     @Test
     void shouldTakeControlOverMainDiagonal() {
-        prepareObjectsForBoardSideLength(BOARD_SIDE_LENGTH_EIGHT, FLYING_KING_IS_ENABLED, CHECKERS_CAN_BEAT_BACKWARD);
+        prepareBasicObjects(BOARD_SIDE_LENGTH_EIGHT, FLYING_KING_IS_ENABLED, CHECKERS_CAN_BEAT_BACKWARD);
         minimaxBotSettings = new MinimaxBotSettings(1, EXCEEDING_IS_ALLOWED, 0);
         minimaxBot = new MinimaxBot(minimaxBotSettings, positionRater, BOARD_SIDE_LENGTH_EIGHT, possibleMovesFinder);
 
