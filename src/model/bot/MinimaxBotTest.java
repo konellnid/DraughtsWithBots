@@ -9,7 +9,9 @@ import model.move_finder.PossibleMovesFinder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+
 import java.util.BitSet;
+import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -67,6 +69,33 @@ class MinimaxBotTest {
      */
 
     @Test
+    void shouldSeeExceededBeating() {
+        prepareBasicObjects(BOARD_SIDE_LENGTH_EIGHT, FLYING_KING_IS_ENABLED, CHECKERS_CAN_BEAT_BACKWARD);
+        minimaxBotSettings = new MinimaxBotSettings(1, EXCEEDING_IS_ALLOWED);
+        minimaxBot = new MinimaxBot(minimaxBotSettings, positionRater, BOARD_SIDE_LENGTH_EIGHT, possibleMovesFinder);
+
+        whitePieces.set(20);
+        kings.set(20);
+
+        blackPieces.set(24);
+        blackPieces.set(25);
+        blackPieces.set(36);
+        kings.set(36);
+
+
+        List<Move> possibleMoves = possibleMovesFinder.getAvailableMovesFrom(position, IS_WHITE_MOVE);
+
+        // white should give up the main diagonal to avoid getting beaten by black king at 36
+        List<Move> expectedMoves = new LinkedList<>();
+        expectedMoves.add(new Move(20, 25, 30));
+        expectedMoves.add(new Move(20, 25, 35));
+
+        Move actualMove = minimaxBot.choseAMoveFrom(possibleMoves, position);
+
+        assertTrue(expectedMoves.contains(actualMove));
+    }
+
+    @Test
     void shouldTakeControlOverMainDiagonal() {
         prepareBasicObjects(BOARD_SIDE_LENGTH_EIGHT, FLYING_KING_IS_ENABLED, CHECKERS_CAN_BEAT_BACKWARD);
         minimaxBotSettings = new MinimaxBotSettings(1, EXCEEDING_IS_ALLOWED);
@@ -84,4 +113,6 @@ class MinimaxBotTest {
 
         assertEquals(expectedMove, actualMove);
     }
+
+
 }
