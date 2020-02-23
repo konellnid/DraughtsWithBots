@@ -51,6 +51,17 @@ public class Position {
         kings.set(endTileNumber);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Position)) return false;
 
+        Position position = (Position) obj;
+        if (!whitePieces.equals(position.whitePieces)) return false;
+        if (!blackPieces.equals(position.blackPieces)) return false;
+        if (!kings.equals(position.kings)) return false;
+
+        return true;
+    }
 }
 
