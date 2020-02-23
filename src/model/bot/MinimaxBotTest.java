@@ -48,7 +48,7 @@ class MinimaxBotTest {
 
     private void generatePosition(int boardSideLength) {
         PositionGenerator positionGenerator = new PositionGenerator();
-        position = positionGenerator.generateStartingPositionForBoardOfSideLength(boardSideLength);
+        position = positionGenerator.generateEmptyPositionForBoardSide(boardSideLength);
 
         whitePieces = position.getWhitePieces();
         blackPieces = position.getBlackPieces();
