@@ -66,6 +66,8 @@ public class MinimaxNode {
         for (MinimaxNode childRating : childrenNodes) {
             bestFoundRating = pickBetterRating(bestFoundRating, childRating.getFoundRating());
         }
+
+        foundRating = bestFoundRating;
     }
 
     private int pickBetterRating(int bestFoundRating, int foundRating) {
