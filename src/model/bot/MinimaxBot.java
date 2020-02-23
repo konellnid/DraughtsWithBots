@@ -43,7 +43,7 @@ public class MinimaxBot extends GameBot {
 
         int chosenMoveIndex = random.nextInt(bestMoves.size());
 
-        return possibleMoves.get(chosenMoveIndex);
+        return bestMoves.get(chosenMoveIndex);
     }
 
     private List<Move> findMovesReachingToPositions(MinimaxNode node, List<Move> possibleMovesFromNode, List<Position> bestFoundPositions) {
