@@ -26,6 +26,8 @@ public class MinimaxNode {
     public void setAsWinningNode() {
         if (isWhiteMove) foundRating = PositionRater.BLACK_WON;
         else foundRating = PositionRater.WHITE_WON;
+
+        isEndNode = true;
     }
 
     public void addChild(Position position) {
@@ -50,10 +52,6 @@ public class MinimaxNode {
 
     public boolean isEndNode() {
         return isEndNode;
-    }
-
-    public void setNodeAsEndNode() {
-        isEndNode = true;
     }
 
     public boolean hasChildren() {

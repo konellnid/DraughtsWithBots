@@ -74,9 +74,7 @@ public class MinimaxBot extends GameBot {
 
         if (node.hasChildren()) {
             node.pickBestChildRating();
-        } else if (node.isEndNode()) {
-            node.setAsWinningNode();
-        } else {
+        } else if (!node.isEndNode()) {
             int positionRating = positionRater.getRatingOfPosition(node.getPosition());
             node.setFoundRating(positionRating);
         }
@@ -91,19 +89,18 @@ public class MinimaxBot extends GameBot {
     private void addPossibleChildrenFromNode(MinimaxNode node) {
         if (node.getNodeDepthLeft() > 0) {
             List<Move> possibleMovesFromNode = possibleMovesFinder.getAvailableMovesFrom(node.getPosition(), node.isWhiteMove());
-            if (possibleMovesFromNode.size() != 0)
+            if (possibleMovesFromNode.size() != 0) {
                 addReachablePositionsAsChildNodes(node, possibleMovesFromNode);
-            else
-                node.setNodeAsEndNode();
+            } else {
+                node.setAsWinningNode();
+            }
         } else if (minimaxBotSettings.isAllowedExceedingSearchingDepthIfBeatingIsFound()) {
             List<Move> possibleMovesFromNode = possibleMovesFinder.getAvailableMovesFrom(node.getPosition(), node.isWhiteMove());
             if (possibleMovesFromNode.isEmpty()) {
-                node.setNodeAsEndNode();
+                node.setAsWinningNode();
             } else if (listContainsBeatingMoves(possibleMovesFromNode)) {
                 addReachablePositionsAsChildNodes(node, possibleMovesFromNode);
             }
-        } else {
-            node.setNodeAsEndNode();
         }
     }
 
