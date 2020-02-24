@@ -38,6 +38,42 @@ public class MainView {
     @FXML
     private CheckBox checkersCanBeatBackwardsCheckBox;
 
+    @FXML
+    private Slider whiteSearchDepthSlider;
+
+    @FXML
+    private CheckBox whiteAllowExceedingAtBeatingCheckBox;
+
+    @FXML
+    private Slider whiteCheckerScoreSlider;
+
+    @FXML
+    private Slider whiteKingScoreSlider;
+
+    @FXML
+    private CheckBox whiteBonusForBeingCloserToPromotionLineCheckBox;
+
+    @FXML
+    private CheckBox whiteBonusForControllingMainDiagonalCheckBox;
+
+    @FXML
+    private Slider blackSearchDepthSlider;
+
+    @FXML
+    private CheckBox blackAllowExceedingAtBeatingCheckBox;
+
+    @FXML
+    private Slider blackCheckerScoreSlider;
+
+    @FXML
+    private Slider blackKingScoreSlider;
+
+    @FXML
+    private CheckBox blackBonusForBeingCloserToPromotionLineCheckBox;
+
+    @FXML
+    private CheckBox blackBonusForControllingMainDiagonalCheckBox;
+
     private MainViewController mainViewController;
 
     @FXML
@@ -94,5 +130,53 @@ public class MainView {
 
     public boolean isCheckerBeatingBackwardEnabled() {
         return checkersCanBeatBackwardsCheckBox.isSelected();
+    }
+
+    public int getWhiteSearchDepthSliderValue() {
+        return (int) whiteSearchDepthSlider.getValue();
+    }
+
+    public boolean isWhiteAllowExceedingAtBeatingCheckBoxEnabled() {
+        return whiteAllowExceedingAtBeatingCheckBox.isSelected();
+    }
+
+    public int getWhiteCheckerScoreSliderValue() {
+        return (int) whiteCheckerScoreSlider.getValue();
+    }
+
+    public int getWhiteKingScoreSliderValue() {
+        return (int) whiteKingScoreSlider.getValue();
+    }
+
+    public boolean isWhiteBonusForBeingCloserToPromotionLineCheckBoxSelected() {
+        return whiteBonusForBeingCloserToPromotionLineCheckBox.isSelected();
+    }
+
+    public boolean isWhiteBonusForControllingMainDiagonalCheckBoxSelected() {
+        return whiteBonusForControllingMainDiagonalCheckBox.isSelected();
+    }
+
+    public int getBlackSearchDepthSliderValue() {
+        return (int) blackSearchDepthSlider.getValue();
+    }
+
+    public boolean isBlackAllowExceedingAtBeatingCheckBoxSelected() {
+        return blackAllowExceedingAtBeatingCheckBox.isSelected();
+    }
+
+    public int getBlackCheckerScoreSliderValue() {
+        return (int) blackCheckerScoreSlider.getValue();
+    }
+
+    public int getBlackKingScoreSliderValue() {
+        return (int) blackKingScoreSlider.getValue();
+    }
+
+    public boolean isBlackBonusForBeingCloserToPromotionLineCheckBox() {
+        return blackBonusForBeingCloserToPromotionLineCheckBox.isSelected();
+    }
+
+    public boolean isBlackBonusForControllingMainDiagonalCheckBoxSelected() {
+        return blackBonusForControllingMainDiagonalCheckBox.isSelected();
     }
 }

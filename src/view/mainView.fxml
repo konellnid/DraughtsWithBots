@@ -68,7 +68,7 @@
                           <items>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                  <children>
-                                    <VBox alignment="TOP_CENTER" layoutX="98.0" layoutY="14.0" prefHeight="352.0" prefWidth="296.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <VBox alignment="TOP_CENTER" layoutX="98.0" layoutY="14.0" prefHeight="352.0" prefWidth="296.0" spacing="3.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
                                           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="White settings" textAlignment="CENTER">
                                              <font>
@@ -76,13 +76,55 @@
                                              </font>
                                           </Text>
                                           <ComboBox fx:id="whiteSettingsComboBox" prefWidth="150.0" />
+                                          <HBox prefHeight="22.0" prefWidth="296.0" spacing="10.0">
+                                             <children>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Search depth" wrappingWidth="85.0">
+                                                   <HBox.margin>
+                                                      <Insets top="3.0" />
+                                                   </HBox.margin>
+                                                   <font>
+                                                      <Font size="13.0" />
+                                                   </font>
+                                                </Text>
+                                                <Slider fx:id="whiteSearchDepthSlider" blockIncrement="1.0" majorTickUnit="1.0" max="6.0" min="1.0" minorTickCount="0" prefHeight="33.0" prefWidth="120.0" showTickLabels="true" snapToTicks="true" value="6.0" />
+                                             </children>
+                                          </HBox>
+                                          <CheckBox fx:id="whiteAllowExceedingAtBeatingCheckBox" mnemonicParsing="false" prefHeight="17.0" prefWidth="280.0" text="Allow exceeding at beating" />
+                                          <HBox prefHeight="22.0" prefWidth="296.0" spacing="10.0">
+                                             <children>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Checker score" wrappingWidth="85.0">
+                                                   <HBox.margin>
+                                                      <Insets top="3.0" />
+                                                   </HBox.margin>
+                                                   <font>
+                                                      <Font size="13.0" />
+                                                   </font>
+                                                </Text>
+                                                <Slider fx:id="whiteCheckerScoreSlider" blockIncrement="1.0" majorTickUnit="5.0" max="20.0" minorTickCount="5" prefHeight="33.0" prefWidth="155.0" showTickLabels="true" snapToTicks="true" value="10.0" />
+                                             </children>
+                                          </HBox>
+                                          <HBox prefHeight="22.0" prefWidth="296.0" spacing="10.0">
+                                             <children>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="King score" wrappingWidth="85.0">
+                                                   <HBox.margin>
+                                                      <Insets top="3.0" />
+                                                   </HBox.margin>
+                                                   <font>
+                                                      <Font size="13.0" />
+                                                   </font>
+                                                </Text>
+                                                <Slider fx:id="whiteKingScoreSlider" blockIncrement="1.0" majorTickUnit="10.0" max="40.0" minorTickCount="10" prefHeight="33.0" prefWidth="155.0" showTickLabels="true" snapToTicks="true" value="20.0" />
+                                             </children>
+                                          </HBox>
+                                          <CheckBox fx:id="whiteBonusForBeingCloserToPromotionLineCheckBox" mnemonicParsing="false" prefHeight="17.0" prefWidth="280.0" text="Bonus for being closerr to promotion line" />
+                                          <CheckBox fx:id="whiteBonusForControllingMainDiagonalCheckBox" mnemonicParsing="false" prefHeight="17.0" prefWidth="280.0" text="Bonus for controlling diagonal line" />
                                        </children>
                                     </VBox>
                                  </children>
                               </AnchorPane>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                  <children>
-                                    <VBox alignment="TOP_CENTER" prefHeight="352.0" prefWidth="296.0">
+                                    <VBox alignment="TOP_CENTER" prefHeight="352.0" prefWidth="296.0" spacing="3.0" AnchorPane.leftAnchor="5.0">
                                        <children>
                                           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Black settings" textAlignment="CENTER">
                                              <font>
@@ -90,6 +132,48 @@
                                              </font>
                                           </Text>
                                           <ComboBox fx:id="blackSettingsComboBox" prefWidth="150.0" />
+                                          <HBox prefHeight="22.0" prefWidth="296.0" spacing="10.0">
+                                             <children>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Search depth" wrappingWidth="85.0">
+                                                   <HBox.margin>
+                                                      <Insets top="3.0" />
+                                                   </HBox.margin>
+                                                   <font>
+                                                      <Font size="13.0" />
+                                                   </font>
+                                                </Text>
+                                                <Slider fx:id="blackSearchDepthSlider" blockIncrement="1.0" majorTickUnit="1.0" max="6.0" min="1.0" minorTickCount="0" prefHeight="33.0" prefWidth="120.0" showTickLabels="true" snapToTicks="true" value="6.0" />
+                                             </children>
+                                          </HBox>
+                                          <CheckBox fx:id="blackAllowExceedingAtBeatingCheckBox" mnemonicParsing="false" prefHeight="17.0" prefWidth="280.0" text="Allow exceeding at beating" />
+                                          <HBox prefHeight="22.0" prefWidth="296.0" spacing="10.0">
+                                             <children>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Checker score" wrappingWidth="85.0">
+                                                   <HBox.margin>
+                                                      <Insets top="3.0" />
+                                                   </HBox.margin>
+                                                   <font>
+                                                      <Font size="13.0" />
+                                                   </font>
+                                                </Text>
+                                                <Slider fx:id="blackCheckerScoreSlider" blockIncrement="1.0" majorTickUnit="5.0" max="20.0" minorTickCount="5" prefHeight="33.0" prefWidth="155.0" showTickLabels="true" snapToTicks="true" value="10.0" />
+                                             </children>
+                                          </HBox>
+                                          <HBox prefHeight="22.0" prefWidth="296.0" spacing="10.0">
+                                             <children>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="King score" wrappingWidth="85.0">
+                                                   <HBox.margin>
+                                                      <Insets top="3.0" />
+                                                   </HBox.margin>
+                                                   <font>
+                                                      <Font size="13.0" />
+                                                   </font>
+                                                </Text>
+                                                <Slider fx:id="blackKingScoreSlider" blockIncrement="1.0" majorTickUnit="10.0" max="40.0" minorTickCount="10" prefHeight="33.0" prefWidth="155.0" showTickLabels="true" snapToTicks="true" value="20.0" />
+                                             </children>
+                                          </HBox>
+                                          <CheckBox fx:id="blackBonusForBeingCloserToPromotionLineCheckBox" mnemonicParsing="false" prefHeight="17.0" prefWidth="280.0" text="Bonus for being closerr to promotion line" />
+                                          <CheckBox fx:id="blackBonusForControllingMainDiagonalCheckBox" mnemonicParsing="false" prefHeight="17.0" prefWidth="280.0" text="Bonus for controlling diagonal line" />
                                        </children>
                                     </VBox>
                                  </children>

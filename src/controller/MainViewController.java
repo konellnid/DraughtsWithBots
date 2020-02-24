@@ -1,5 +1,7 @@
 package controller;
 
+import model.bot.MinimaxBotSettings;
+import model.bot.position_rater.PositionRaterSettings;
 import model.game.Game;
 import model.game.PlayerType;
 import model.move_finder.MoveFinderSettings;
@@ -31,5 +33,39 @@ public class MainViewController {
 
     public void setShowingTextOnTiles(boolean shouldBeShown) {
         boardController.setShowingTextOnTiles(shouldBeShown);
+    }
+
+    public MinimaxBotSettings getWhiteMinimaxBotSettings() {
+        int searchDepth = mainView.getWhiteSearchDepthSliderValue();
+        boolean isAllowedExceedingAtBeatings = mainView.isWhiteAllowExceedingAtBeatingCheckBoxEnabled();
+
+        return new MinimaxBotSettings(searchDepth, isAllowedExceedingAtBeatings);
+    }
+
+    public PositionRaterSettings getWhitePositionRaterSettings() {
+        PositionRaterSettings positionRaterSettings = new PositionRaterSettings();
+        positionRaterSettings.setPointsPerChecker(mainView.getWhiteCheckerScoreSliderValue());
+        positionRaterSettings.setPointsPerKing(mainView.getWhiteKingScoreSliderValue());
+        positionRaterSettings.setBonusForBeingCloserToPromotionLineActive(mainView.isWhiteBonusForBeingCloserToPromotionLineCheckBoxSelected());
+        positionRaterSettings.setBonusForKingControllingMainDiagonalActive(mainView.isWhiteBonusForControllingMainDiagonalCheckBoxSelected());
+
+        return positionRaterSettings;
+    }
+
+    public MinimaxBotSettings getBlackMinimaxBotSettings() {
+        int searchDepth = mainView.getBlackSearchDepthSliderValue();
+        boolean isAllowedExceedingAtBeatings = mainView.isBlackAllowExceedingAtBeatingCheckBoxSelected();
+
+        return new MinimaxBotSettings(searchDepth, isAllowedExceedingAtBeatings);
+    }
+
+    public PositionRaterSettings getBlackPositionRaterSettings() {
+        PositionRaterSettings positionRaterSettings = new PositionRaterSettings();
+        positionRaterSettings.setPointsPerChecker(mainView.getBlackCheckerScoreSliderValue());
+        positionRaterSettings.setPointsPerKing(mainView.getBlackKingScoreSliderValue());
+        positionRaterSettings.setBonusForBeingCloserToPromotionLineActive(mainView.isBlackBonusForBeingCloserToPromotionLineCheckBox());
+        positionRaterSettings.setBonusForKingControllingMainDiagonalActive(mainView.isBlackBonusForControllingMainDiagonalCheckBoxSelected());
+
+        return positionRaterSettings;
     }
 }

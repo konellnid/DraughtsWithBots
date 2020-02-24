@@ -4,8 +4,12 @@ import controller.BoardController;
 import controller.MainViewController;
 import model.board.Move;
 import model.board.Position;
+import model.bot.MinimaxBot;
+import model.bot.MinimaxBotSettings;
 import model.bot.RandomBot;
 import model.bot.RandomPieceBot;
+import model.bot.position_rater.PositionRater;
+import model.bot.position_rater.PositionRaterSettings;
 import model.input_handler.BotInputHandler;
 import model.input_handler.InputHandler;
 import model.input_handler.PlayerInputHandler;
@@ -41,12 +45,34 @@ public class Game {
 
         possibleMovesFinder = new PossibleMovesFinder(moveFinderSettings, boardSideLength);
 
-        whiteInputHandler = generateInputHandler(whitePlayer);
-        blackInputHandler = generateInputHandler(blackPlayer);
+        if (whitePlayer == PlayerType.MINIMAX_BOT) {
+            MinimaxBotSettings whiteMinimaxBotSettings = mainViewController.getWhiteMinimaxBotSettings();
+            PositionRaterSettings whitePositionRaterSettings = mainViewController.getWhitePositionRaterSettings();
+
+            whiteInputHandler = generateMinMaxInputHandler(whiteMinimaxBotSettings, whitePositionRaterSettings, boardSideLength);
+        } else {
+            whiteInputHandler = generateStandardInputHandler(whitePlayer, boardSideLength);
+        }
+
+        if (blackPlayer == PlayerType.MINIMAX_BOT) {
+            MinimaxBotSettings blackMinimaxBotSettings = mainViewController.getBlackMinimaxBotSettings();
+            PositionRaterSettings blackPositionRaterSettings = mainViewController.getBlackPositionRaterSettings();
+
+            blackInputHandler = generateMinMaxInputHandler(blackMinimaxBotSettings, blackPositionRaterSettings, boardSideLength);
+        } else {
+            blackInputHandler = generateStandardInputHandler(blackPlayer, boardSideLength);
+        }
 
         boardController.showPositionOnBoard(new Position(gameStorage.getPosition()), boardSideLength);
 
         nextTurn();
+    }
+
+    private BotInputHandler generateMinMaxInputHandler(MinimaxBotSettings minimaxBotSettings, PositionRaterSettings positionRaterSettings, int boardSideLength) {
+        PositionRater positionRater = new PositionRater(positionRaterSettings, boardSideLength);
+        MinimaxBot minimaxBot = new MinimaxBot(minimaxBotSettings, positionRater, boardSideLength, possibleMovesFinder);
+        BotInputHandler inputHandler = new BotInputHandler(boardController, this, minimaxBot);
+        return inputHandler;
     }
 
     private void nextTurn() {
@@ -82,7 +108,7 @@ public class Game {
         mainViewController.setResult(resultText);
     }
 
-    private InputHandler generateInputHandler(PlayerType playerType) {
+    private InputHandler generateStandardInputHandler(PlayerType playerType, int boardSideLength) {
         InputHandler inputHandler = null;
 
         switch (playerType) {
@@ -94,6 +120,7 @@ public class Game {
                 break;
             case RANDOM_PIECE_BOT:
                 inputHandler = new BotInputHandler(boardController, this, new RandomPieceBot());
+                break;
         }
 
         return inputHandler;
