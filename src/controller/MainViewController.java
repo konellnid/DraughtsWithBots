@@ -1,5 +1,7 @@
 package controller;
 
+import model.bot.MinimaxBotSettings;
+import model.bot.position_rater.PositionRaterSettings;
 import model.game.Game;
 import model.game.PlayerType;
 import model.move_finder.MoveFinderSettings;
@@ -31,5 +33,21 @@ public class MainViewController {
 
     public void setShowingTextOnTiles(boolean shouldBeShown) {
         boardController.setShowingTextOnTiles(shouldBeShown);
+    }
+
+    public MinimaxBotSettings getWhiteMinimaxBotSettings() {
+        return null;
+    }
+
+    public PositionRaterSettings getWhitePositionRaterSettings() {
+        return null;
+    }
+
+    public MinimaxBotSettings getBlackMinimaxBotSettings() {
+        return null;
+    }
+
+    public PositionRaterSettings getBlackPositionRaterSettings() {
+        return null;
     }
 }
