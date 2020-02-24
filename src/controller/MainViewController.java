@@ -36,18 +36,36 @@ public class MainViewController {
     }
 
     public MinimaxBotSettings getWhiteMinimaxBotSettings() {
-        return null;
+        int searchDepth = mainView.getWhiteSearchDepthSliderValue();
+        boolean isAllowedExceedingAtBeatings = mainView.isWhiteAllowExceedingAtBeatingCheckBoxEnabled();
+
+        return new MinimaxBotSettings(searchDepth, isAllowedExceedingAtBeatings);
     }
 
     public PositionRaterSettings getWhitePositionRaterSettings() {
-        return null;
+        PositionRaterSettings positionRaterSettings = new PositionRaterSettings();
+        positionRaterSettings.setPointsPerChecker(mainView.getWhiteCheckerScoreSliderValue());
+        positionRaterSettings.setPointsPerKing(mainView.getWhiteKingScoreSliderValue());
+        positionRaterSettings.setBonusForBeingCloserToPromotionLineActive(mainView.isWhiteBonusForBeingCloserToPromotionLineCheckBoxSelected());
+        positionRaterSettings.setBonusForKingControllingMainDiagonalActive(mainView.isWhiteBonusForControllingMainDiagonalCheckBoxSelected());
+
+        return positionRaterSettings;
     }
 
     public MinimaxBotSettings getBlackMinimaxBotSettings() {
-        return null;
+        int searchDepth = mainView.getBlackSearchDepthSliderValue();
+        boolean isAllowedExceedingAtBeatings = mainView.isBlackAllowExceedingAtBeatingCheckBoxSelected();
+
+        return new MinimaxBotSettings(searchDepth, isAllowedExceedingAtBeatings);
     }
 
     public PositionRaterSettings getBlackPositionRaterSettings() {
-        return null;
+        PositionRaterSettings positionRaterSettings = new PositionRaterSettings();
+        positionRaterSettings.setPointsPerChecker(mainView.getBlackCheckerScoreSliderValue());
+        positionRaterSettings.setPointsPerKing(mainView.getBlackKingScoreSliderValue());
+        positionRaterSettings.setBonusForBeingCloserToPromotionLineActive(mainView.isBlackBonusForBeingCloserToPromotionLineCheckBox());
+        positionRaterSettings.setBonusForKingControllingMainDiagonalActive(mainView.isBlackBonusForControllingMainDiagonalCheckBoxSelected());
+
+        return positionRaterSettings;
     }
 }
