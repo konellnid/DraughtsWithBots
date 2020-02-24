@@ -43,6 +43,8 @@ public class MinimaxBot extends GameBot {
 
         int chosenMoveIndex = random.nextInt(bestMoves.size());
 
+        System.out.println("Found rating: " + startingNode.getFoundRating());
+
         return bestMoves.get(chosenMoveIndex);
     }
 

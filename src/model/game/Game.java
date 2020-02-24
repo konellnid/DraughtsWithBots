@@ -4,8 +4,12 @@ import controller.BoardController;
 import controller.MainViewController;
 import model.board.Move;
 import model.board.Position;
+import model.bot.MinimaxBot;
+import model.bot.MinimaxBotSettings;
 import model.bot.RandomBot;
 import model.bot.RandomPieceBot;
+import model.bot.position_rater.PositionRater;
+import model.bot.position_rater.PositionRaterSettings;
 import model.input_handler.BotInputHandler;
 import model.input_handler.InputHandler;
 import model.input_handler.PlayerInputHandler;
@@ -41,8 +45,8 @@ public class Game {
 
         possibleMovesFinder = new PossibleMovesFinder(moveFinderSettings, boardSideLength);
 
-        whiteInputHandler = generateInputHandler(whitePlayer);
-        blackInputHandler = generateInputHandler(blackPlayer);
+        whiteInputHandler = generateInputHandler(whitePlayer, boardSideLength);
+        blackInputHandler = generateInputHandler(blackPlayer, boardSideLength);
 
         boardController.showPositionOnBoard(new Position(gameStorage.getPosition()), boardSideLength);
 
@@ -82,7 +86,7 @@ public class Game {
         mainViewController.setResult(resultText);
     }
 
-    private InputHandler generateInputHandler(PlayerType playerType) {
+    private InputHandler generateInputHandler(PlayerType playerType, int boardSideLength) {
         InputHandler inputHandler = null;
 
         switch (playerType) {
@@ -94,6 +98,12 @@ public class Game {
                 break;
             case RANDOM_PIECE_BOT:
                 inputHandler = new BotInputHandler(boardController, this, new RandomPieceBot());
+            case MINIMAX_BOT:
+                MinimaxBotSettings minimaxBotSettings = new MinimaxBotSettings(2, false);
+                PositionRaterSettings positionRaterSettings = new PositionRaterSettings();
+                PositionRater positionRater = new PositionRater(positionRaterSettings, boardSideLength);
+
+                inputHandler = new BotInputHandler(boardController, this, new MinimaxBot(minimaxBotSettings, positionRater, boardSideLength, possibleMovesFinder));
         }
 
         return inputHandler;
