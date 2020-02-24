@@ -98,6 +98,7 @@ public class Game {
                 break;
             case RANDOM_PIECE_BOT:
                 inputHandler = new BotInputHandler(boardController, this, new RandomPieceBot());
+                break;
             case MINIMAX_BOT:
                 MinimaxBotSettings minimaxBotSettings = new MinimaxBotSettings(2, false);
                 PositionRaterSettings positionRaterSettings = new PositionRaterSettings();
